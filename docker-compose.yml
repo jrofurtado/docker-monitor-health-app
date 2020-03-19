@@ -1,0 +1,49 @@
+version: '3'
+
+volumes:
+  db_data:
+    driver: local
+  server_data:
+    driver: local
+
+services:
+  server:
+    image: jrofurtado/docker-monitor-health-server:latest
+    volumes:
+      - server_data:/volume
+    environment:
+      KEYCLOAK_AUTH_SERVER_URL: "http://localhost/auth"
+      KEYCLOAK_REALM: "docker-monitor-health-server"
+      KEYCLOAK_RESOURCE: "app"
+  db:
+    image: jrofurtado/mysql-with-healthcheck:5.7.28
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: auth
+      MYSQL_USER: auth
+      MYSQL_PASSWORD: password
+  auth:
+    image: jrofurtado/keycloak-with-healthcheck:8.0.1
+    environment:
+      DB_VENDOR: MYSQL
+      DB_ADDR: db
+      DB_DATABASE: auth
+      DB_USER: auth
+      DB_PASSWORD: password
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: password
+      JDBC_PARAMS: "useSSL=false"
+    depends_on:
+      - db
+  lb:
+    ports:
+      - "80:80"
+    image: jrofurtado/nghttpx-autoreload-with-healthcheck:1.0.0
+    environment:
+      PARAMS: "
+        -f\"*,80;no-tls\"
+        -b\"${DOCKER_HOST:-172.17.0.1},3000;;dns;\"
+        -b\"monitor,3000;/api/;dns;\"
+        -b\"auth,8080;/auth/;dns;\""
