@@ -1,4 +1,22 @@
+## How to run
+
 Start the docker backend services (server, db, auth, lb) with docker-compose up
+
+Start the frontend with yarn start
+
+## Keycloak Users:
+
+**Realm Master**
+
+User:admin Password:password
+
+**Realm docker-monitor-health-server**
+
+User:admin Password:password
+
+User:user Password:password
+
+# Create React App documentation
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

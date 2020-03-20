@@ -7,18 +7,31 @@ volumes:
     driver: local
 
 services:
+  lb:
+    ports:
+      - "80:80"
+    image: jrofurtado/nghttpx-autoreload-with-healthcheck:1.0.0
+    environment:
+      PARAMS: "
+        -f\"*,80;no-tls\"
+        -b\"${DOCKER_HOST:-172.17.0.1},3000;;dns;\"
+        -b\"server,3000;/api/;dns;\"
+        -b\"auth,8080;/auth/;dns;\""
   server:
     image: jrofurtado/docker-monitor-health-server:latest
     volumes:
       - server_data:/volume
     environment:
-      KEYCLOAK_AUTH_SERVER_URL: "http://localhost/auth"
+      DEFAULT_APPS: '{"monitor":"fab4d210-69db-11ea-8339-811ba1916331"}'
+      KEYCLOAK_AUTH_SERVER_URL: "http://${DOCKER_HOST:-172.17.0.1}/auth"
       KEYCLOAK_REALM: "docker-monitor-health-server"
-      KEYCLOAK_RESOURCE: "app"
+      KEYCLOAK_RESOURCE: "server"
+      KEYCLOAK_SSL_REQUIRED: "none"
   db:
     image: jrofurtado/mysql-with-healthcheck:5.7.28
     volumes:
       - db_data:/var/lib/mysql
+      - ./initial-data:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: auth
@@ -35,15 +48,19 @@ services:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: password
       JDBC_PARAMS: "useSSL=false"
+      KEYCLOAK_LOGLEVEL: WARN
+      ROOT_LOGLEVEL: WARN
     depends_on:
       - db
-  lb:
-    ports:
-      - "80:80"
-    image: jrofurtado/nghttpx-autoreload-with-healthcheck:1.0.0
+  agent:
+    image: jrofurtado/docker-monitor-health-agent:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      PARAMS: "
-        -f\"*,80;no-tls\"
-        -b\"${DOCKER_HOST:-172.17.0.1},3000;;dns;\"
-        -b\"monitor,3000;/api/;dns;\"
-        -b\"auth,8080;/auth/;dns;\""
+      - KEY=fab4d210-69db-11ea-8339-811ba1916331
+      - DOCKER_API_VERSION=v1.40
+      - APP_NAME=monitor
+      - COLLECT_STATS=false
+      - MONITORING_URL=http://${DOCKER_HOST:-172.17.0.1}/api/message
+      - MONITORING_DELAY=30
+
