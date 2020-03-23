@@ -10,7 +10,7 @@ import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 import * as Keycloak from "keycloak-js";
 import axios from "axios";
-import App from "./App";
+import App from "./components/App/App";
 import rootReducer from "./modules";
 
 const history = createBrowserHistory();
