@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export async function getApps() {
+export async function getApps(): Promise<Array<String> | String> {
   return await axios
     .get("/api/apps")
     .then(response => {

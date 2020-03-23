@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { applyMiddleware, createStore } from "redux";
-import { Router, Route, Switch } from "react-router-dom";
 import { routerMiddleware } from "react-router-redux";
 import thunk from "redux-thunk";
 import { createBrowserHistory } from "history";
@@ -17,15 +16,11 @@ const history = createBrowserHistory();
 const middleware = [thunk, routerMiddleware(history)];
 const store = createStore(rootReducer, applyMiddleware(...middleware));
 
-let kc = null;
-if (process.env.NODE_ENV === "production") {
-  kc = new Keycloak("/keycloak.json");
-} else {
-  kc = new Keycloak("/dev-keycloak.json");
-}
+// @ts-ignore
+let kc = process.env.NODE_ENV === "production" ? new Keycloak("/keycloak.json") : new Keycloak("/dev-keycloak.json");
 
 kc.init({ promiseType: "native", onLoad: "login-required" }).then(
-  authenticated => {
+  (authenticated: boolean) => {
     if (authenticated) {
       store.getState().keycloak = kc;
 
