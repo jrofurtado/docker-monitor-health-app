@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export async function getApps(): Promise<Array<String> | String> {
+export async function getApps(): Promise<Array<String> | void> {
   return await axios
     .get("/api/apps")
     .then(response => {
@@ -8,6 +8,5 @@ export async function getApps(): Promise<Array<String> | String> {
     })
     .catch(error => {
       console.log("Error: ", error);
-      return error;
     });
 }
