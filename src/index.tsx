@@ -10,14 +10,22 @@ import * as serviceWorker from "./serviceWorker";
 import * as Keycloak from "keycloak-js";
 import axios from "axios";
 import App from "./components/App/App";
-import rootReducer from "./modules";
+import rootReducer from "./redux/reducers";
 
 const history = createBrowserHistory();
 const middleware = [thunk, routerMiddleware(history)];
 const store = createStore(rootReducer, applyMiddleware(...middleware));
 
-// @ts-ignore
-let kc = process.env.NODE_ENV === "production" ? new Keycloak("/keycloak.json") : new Keycloak("/dev-keycloak.json");
+function getKeycloak() {
+  if (process.env.NODE_ENV === "production") {
+    // @ts-ignore
+    return new Keycloak("/keycloak.json");
+  } else {
+    // @ts-ignore
+    return new Keycloak("/dev-keycloak.json");
+  }
+}
+let kc = getKeycloak();
 
 kc.init({ promiseType: "native", onLoad: "login-required" }).then(
   (authenticated: boolean) => {
