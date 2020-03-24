@@ -9,6 +9,7 @@ import CancelIcon from "@material-ui/icons/Cancel";
 
 interface props {
   text: String;
+  health: boolean;
 }
 
 export default function ApplicationItemRow(props: props) {
@@ -16,7 +17,7 @@ export default function ApplicationItemRow(props: props) {
     <>
       <Grid item xs={6}>
         {firstLetterToUpperCase(props.text)}
-        <IconButton aria-label="delete" className="warning">
+        <IconButton aria-label="delete" className="red-color">
           <DeleteIcon fontSize="small" />
         </IconButton>
       </Grid>
@@ -28,9 +29,15 @@ export default function ApplicationItemRow(props: props) {
         item
         xs={6}
       >
-        <IconButton aria-label="delete" className="success">
-          <CheckCircleIcon fontSize="small" />
-        </IconButton>
+        {props.health ? (
+          <IconButton aria-label="delete" className="green-color">
+            <CheckCircleIcon fontSize="small" />
+          </IconButton>
+        ) : (
+          <IconButton aria-label="delete" className="red-color">
+            <CancelIcon fontSize="small" />
+          </IconButton>
+        )}
       </Grid>
     </>
   );

@@ -8,3 +8,8 @@ export interface Application {
 export interface ApplicationKey {
   key: String;
 }
+
+export interface Server {
+  name: String;
+  health: boolean;
+}

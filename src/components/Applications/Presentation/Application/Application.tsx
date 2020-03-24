@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "./Application.css";
 // Scripts
 import { firstLetterToUpperCase } from "../../../../resources/scripts";
+// Interfaces
+import { Server } from "../../../../resources/interfaces";
 // Material-UI
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
@@ -36,6 +38,7 @@ export default function Application(props: props) {
         >
           <ApplicationItemRow
             text={firstLetterToUpperCase(props.application)}
+            health={true}
           />
         </Grid>
 
@@ -49,16 +52,23 @@ export default function Application(props: props) {
             xs={12}
             className={"applications-services max-width"}
           >
-            {["server 1", "server 2", "server 3"].map((server: String) => (
+            {[
+              { name: "server 1", health: true },
+              { name: "server 2", health: true },
+              { name: "server 3", health: false }
+            ].map((server: Server) => (
               <Grid
-                key={`${server}`}
+                key={`${server.name}`}
                 container
                 direction="row"
                 justify="center"
                 alignItems="center"
                 className="server-item max-width"
               >
-                <ApplicationItemRow text={firstLetterToUpperCase(server)} />
+                <ApplicationItemRow
+                  text={firstLetterToUpperCase(server.name)}
+                  health={server.health}
+                />
               </Grid>
             ))}
           </Grid>

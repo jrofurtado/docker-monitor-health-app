@@ -17,15 +17,15 @@ code {
   --prim-bg-color: rgb(236, 236, 234);
   --prim-font-color: #0088ce;
   --sec-font-color: #363636;
-  --warn-font-color: rgb(220, 0, 78);
+  --error-font-color: rgb(220, 0, 78);
   --succ-font-color: rgb(76, 175, 80);
 }
 
-.warning {
-  color: var(--warn-font-color) !important;
+.red-color {
+  color: var(--error-font-color) !important;
 }
 
-.success {
+.green-color {
   color: var(--succ-font-color) !important;
 }
 
