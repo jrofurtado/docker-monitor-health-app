@@ -1,7 +1,0 @@
-{
-  "realm": "docker-monitor-health-server",
-  "auth-server-url": "http://localhost/auth",
-  "ssl-required": "external",
-  "resource": "app",
-  "public-client": true
-}

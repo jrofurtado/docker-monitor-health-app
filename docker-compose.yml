@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 volumes:
   db_data:
@@ -12,18 +12,18 @@ services:
       - "80:80"
     image: jrofurtado/nghttpx-autoreload-with-healthcheck:1.0.0
     environment:
-      PARAMS: "
-        -f\"*,80;no-tls\"
-        -b\"${DOCKER_HOST:-172.17.0.1},3000;;dns;\"
-        -b\"server,3000;/api/;dns;\"
-        -b\"auth,8080;/auth/;dns;\""
+      PARAMS: '
+        -f"*,80;no-tls"
+        -b"${REACT_APP_HOST:-172.17.0.1},3000;;dns;"
+        -b"server,3000;/api/;dns;"
+        -b"auth,8080;/auth/;dns;"'
   server:
     image: jrofurtado/docker-monitor-health-server:latest
     volumes:
       - server_data:/volume
     environment:
       DEFAULT_APPS: '{"monitor":"fab4d210-69db-11ea-8339-811ba1916331"}'
-      KEYCLOAK_AUTH_SERVER_URL: "http://${DOCKER_HOST:-172.17.0.1}/auth"
+      KEYCLOAK_AUTH_SERVER_URL: "http://${REACT_APP_HOST:-172.17.0.1}/auth"
       KEYCLOAK_REALM: "docker-monitor-health-server"
       KEYCLOAK_RESOURCE: "server"
       KEYCLOAK_SSL_REQUIRED: "none"
@@ -61,6 +61,5 @@ services:
       - DOCKER_API_VERSION=v1.40
       - APP_NAME=monitor
       - COLLECT_STATS=false
-      - MONITORING_URL=http://${DOCKER_HOST:-172.17.0.1}/api/message
+      - MONITORING_URL=http://${REACT_APP_HOST:-172.17.0.1}/api/message
       - MONITORING_DELAY=30
-
