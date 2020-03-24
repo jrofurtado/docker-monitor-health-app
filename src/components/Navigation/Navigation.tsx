@@ -1,6 +1,11 @@
 import React from "react";
-import Applications from "../Applications/Applications";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+// Components
+import Applications from "../Applications/Applications";
+import History from "../History/History";
+import Service from "../Service/Service";
+// Material-UI
+import Container from "@material-ui/core/Container";
 
 export default function Navigation() {
   return (
@@ -15,23 +20,23 @@ export default function Navigation() {
               <Link to="/History">History</Link>
             </li>
             <li>
-              <Link to="/Service">Services</Link>
+              <Link to="/Service">Service</Link>
             </li>
           </ul>
         </nav>
-        <section>
+        <Container maxWidth="md">
           <Switch>
             <Route path="/history">
-              <h2>History Page</h2>
+              <History />
             </Route>
             <Route path="/service">
-              <h2>Service Page</h2>
+              <Service />
             </Route>
             <Route path="/">
               <Applications />
             </Route>
           </Switch>
-        </section>
+        </Container>
       </div>
     </Router>
   );

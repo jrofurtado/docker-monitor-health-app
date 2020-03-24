@@ -16,7 +16,6 @@ export async function getApplicationNamesList(): Promise<Array<String> | void> {
 async function getApplicationId(
   appName: String
 ): Promise<ApplicationKey | void> {
-  console.log("GET", `/api/app?appName=${appName}`);
   return await axios
     .get(`/api/app?appName=${appName}`)
     .then(response => {
