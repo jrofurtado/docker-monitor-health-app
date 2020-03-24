@@ -1,8 +1,8 @@
-import React, { Fragment } from "react";
+import React from "react";
 import "./App.css";
 //import { useSelector } from "react-redux";
 // Components
-import Applications from "../Applications/Applications";
+import Navigation from "../Navigation/Navigation";
 
 function App() {
   // Redux
@@ -11,10 +11,10 @@ function App() {
   //keycloak.logout();
 
   return (
-    <Fragment>
+    <>
       <h1>Monitoring App</h1>
-      <Applications />
-    </Fragment>
+      <Navigation />
+    </>
   );
 }
 

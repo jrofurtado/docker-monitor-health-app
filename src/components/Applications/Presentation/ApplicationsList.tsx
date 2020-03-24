@@ -7,10 +7,13 @@ interface props {
 
 export default function ApplicationsList(props: props) {
   return (
-    <ul>
-      {props.applications.map((application: String) => (
-        <li key={`${application}`}>{application}</li>
-      ))}
-    </ul>
+    <>
+      <h2>Applications</h2>
+      <ul>
+        {props.applications.map((application: String) => (
+          <li key={`${application}`}>{application}</li>
+        ))}
+      </ul>
+    </>
   );
 }
