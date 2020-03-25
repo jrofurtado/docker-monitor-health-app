@@ -1,5 +1,5 @@
 import React from "react";
-import "./Application.css";
+import "./ApplicationListItem.css";
 // Interfaces
 import {
   ApplicationInterface,
@@ -15,23 +15,29 @@ import ApplicationItemRow from "./ApplicationItemRow/ApplicationItemRow";
 interface props {
   application: ApplicationInterface;
   open: boolean;
-  handleClick: (name: string) => void;
+  handleApplicationClick: (name: string) => void;
+  handleServiceClick: (app: string, service: string) => void;
 }
 
-export default function Application(props: props) {
-  const handleClick = () => {
-    props.handleClick(props.application.name);
+export default function ApplicationListItem(props: props) {
+  const handleRowClick = (name: string) => {
+    if (name === props.application.name) {
+      props.handleApplicationClick(props.application.name);
+    } else {
+      props.handleServiceClick(props.application.name, name);
+    }
   };
 
   return (
     <>
-      <Paper className="application" onClick={() => handleClick()}>
+      <Paper className="application">
         <Grid
           container
           direction="row"
           justify="center"
           alignItems="center"
           className={`server-item max-width ${props.open ? "active" : ""}`}
+          onClick={() => handleRowClick(props.application.name)}
         >
           <ApplicationItemRow
             name={props.application.name}
@@ -62,6 +68,7 @@ export default function Application(props: props) {
                 justify="center"
                 alignItems="center"
                 className="server-item max-width"
+                onClick={() => handleRowClick(server.name)}
               >
                 <ApplicationItemRow
                   name={server.name}

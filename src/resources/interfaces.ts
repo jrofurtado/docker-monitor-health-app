@@ -14,6 +14,23 @@ export interface ServerInterface {
   };
 }
 
+export interface ServiceInterface {
+  serverName: string;
+  appName: string;
+  created: string;
+  expires: string;
+  containers: Array<ContainerInterface>;
+}
+
+export interface ContainerInterface {
+  Id: string;
+  Names: Array<string>;
+  Image: string;
+  ImageID: string;
+  Created: number;
+  _Healthy: boolean;
+}
+
 export interface ApplicationKeyInterface {
   key: string;
 }

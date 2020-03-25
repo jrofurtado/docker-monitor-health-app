@@ -3,12 +3,13 @@ import "./ApplicationsList.css";
 // Material-UI
 import Grid from "@material-ui/core/Grid";
 // Components
-import Application from "./Application/Application";
+import ApplicationListItem from "./ApplicationListItem/ApplicationListItem";
 // Interfaces
 import { ApplicationInterface } from "../../../resources/interfaces";
 
 interface props {
   applications: Array<ApplicationInterface>;
+  handleServiceClick: (app: string, service: string) => void;
 }
 
 export default function ApplicationsList(props: props) {
@@ -26,10 +27,11 @@ export default function ApplicationsList(props: props) {
           const shouldOpen = openAppName === application.name ? true : false;
           return (
             <Grid key={`${application.name}`} item xs={12}>
-              <Application
+              <ApplicationListItem
                 application={application}
                 open={shouldOpen}
-                handleClick={handleApplicationClick}
+                handleApplicationClick={handleApplicationClick}
+                handleServiceClick={props.handleServiceClick}
               />
             </Grid>
           );

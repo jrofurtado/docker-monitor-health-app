@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 // Requests
 import { getApplicationNamesList } from "../../resources/requests";
 // Components
-import ApplicationsList from "./Presentation/ApplicationsList";
+import ApplicationsList from "./ApplicationsList/ApplicationsList";
+import Service from "./Service/Service";
 // Redux
 import allActions from "../../redux/actions";
 // Interfaces
@@ -43,5 +44,20 @@ export default function Applications() {
     };
   }, [dispatch]);
 
-  return <ApplicationsList applications={applications} />;
+  // State
+  const defaultServiceState: Array<string> = [];
+  const [service, setService] = useState(defaultServiceState);
+
+  const handleServiceClick = (app: string, service: string) => {
+    setService([app, service]);
+  };
+
+  return service.length ? (
+    <Service appName={service[0]} serviceName={service[1]} />
+  ) : (
+    <ApplicationsList
+      applications={applications}
+      handleServiceClick={handleServiceClick}
+    />
+  );
 }

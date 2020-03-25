@@ -1,37 +1,39 @@
-import { ApplicationInterface, ServerInterface } from "../resources/interfaces";
+import {
+  ApplicationInterface,
+  ServerInterface,
+  ServiceInterface,
+  ContainerInterface
+} from "../resources/interfaces";
 
-export async function mockApps() {
-  return ["monitor", "globaleda", "dra"];
-}
-
-export async function getStatus(): Promise<Array<ApplicationInterface> | void> {
-  // Mock Response
-  const response = {
-    monitor: { "docker-desktop": { healthy: true, containers: 13 } },
-    globaleda: {
-      development: { healthy: true, containers: 5 },
-      production: { healthy: false, containers: 7 }
-    },
-    lagoa: {
-      development: { healthy: true, containers: 6 },
-      production: { healthy: true, containers: 9 }
-    }
-  };
+export async function getApplicationStatus(): Promise<Array<
+  ApplicationInterface
+> | void> {
+  // Define the recieved data format
+  interface data {
+    [key: string]: {
+      [key: string]: {
+        healthy: boolean;
+        containers: number;
+      };
+    };
+  }
+  // Get the data from the Mock Response
+  const data: data = require("./responses/appState.json").data;
   // Create an Array with ApplicationInterface Objects
   let apps: Array<ApplicationInterface> = [];
-  for (const [key, value] of Object.entries(response)) {
+  for (const [key, value] of Object.entries(data)) {
     const appName = key;
     let appHealthy = true;
-    let servers: Array<ServerInterface> = [];
-    for (const [serverKey, serverValue] of Object.entries(value)) {
-      if (!serverValue.healthy) {
+    let servers: Array<ServerInterface> = Object.keys(value).map(k => {
+      if (!value[k].healthy) {
         appHealthy = false;
       }
-      servers.push({
-        name: serverKey,
-        status: serverValue
-      });
-    }
+      const server = {
+        name: k,
+        status: value[k]
+      };
+      return server;
+    });
     apps.push({
       name: appName,
       healthy: appHealthy,
@@ -41,8 +43,36 @@ export async function getStatus(): Promise<Array<ApplicationInterface> | void> {
   return apps;
 }
 
+export async function getServiceStatus(
+  appName: string,
+  serverName: string
+): Promise<ServiceInterface | void> {
+  // Get the data from the Mock Response
+  const response = require("./responses/serviceState.json");
+  const service = {
+    serverName: serverName,
+    appName: appName,
+    created: response.data.created,
+    expires: response.data.expires,
+    containers: response.data.containers.map(
+      (container: ContainerInterface) => {
+        return {
+          id: container.Id,
+          names: container.Names,
+          image: container.Image,
+          ImageID: container.ImageID,
+          createdTimestamp: container.Created,
+          healthy: container._Healthy
+        };
+      }
+    )
+  };
+  return service;
+}
+
 const allMocks = {
-  getStatus
+  getApplicationStatus,
+  getServiceStatus
 };
 
 export default allMocks;
