@@ -1,6 +1,8 @@
+import { ApplicationInterface } from "../../resources/interfaces";
+
 interface action {
   type: string;
-  payload: { newApplications: Array<String> };
+  payload: { newApplications: Array<ApplicationInterface> };
 }
 
 const initialState = {
@@ -12,7 +14,7 @@ const applications = (state = initialState, action: action) => {
     case "SET_APPLICATIONS":
       return {
         ...state,
-        list: [...action.payload.newApplications]
+        list: action.payload.newApplications
       };
     default:
       return state;

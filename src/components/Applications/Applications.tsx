@@ -6,17 +6,22 @@ import { getApplicationNamesList } from "../../resources/requests";
 import ApplicationsList from "./Presentation/ApplicationsList";
 // Redux
 import allActions from "../../redux/actions";
+// Interfaces
+import { ApplicationInterface } from "../../resources/interfaces";
 
 export default function Applications() {
   // Redux
   const applications = useSelector(
-    (state: { application: { list: Array<String> } }) => state.application.list
+    (state: { application: { list: Array<ApplicationInterface> } }) =>
+      state.application.list
   );
   const dispatch = useDispatch();
 
   useEffect(() => {
     // Set Fetched Applications
-    const setApplications = (applications: Array<String>): void => {
+    const setApplications = (
+      applications: Array<ApplicationInterface>
+    ): void => {
       dispatch(allActions.applicationActions.addApplication(applications));
     };
     // Get Applications every 10 seconds

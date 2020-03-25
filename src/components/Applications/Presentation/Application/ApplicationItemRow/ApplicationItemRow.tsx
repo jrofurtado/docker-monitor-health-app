@@ -1,25 +1,23 @@
 import React, { Fragment } from "react";
 import { firstLetterToUpperCase } from "../../../../../resources/scripts";
+// Interfaces
+import { ApplicationInterface } from "../../../../../resources/interfaces";
 // Material-UI
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
-import DeleteIcon from "@material-ui/icons/Delete";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CancelIcon from "@material-ui/icons/Cancel";
 
 interface props {
-  text: String;
-  health: boolean;
+  name: String;
+  healthy: boolean;
 }
 
 export default function ApplicationItemRow(props: props) {
   return (
     <>
       <Grid item xs={6}>
-        {firstLetterToUpperCase(props.text)}
-        <IconButton aria-label="delete" className="red-color">
-          <DeleteIcon fontSize="small" />
-        </IconButton>
+        {firstLetterToUpperCase(props.name)}
       </Grid>
       <Grid
         container
@@ -29,7 +27,7 @@ export default function ApplicationItemRow(props: props) {
         item
         xs={6}
       >
-        {props.health ? (
+        {props.healthy ? (
           <IconButton aria-label="delete" className="green-color">
             <CheckCircleIcon fontSize="small" />
           </IconButton>

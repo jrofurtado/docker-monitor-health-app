@@ -1,15 +1,19 @@
 // Define used objects as interfaces
 
-export interface Application {
+export interface ApplicationInterface {
   name: String;
-  key: String;
+  healthy: boolean;
+  servers: Array<ServerInterface>;
 }
 
-export interface ApplicationKey {
-  key: String;
+export interface ServerInterface {
+  name: String;
+  status: {
+    healthy: boolean;
+    containers: number;
+  };
 }
 
-export interface Server {
-  name: String;
-  health: boolean;
+export interface ApplicationKeyInterface {
+  key: String;
 }

@@ -3,7 +3,10 @@ import "./Application.css";
 // Scripts
 import { firstLetterToUpperCase } from "../../../../resources/scripts";
 // Interfaces
-import { Server } from "../../../../resources/interfaces";
+import {
+  ApplicationInterface,
+  ServerInterface
+} from "../../../../resources/interfaces";
 // Material-UI
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
@@ -16,7 +19,7 @@ import CancelIcon from "@material-ui/icons/Cancel";
 import ApplicationItemRow from "./ApplicationItemRow/ApplicationItemRow";
 
 interface props {
-  application: String;
+  application: ApplicationInterface;
 }
 
 export default function Application(props: props) {
@@ -37,8 +40,8 @@ export default function Application(props: props) {
           className={`server-item max-width ${open ? "active" : ""}`}
         >
           <ApplicationItemRow
-            text={firstLetterToUpperCase(props.application)}
-            health={true}
+            name={props.application.name}
+            healthy={props.application.healthy}
           />
         </Grid>
 
@@ -52,11 +55,7 @@ export default function Application(props: props) {
             xs={12}
             className={"applications-services max-width"}
           >
-            {[
-              { name: "server 1", health: true },
-              { name: "server 2", health: true },
-              { name: "server 3", health: false }
-            ].map((server: Server) => (
+            {props.application.servers.map((server: ServerInterface) => (
               <Grid
                 key={`${server.name}`}
                 container
@@ -66,8 +65,8 @@ export default function Application(props: props) {
                 className="server-item max-width"
               >
                 <ApplicationItemRow
-                  text={firstLetterToUpperCase(server.name)}
-                  health={server.health}
+                  name={server.name}
+                  healthy={server.status.healthy}
                 />
               </Grid>
             ))}

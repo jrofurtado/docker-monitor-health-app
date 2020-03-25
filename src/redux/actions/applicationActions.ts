@@ -1,4 +1,6 @@
-const addApplication = (newApplications: Array<String>) => {
+import { ApplicationInterface } from "../../resources/interfaces";
+
+const addApplication = (newApplications: Array<ApplicationInterface>) => {
   return {
     type: "SET_APPLICATIONS",
     payload: { newApplications: newApplications }

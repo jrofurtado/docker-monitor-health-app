@@ -1,6 +1,6 @@
 import React from "react";
-import "./App.css";
 //import { useSelector } from "react-redux";
+import "./App.css";
 // Components
 import Navigation from "../Navigation/Navigation";
 
