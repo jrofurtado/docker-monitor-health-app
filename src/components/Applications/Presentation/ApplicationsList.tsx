@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./ApplicationsList.css";
 // Material-UI
 import Grid from "@material-ui/core/Grid";
@@ -12,17 +12,28 @@ interface props {
 }
 
 export default function ApplicationsList(props: props) {
-  const apps = [];
+  const [openAppName, setOpenAppName] = useState("");
+
+  const handleApplicationClick = (clickedAppName: string) => {
+    setOpenAppName(openAppName !== clickedAppName ? clickedAppName : "");
+  };
 
   return (
     <>
       <h2>Applications</h2>
       <Grid container spacing={1}>
-        {props.applications.map((application: ApplicationInterface) => (
-          <Grid key={`${application.name}`} item xs={12}>
-            <Application application={application} />
-          </Grid>
-        ))}
+        {props.applications.map((application: ApplicationInterface) => {
+          const shouldOpen = openAppName === application.name ? true : false;
+          return (
+            <Grid key={`${application.name}`} item xs={12}>
+              <Application
+                application={application}
+                open={shouldOpen}
+                handleClick={handleApplicationClick}
+              />
+            </Grid>
+          );
+        })}
       </Grid>
     </>
   );

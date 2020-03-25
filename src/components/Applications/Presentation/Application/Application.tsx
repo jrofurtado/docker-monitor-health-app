@@ -1,7 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Application.css";
-// Scripts
-import { firstLetterToUpperCase } from "../../../../resources/scripts";
 // Interfaces
 import {
   ApplicationInterface,
@@ -11,22 +9,18 @@ import {
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Collapse from "@material-ui/core/Collapse";
-import IconButton from "@material-ui/core/IconButton";
-import DeleteIcon from "@material-ui/icons/Delete";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import CancelIcon from "@material-ui/icons/Cancel";
 // Components
 import ApplicationItemRow from "./ApplicationItemRow/ApplicationItemRow";
 
 interface props {
   application: ApplicationInterface;
+  open: boolean;
+  handleClick: (name: string) => void;
 }
 
 export default function Application(props: props) {
-  const [open, setOpen] = useState(false);
-
   const handleClick = () => {
-    setOpen(!open);
+    props.handleClick(props.application.name);
   };
 
   return (
@@ -37,7 +31,7 @@ export default function Application(props: props) {
           direction="row"
           justify="center"
           alignItems="center"
-          className={`server-item max-width ${open ? "active" : ""}`}
+          className={`server-item max-width ${props.open ? "active" : ""}`}
         >
           <ApplicationItemRow
             name={props.application.name}
@@ -45,7 +39,12 @@ export default function Application(props: props) {
           />
         </Grid>
 
-        <Collapse in={open} timeout="auto" unmountOnExit className="max-width">
+        <Collapse
+          in={props.open}
+          timeout="auto"
+          unmountOnExit
+          className="max-width"
+        >
           <Grid
             container
             direction="column"

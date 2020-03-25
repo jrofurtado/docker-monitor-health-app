@@ -1,7 +1,5 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { firstLetterToUpperCase } from "../../../../../resources/scripts";
-// Interfaces
-import { ApplicationInterface } from "../../../../../resources/interfaces";
 // Material-UI
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
@@ -9,7 +7,7 @@ import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CancelIcon from "@material-ui/icons/Cancel";
 
 interface props {
-  name: String;
+  name: string;
   healthy: boolean;
 }
 

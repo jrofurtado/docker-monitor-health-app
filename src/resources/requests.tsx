@@ -24,15 +24,15 @@ export async function getApplicationNamesList(): Promise<Array<
       for (const [key, value] of Object.entries(response)) {
         const appName = key;
         let appHealthy = true;
-        let servers: Array<ServerInterface> = [];
-        Object.keys(value).map(k => {
+        let servers: Array<ServerInterface> = Object.keys(value).map(k => {
           if (!value[k].healthy) {
             appHealthy = false;
           }
-          servers.push({
+          const server = {
             name: k,
             status: value[k]
-          });
+          };
+          return server;
         });
         apps.push({
           name: appName,

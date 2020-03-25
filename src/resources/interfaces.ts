@@ -1,13 +1,13 @@
 // Define used objects as interfaces
 
 export interface ApplicationInterface {
-  name: String;
+  name: string;
   healthy: boolean;
   servers: Array<ServerInterface>;
 }
 
 export interface ServerInterface {
-  name: String;
+  name: string;
   status: {
     healthy: boolean;
     containers: number;
@@ -15,5 +15,5 @@ export interface ServerInterface {
 }
 
 export interface ApplicationKeyInterface {
-  key: String;
+  key: string;
 }
