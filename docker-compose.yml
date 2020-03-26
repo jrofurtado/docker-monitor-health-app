@@ -14,7 +14,7 @@ services:
     environment:
       PARAMS: '
         -f"*,80;no-tls"
-        -b"${MY_DOCKER_HOST:-172.17.0.1},3000;;dns;"
+        -b"${REACT_APP_HOST:-172.17.0.1},3000;;dns;"
         -b"server,3000;/api/;dns;"
         -b"auth,8080;/auth/;dns;"'
   server:
@@ -23,7 +23,7 @@ services:
       - server_data:/volume
     environment:
       DEFAULT_APPS: '{"monitor":"fab4d210-69db-11ea-8339-811ba1916331"}'
-      KEYCLOAK_AUTH_SERVER_URL: "http://${MY_DOCKER_HOST:-172.17.0.1}/auth"
+      KEYCLOAK_AUTH_SERVER_URL: "http://${REACT_APP_HOST:-172.17.0.1}/auth"
       KEYCLOAK_REALM: "docker-monitor-health-server"
       KEYCLOAK_RESOURCE: "server"
       KEYCLOAK_SSL_REQUIRED: "none"
@@ -61,5 +61,5 @@ services:
       - DOCKER_API_VERSION=v1.40
       - APP_NAME=monitor
       - COLLECT_STATS=false
-      - MONITORING_URL=http://${MY_DOCKER_HOST:-172.17.0.1}/api/message
+      - MONITORING_URL=http://${REACT_APP_HOST:-172.17.0.1}/api/message
       - MONITORING_DELAY=30

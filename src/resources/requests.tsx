@@ -1,12 +1,12 @@
-import axios from "axios";
+import axios from 'axios';
 
-export async function getApps(): Promise<Array<String> | void> {
+export async function getApps(): Promise<Array<string> | void> {
   return await axios
-    .get("/api/apps")
-    .then(response => {
+    .get('/api/apps')
+    .then((response) => {
       return response.data;
     })
-    .catch(error => {
-      console.log("Error: ", error);
+    .catch((error) => {
+      console.log('Error: ', error);
     });
 }

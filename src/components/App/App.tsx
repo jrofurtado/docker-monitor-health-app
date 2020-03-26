@@ -1,7 +1,7 @@
-import React, { useEffect, useState, Fragment } from "react";
-import "./App.css";
+import React, { useEffect, useState, Fragment } from 'react';
+import './App.css';
 //import { useSelector} from "react-redux";
-import { getApps } from "../../resources/requests";
+import { getApps } from '../../resources/requests';
 
 function App() {
   // Redux
@@ -9,12 +9,12 @@ function App() {
   //const keycloak = useSelector(state => state.keycloak);
   //keycloak.logout();
 
-  const [apps, setApps] = useState<Array<String>>([]);
+  const [apps, setApps] = useState<Array<string>>([]);
 
   useEffect(() => {
     // On Component Mount: Get Apps
-    getApps().then(res => {
-      console.log("Apps: ", res);
+    getApps().then((res) => {
+      console.log('Apps: ', res);
       if (res) {
         setApps(res);
       }
@@ -25,7 +25,7 @@ function App() {
     <Fragment>
       <h1>Monitoring App</h1>
       <ul>
-        {apps.map(app => (
+        {apps.map((app) => (
           <li id={`${app}`}>app</li>
         ))}
       </ul>

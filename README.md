@@ -1,8 +1,12 @@
 ## How to run
 
-Start the docker backend services (server, db, auth, lb) with docker-compose up
+By default the app will use 172.17.0.1 for the host machine IP. If you need other IP set it usinf env variable REACT_APP_HOST
 
-Start the frontend with yarn start
+Start the docker backend services (server, db, auth, lb) with *docker-compose up*
+
+Start the frontend with *yarn install* and *yarn start*
+
+Point your browser to 172.17.0.1 or to the host defined in $REACT_APP_HOST
 
 ## Keycloak Users:
 
