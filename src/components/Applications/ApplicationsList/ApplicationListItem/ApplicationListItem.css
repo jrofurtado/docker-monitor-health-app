@@ -1,0 +1,29 @@
+.application {
+  padding: 10px 10px 10px 10px;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--prim-font-color) !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.application .active {
+  border-bottom: 1px solid rgba(151, 150, 150, 0.5);
+}
+
+.application .server-item:hover {
+  background-color: rgba(155, 153, 153, 0.165);
+}
+
+.application .delete-icon {
+  margin-left: auto;
+  align-self: flex-end;
+}
+
+.applications-services {
+  color: var(--prim-font-color) !important;
+  font-weight: 400;
+  background-color: white;
+}

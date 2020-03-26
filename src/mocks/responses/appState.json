@@ -1,0 +1,13 @@
+{
+  "data": {
+    "monitor": { "docker-desktop": { "healthy": true, "containers": 13 } },
+    "globaleda": {
+      "development": { "healthy": true, "containers": 5 },
+      "production": { "healthy": false, "containers": 7 }
+    },
+    "lagoa": {
+      "development": { "healthy": true, "containers": 6 },
+      "production": { "healthy": true, "containers": 9 }
+    }
+  }
+}
