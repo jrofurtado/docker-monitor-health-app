@@ -1,26 +1,26 @@
-import React from "react";
-import "./ApplicationListItem.css";
+import React from 'react';
+import './ApplicationListItem.css';
 // Interfaces
 import {
   ApplicationInterface,
-  ServerInterface
-} from "../../../../resources/interfaces";
+  ServerInterface,
+} from '../../../../resources/interfaces';
 // Material-UI
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Collapse from "@material-ui/core/Collapse";
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import Collapse from '@material-ui/core/Collapse';
 // Components
-import ApplicationItemRow from "./ApplicationItemRow/ApplicationItemRow";
+import ApplicationItemRow from './ApplicationItemRow/ApplicationItemRow';
 
-interface props {
+interface Props {
   application: ApplicationInterface;
   open: boolean;
   handleApplicationClick: (name: string) => void;
   handleServiceClick: (app: string, service: string) => void;
 }
 
-export default function ApplicationListItem(props: props) {
-  const handleRowClick = (name: string) => {
+export default function ApplicationListItem(props: Props): JSX.Element {
+  const handleRowClick = (name: string): void => {
     if (name === props.application.name) {
       props.handleApplicationClick(props.application.name);
     } else {
@@ -36,8 +36,8 @@ export default function ApplicationListItem(props: props) {
           direction="row"
           justify="center"
           alignItems="center"
-          className={`server-item max-width ${props.open ? "active" : ""}`}
-          onClick={() => handleRowClick(props.application.name)}
+          className={`server-item max-width ${props.open ? 'active' : ''}`}
+          onClick={(): void => handleRowClick(props.application.name)}
         >
           <ApplicationItemRow
             name={props.application.name}
@@ -58,7 +58,7 @@ export default function ApplicationListItem(props: props) {
             alignItems="flex-start"
             item
             xs={12}
-            className={"applications-services max-width"}
+            className={'applications-services max-width'}
           >
             {props.application.servers.map((server: ServerInterface) => (
               <Grid
@@ -68,7 +68,7 @@ export default function ApplicationListItem(props: props) {
                 justify="center"
                 alignItems="center"
                 className="server-item max-width"
-                onClick={() => handleRowClick(server.name)}
+                onClick={(): void => handleRowClick(server.name)}
               >
                 <ApplicationItemRow
                   name={server.name}

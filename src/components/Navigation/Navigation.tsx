@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 // Components
-import Applications from "../Applications/Applications";
+import Applications from '../Applications/Applications';
 // Material-UI
-import Container from "@material-ui/core/Container";
+import Container from '@material-ui/core/Container';
 
-export default function Navigation() {
+export default function Navigation(): JSX.Element {
   return (
     <div>
       <Container maxWidth="md">

@@ -1,35 +1,29 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Provider } from "react-redux";
-import { applyMiddleware, createStore } from "redux";
-import { routerMiddleware } from "react-router-redux";
-import thunk from "redux-thunk";
-import { createBrowserHistory } from "history";
-import "./index.css";
-import * as serviceWorker from "./serviceWorker";
-import * as Keycloak from "keycloak-js";
-import axios from "axios";
-import App from "./components/App/App";
-import rootReducer from "./redux/reducers";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Provider } from 'react-redux';
+import { applyMiddleware, createStore } from 'redux';
+import { routerMiddleware } from 'react-router-redux';
+import thunk from 'redux-thunk';
+import { createBrowserHistory } from 'history';
+import './index.css';
+import * as serviceWorker from './serviceWorker';
+import * as Keycloak from 'keycloak-js';
+import axios from 'axios';
+import App from './components/App/App';
+import rootReducer from './redux/reducers';
 
 const history = createBrowserHistory();
 const middleware = [thunk, routerMiddleware(history)];
 const store = createStore(rootReducer, applyMiddleware(...middleware));
 
-function getKeycloak() {
-  if (process.env.NODE_ENV === "production") {
-    // @ts-ignore
-    return new Keycloak("/keycloak.json");
-  } else {
-    // @ts-ignore
-    return new Keycloak("/dev-keycloak.json");
-  }
-}
-let kc = getKeycloak();
+const kc =
+  process.env.NODE_ENV === 'production'
+    ? new Keycloak('/keycloak.json')
+    : new Keycloak('/dev-keycloak.json');
 
 kc.init({ promiseType: 'native', onLoad: 'login-required' }).then(
-  (authenticated) => {
+  (authenticated: boolean) => {
     if (authenticated) {
       store.getState().keycloak = kc;
 

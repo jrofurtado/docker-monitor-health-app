@@ -1,17 +1,17 @@
-import React from "react";
-import { firstLetterToUpperCase } from "../../../../../resources/scripts";
+import React from 'react';
+import { firstLetterToUpperCase } from '../../../../../resources/scripts';
 // Material-UI
-import Grid from "@material-ui/core/Grid";
-import IconButton from "@material-ui/core/IconButton";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import CancelIcon from "@material-ui/icons/Cancel";
+import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import CancelIcon from '@material-ui/icons/Cancel';
 
-interface props {
+interface Props {
   name: string;
   healthy: boolean;
 }
 
-export default function ApplicationItemRow(props: props) {
+export default function ApplicationItemRow(props: Props): JSX.Element {
   return (
     <>
       <Grid item xs={6}>

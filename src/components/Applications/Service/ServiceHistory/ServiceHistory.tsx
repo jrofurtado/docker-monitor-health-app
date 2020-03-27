@@ -1,6 +1,6 @@
-import React from "react";
-import "./ServiceHistory.css";
+import React from 'react';
+import './ServiceHistory.css';
 
-export default function ServiceHistory() {
+export default function ServiceHistory(): JSX.Element {
   return <div>Service History</div>;
 }

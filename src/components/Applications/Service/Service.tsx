@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 // Scripts
-import { firstLetterToUpperCase } from "../../../resources/scripts";
+import { firstLetterToUpperCase } from '../../../resources/scripts';
 // Requests
-import { getServiceInfo } from "../../../resources/requests";
+import { getServiceInfo } from '../../../resources/requests';
 // Components
-import ServiceInformation from "./ServiceInformation/ServiceInformation";
-import ServiceHistory from "./ServiceHistory/ServiceHistory";
+import ServiceInformation from './ServiceInformation/ServiceInformation';
+import ServiceHistory from './ServiceHistory/ServiceHistory';
 
-interface props {
+interface Props {
   appName: string;
   serviceName: string;
 }
 
-export default function Service(props: props) {
+export default function Service(props: Props): JSX.Element {
   // State
   const [service, setService] = useState({});
 
   useEffect(() => {
-    getServiceInfo(props.appName, props.serviceName).then(res => {
-      console.log("Fetched Service: ", res);
+    getServiceInfo(props.appName, props.serviceName).then((res) => {
+      console.log('Fetched Service: ', res);
       if (res) {
         setService(res);
       }
@@ -27,14 +27,16 @@ export default function Service(props: props) {
 
   /*
   TODO:
-  - Display two switchable Tabs (Information & Service)
-  - Display only one Tab's Component at a time
+  - Mostrar duas Tabs (Information & Service)
+  - Só apresentar o componente correspondente á tab ativa
+  - Adicionar CSS a este componente
+  - Poder voltar á lista de aplicações novamente
   */
 
   return (
     <div>
       <h2>
-        {firstLetterToUpperCase(props.appName)} -{" "}
+        {firstLetterToUpperCase(props.appName)} -{' '}
         <span>{firstLetterToUpperCase(props.serviceName)}</span>
       </h2>
       <ServiceInformation service={service} />

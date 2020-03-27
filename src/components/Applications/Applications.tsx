@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 // Requests
-import { getApplicationNamesList } from "../../resources/requests";
+import { getApplicationNamesList } from '../../resources/requests';
 // Components
-import ApplicationsList from "./ApplicationsList/ApplicationsList";
-import Service from "./Service/Service";
+import ApplicationsList from './ApplicationsList/ApplicationsList';
+import Service from './Service/Service';
 // Redux
-import allActions from "../../redux/actions";
+import allActions from '../../redux/actions';
 // Interfaces
-import { ApplicationInterface } from "../../resources/interfaces";
+import { ApplicationInterface } from '../../resources/interfaces';
 
-export default function Applications() {
+export default function Applications(): JSX.Element {
   // Redux
   const applications = useSelector(
     (state: { application: { list: Array<ApplicationInterface> } }) =>
@@ -27,9 +27,9 @@ export default function Applications() {
     };
     // Get Applications every 10 seconds
     const interval = setInterval(
-      (function fetchApplications() {
-        getApplicationNamesList().then(res => {
-          console.log("Fetched Apps: ", res);
+      (function fetchApplications(): TimerHandler {
+        getApplicationNamesList().then((res) => {
+          console.log('Fetched Apps: ', res);
           if (res) {
             setApplications(res);
           }
@@ -39,7 +39,7 @@ export default function Applications() {
       10000
     );
 
-    return () => {
+    return (): void => {
       clearInterval(interval);
     };
   }, [dispatch]);
@@ -48,7 +48,7 @@ export default function Applications() {
   const defaultServiceState: Array<string> = [];
   const [service, setService] = useState(defaultServiceState);
 
-  const handleServiceClick = (app: string, service: string) => {
+  const handleServiceClick = (app: string, service: string): void => {
     setService([app, service]);
   };
 

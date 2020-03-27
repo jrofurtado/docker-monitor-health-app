@@ -1,22 +1,22 @@
-import React, { useState } from "react";
-import "./ApplicationsList.css";
+import React, { useState } from 'react';
+import './ApplicationsList.css';
 // Material-UI
-import Grid from "@material-ui/core/Grid";
+import Grid from '@material-ui/core/Grid';
 // Components
-import ApplicationListItem from "./ApplicationListItem/ApplicationListItem";
+import ApplicationListItem from './ApplicationListItem/ApplicationListItem';
 // Interfaces
-import { ApplicationInterface } from "../../../resources/interfaces";
+import { ApplicationInterface } from '../../../resources/interfaces';
 
-interface props {
+interface Props {
   applications: Array<ApplicationInterface>;
   handleServiceClick: (app: string, service: string) => void;
 }
 
-export default function ApplicationsList(props: props) {
-  const [openAppName, setOpenAppName] = useState("");
+export default function ApplicationsList(props: Props): JSX.Element {
+  const [openAppName, setOpenAppName] = useState('');
 
-  const handleApplicationClick = (clickedAppName: string) => {
-    setOpenAppName(openAppName !== clickedAppName ? clickedAppName : "");
+  const handleApplicationClick = (clickedAppName: string): void => {
+    setOpenAppName(openAppName !== clickedAppName ? clickedAppName : '');
   };
 
   return (

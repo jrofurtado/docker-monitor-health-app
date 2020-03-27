@@ -24,10 +24,10 @@ export interface ServiceInterface {
 
 export interface ContainerInterface {
   Id: string;
-  Names: Array<string>;
-  Image: string;
-  ImageID: string;
-  Created: number;
+  Names: Array<string>; //
+  Image: string; //
+  ImageID: string; //
+  Created: number; //
   _Healthy: boolean;
 }
 

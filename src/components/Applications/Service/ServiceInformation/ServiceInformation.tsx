@@ -1,17 +1,18 @@
-import React from "react";
-import "./ServiceInformation.css";
-import { ServiceInterface } from "../../../../resources/interfaces";
+import React from 'react';
+import './ServiceInformation.css';
+import { ServiceInterface } from '../../../../resources/interfaces';
 
-interface props {
+interface Props {
   service: ServiceInterface | {};
 }
 
-export default function ServiceInformation(props: props) {
+export default function ServiceInformation(props: Props): JSX.Element {
   const { service } = props;
 
   /*
   TODO:
-  - Display the Data properly
+  - Mostrada a data de forma legível (adicionar css)
+  - Mostrar cada os componentes de forma semelhante à lista de aplicações
   */
 
   // If Loading

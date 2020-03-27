@@ -1,7 +1,7 @@
-import applicationActions from "./applicationActions";
+import applicationActions from './applicationActions';
 
 const allActions = {
-  applicationActions
+  applicationActions,
 };
 
 export default allActions;

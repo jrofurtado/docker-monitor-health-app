@@ -1,14 +1,13 @@
-import axios from "axios";
+import axios from 'axios';
 // TypeScript
 import {
   ApplicationInterface,
   ServerInterface,
   ServiceInterface,
-  ContainerInterface
-} from "./interfaces";
+  ContainerInterface,
+} from './interfaces';
 /* develblock:start */
-// @ts-ignore
-import allMocks from "../mocks/mockResponses.ts";
+import allMocks from '../mocks/mockResponses';
 /* develblock:end */
 
 export async function getApplicationNamesList(): Promise<Array<
@@ -16,16 +15,16 @@ export async function getApplicationNamesList(): Promise<Array<
 > | void> {
   /* develblock:start */
   // Mock
-  if (process.env.NODE_ENV !== "production") {
+  if (process.env.NODE_ENV !== 'production') {
     return allMocks.getApplicationStatus();
   }
   /* develblock:end */
   // Fetch
   return await axios
-    .get("/api/status/readLast")
-    .then(response => {
+    .get('/api/status/readLast')
+    .then((response) => {
       // Define the recieved data format
-      interface data {
+      interface Data {
         // App Name
         [key: string]: {
           // Server Name
@@ -36,32 +35,32 @@ export async function getApplicationNamesList(): Promise<Array<
         };
       }
       // Get the data
-      const data: data = response.data;
+      const data: Data = response.data;
       // Create an Array with ApplicationInterface Objects
-      let apps: Array<ApplicationInterface> = [];
+      const apps: Array<ApplicationInterface> = [];
       for (const [key, value] of Object.entries(data)) {
         const appName = key;
         let appHealthy = true;
-        let servers: Array<ServerInterface> = Object.keys(value).map(k => {
+        const servers: Array<ServerInterface> = Object.keys(value).map((k) => {
           if (!value[k].healthy) {
             appHealthy = false;
           }
           const server = {
             name: k,
-            status: value[k]
+            status: value[k],
           };
           return server;
         });
         apps.push({
           name: appName,
           healthy: appHealthy,
-          servers: servers
+          servers: servers,
         });
       }
       return apps;
     })
-    .catch(error => {
-      console.log("getApplicationNamesList Error: ", error);
+    .catch((error) => {
+      console.log('getApplicationNamesList Error: ', error);
     });
 }
 
@@ -71,14 +70,14 @@ export async function getServiceInfo(
 ): Promise<ServiceInterface | void> {
   /* develblock:start */
   // Mock
-  if (process.env.NODE_ENV !== "production") {
+  if (process.env.NODE_ENV !== 'production') {
     return allMocks.getServiceStatus(appName, serverName);
   }
   /* develblock:end */
   // Fetch
   return await axios
     .get(`/api/message/readLast?appName=${appName}&serverName=${serverName}`)
-    .then(response => {
+    .then((response) => {
       const data = {
         serverName: response.data.serverName,
         appName: response.data.appName,
@@ -92,14 +91,14 @@ export async function getServiceInfo(
               image: container.Image,
               ImageID: container.ImageID,
               createdTimestamp: container.Created,
-              healthy: container._Healthy
+              healthy: container._Healthy,
             };
           }
-        )
+        ),
       };
       return data;
     })
-    .catch(error => {
-      console.log("getApplicationNamesList Error: ", error);
+    .catch((error) => {
+      console.log('getApplicationNamesList Error: ', error);
     });
 }

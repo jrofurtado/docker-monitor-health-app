@@ -1,12 +1,21 @@
-import { ApplicationInterface } from "../../resources/interfaces";
+import { ApplicationInterface } from '../../resources/interfaces';
 
-const addApplication = (newApplications: Array<ApplicationInterface>) => {
+interface ActionAddApplication {
+  type: string;
+  payload: {
+    newApplications: Array<ApplicationInterface>;
+  };
+}
+
+const addApplication = (
+  newApplications: Array<ApplicationInterface>
+): ActionAddApplication => {
   return {
-    type: "SET_APPLICATIONS",
-    payload: { newApplications: newApplications }
+    type: 'SET_APPLICATIONS',
+    payload: { newApplications: newApplications },
   };
 };
 
 export default {
-  addApplication
+  addApplication,
 };

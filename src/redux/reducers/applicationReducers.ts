@@ -1,20 +1,24 @@
-import { ApplicationInterface } from "../../resources/interfaces";
+import { ApplicationInterface } from '../../resources/interfaces';
 
-interface action {
+interface Action {
   type: string;
   payload: { newApplications: Array<ApplicationInterface> };
 }
 
+interface State {
+  list: Array<ApplicationInterface>;
+}
+
 const initialState = {
-  list: []
+  list: [],
 };
 
-const applications = (state = initialState, action: action) => {
+const applications = (state = initialState, action: Action): State => {
   switch (action.type) {
-    case "SET_APPLICATIONS":
+    case 'SET_APPLICATIONS':
       return {
         ...state,
-        list: action.payload.newApplications
+        list: action.payload.newApplications,
       };
     default:
       return state;

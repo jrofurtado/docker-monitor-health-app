@@ -1,12 +1,11 @@
-import React from "react";
+import React from 'react';
 //import { useSelector } from "react-redux";
-import "./App.css";
+import './App.css';
 // Components
-import Navigation from "../Navigation/Navigation";
+import Navigation from '../Navigation/Navigation';
 
-function App() {
+function App(): JSX.Element {
   // Redux
-  // @ts-ignore
   //const keycloak = useSelector(state => state.keycloak);
   //keycloak.logout();
 
