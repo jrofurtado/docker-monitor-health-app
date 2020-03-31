@@ -17,10 +17,19 @@ const history = createBrowserHistory();
 const middleware = [thunk, routerMiddleware(history)];
 const store = createStore(rootReducer, applyMiddleware(...middleware));
 
-const kc =
-  process.env.NODE_ENV === 'production'
-    ? new Keycloak('/keycloak.json')
-    : new Keycloak('/dev-keycloak.json');
+/*eslint-disable*/
+function getKeycloak() {
+  if (process.env.NODE_ENV === 'production') {
+    // @ts-ignore
+    return new Keycloak('/keycloak.json');
+  } else {
+    // @ts-ignore
+    return new Keycloak('/dev-keycloak.json');
+  }
+}
+/*eslint-enable*/
+
+const kc = getKeycloak();
 
 kc.init({ promiseType: 'native', onLoad: 'login-required' }).then(
   (authenticated: boolean) => {
