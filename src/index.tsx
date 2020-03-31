@@ -3,9 +3,7 @@ import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Provider } from 'react-redux';
 import { applyMiddleware, createStore } from 'redux';
-import { routerMiddleware } from 'react-router-redux';
 import thunk from 'redux-thunk';
-import { createBrowserHistory } from 'history';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import * as Keycloak from 'keycloak-js';
@@ -13,8 +11,7 @@ import axios from 'axios';
 import App from './components/App/App';
 import rootReducer from './redux/reducers';
 
-const history = createBrowserHistory();
-const middleware = [thunk, routerMiddleware(history)];
+const middleware = [thunk];
 const store = createStore(rootReducer, applyMiddleware(...middleware));
 
 /*eslint-disable*/
