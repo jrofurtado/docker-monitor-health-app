@@ -21,10 +21,22 @@ const store = createStore(rootReducer, applyMiddleware(...middleware));
 function getKeycloak() {
   if (process.env.NODE_ENV === 'production') {
     // @ts-ignore
-    return new Keycloak('/keycloak.json');
+    return new Keycloak({
+      url: process.env.REACT_APP_KEYCLOAK_AUTH_SERVER_URL,
+      realm: process.env.REACT_APP_KEYCLOAK_REALM,
+      clientId: process.env.REACT_APP_KEYCLOAK_RESOURCE,
+    });
   } else {
     // @ts-ignore
-    return new Keycloak('/dev-keycloak.json');
+    let myDockerHost = '172.17.0.1';
+    if (process.env.REACT_APP_HOST != null) {
+      myDockerHost = process.env.REACT_APP_HOST;
+    }
+    return new Keycloak({
+      url: `http://${myDockerHost}/auth`,
+      realm: 'docker-monitor-health-server',
+      clientId: 'app',
+    });
   }
 }
 /*eslint-enable*/
