@@ -1,0 +1,63 @@
+{
+  "Typescript React Function Component": {
+    "prefix": "tsxfc",
+    "body": [
+      "import React from \"react\";",
+      "import styles from \"./$TM_FILENAME_BASE.module.css\";",
+      "// Components",
+      "// Context",
+      "// Hooks",
+      "// Pages",
+      "// Resources",
+      "",
+      "export default function $TM_FILENAME_BASE() {",
+      "",
+      "\treturn (",
+      "\t\t<div>",
+      "",
+      "\t\t</div>",
+      "\t);",
+      "};",
+      "",
+      ""
+    ],
+    "description": "Typescript React Function Component"
+  },
+  "Typescript React Function Component with Props": {
+    "prefix": "tsxfcp",
+    "body": [
+      "import React from \"react\";",
+      "import styles from \"./$TM_FILENAME_BASE.module.css\";",
+      "// Components",
+      "// Context",
+      "// Hooks",
+      "// Pages",
+      "// Resources",
+      "",
+      "interface Props {",
+      "};",
+      "",
+      "export default function $TM_FILENAME_BASE({}: Props) {",
+      "",
+      "\treturn (",
+      "\t\t<div>",
+      "",
+      "\t\t</div>",
+      "\t);",
+      "};",
+      "",
+      ""
+    ],
+    "description": "Typescript React Function Component with Props"
+  },
+  "React TS Style Class": {
+    "prefix": "class",
+    "body": ["className={styles$1}"],
+    "description": "React Module Style with cx"
+  },
+  "Import CX": {
+    "prefix": "impcx",
+    "body": ["import cx from \"classnames\""],
+    "description": "Import CX"
+  }
+}

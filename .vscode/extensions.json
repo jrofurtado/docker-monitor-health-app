@@ -1,0 +1,13 @@
+{
+  "recommendations": [
+    "dsznajder.es7-react-js-snippets",
+    "huuums.vscode-fast-folder-structure",
+    "mhutchie.git-graph",
+    "eamodio.gitlens",
+    "esbenp.prettier-vscode",
+    "2gua.rainbow-brackets",
+    "gruntfuggly.todo-tree",
+    "dbaeumer.vscode-eslint",
+    "bradlc.vscode-tailwindcss"
+  ]
+}
