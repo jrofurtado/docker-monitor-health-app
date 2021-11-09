@@ -1,5 +1,7 @@
 import cx from "classnames";
 
+import { Header } from "@/components/Header";
+
 interface Props {
   centerHor?: boolean;
   centerVer?: boolean;
@@ -12,10 +14,11 @@ export default function Page({
   children,
 }: Props): JSX.Element {
   return (
-    <div className="bg-blue-300">
+    <div className="bg-blue-300 relative">
+      <Header />
       <div
         className={cx(
-          "container w-screen mx-auto min-h-screen flex",
+          "container mx-auto flex min-h-screen w-screen",
           centerHor && "justify-center",
           centerVer && "items-center"
         )}
