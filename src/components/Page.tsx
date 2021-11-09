@@ -16,7 +16,6 @@ export default function Page({
       <div
         className={cx(
           "container w-screen mx-auto min-h-screen flex",
-
           centerHor && "justify-center",
           centerVer && "items-center"
         )}

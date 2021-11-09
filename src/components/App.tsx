@@ -9,11 +9,8 @@ function App() {
   // State
   const { token } = useAuthorizationContext();
 
-  const onLogin = async (username: string, password: string): Promise<void> => {
-    const login = await authentication.getAuth(username, password);
-    if (login) console.log("login!");
-    else console.log("no login!");
-  };
+  const onLogin = (username: string, password: string) =>
+    authentication.getAuth(username, password);
 
   if (token) return <div>Logged In!</div>;
 
