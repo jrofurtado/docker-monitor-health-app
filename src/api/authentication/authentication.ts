@@ -14,15 +14,15 @@ const getKeycloakUrl = (): string => {
 };
 
 export const authentication = {
-  getAuth: async (): Promise<void> => {
+  getAuth: async (username: string, password: string): Promise<boolean> => {
     const keycloakUrl = getKeycloakUrl();
 
     try {
       const response: AxiosResponse<Authorization.Token> = await axios.post(
         keycloakUrl,
         querystring.stringify({
-          username: "admin",
-          password: "password",
+          username,
+          password,
           grant_type: "password",
           client_id: process.env.REACT_APP_CLIENT_ID ?? "",
         }),
@@ -35,8 +35,10 @@ export const authentication = {
 
       console.log("response: ", response.data);
       setToken(response.data);
+      return true;
     } catch (error) {
       console.log("error: ", error);
+      return false;
     }
   },
 };

@@ -2,14 +2,6 @@
   "Typescript React Function Component": {
     "prefix": "tsxfc",
     "body": [
-      "import React from \"react\";",
-      "import styles from \"./$TM_FILENAME_BASE.module.css\";",
-      "// Components",
-      "// Context",
-      "// Hooks",
-      "// Pages",
-      "// Resources",
-      "",
       "export default function $TM_FILENAME_BASE() {",
       "",
       "\treturn (",
@@ -26,14 +18,6 @@
   "Typescript React Function Component with Props": {
     "prefix": "tsxfcp",
     "body": [
-      "import React from \"react\";",
-      "import styles from \"./$TM_FILENAME_BASE.module.css\";",
-      "// Components",
-      "// Context",
-      "// Hooks",
-      "// Pages",
-      "// Resources",
-      "",
       "interface Props {",
       "};",
       "",
