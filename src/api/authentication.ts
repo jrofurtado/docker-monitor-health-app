@@ -1,3 +1,5 @@
+import querystring from "querystring";
+
 import axios from "axios";
 
 const getKeycloakUrl = (hostname: string, realmName: string): string => {
@@ -12,17 +14,22 @@ export const getAuth = async (): Promise<string> => {
 
   console.log("keycloakUrl: ", keycloakUrl);
 
-  await axios
-    .post("/user", {
-      firstName: "Fred",
-      lastName: "Flintstone",
-    })
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+  const response = await axios.post(
+    keycloakUrl,
+    querystring.stringify({
+      username: "admin",
+      password: "password",
+      grant_type: "password",
+      client_id: process.env.REACT_APP_CLIENT_ID ?? "",
+    }),
+    {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    }
+  );
+
+  console.log("response: ", response);
 
   return keycloakUrl;
 };

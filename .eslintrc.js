@@ -30,7 +30,11 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: "module",
   },
-  ignorePatterns: ["src/react-app-env.d.ts", "generators/**/index.ts"],
+  ignorePatterns: [
+    "src/react-app-env.d.ts",
+    "generators/**/index.ts",
+    "index.tsx",
+  ],
   plugins: ["@typescript-eslint", "prettier", "import"],
   settings: {
     "import/resolver": {

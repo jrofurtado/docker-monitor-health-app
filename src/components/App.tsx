@@ -6,7 +6,9 @@ import { getAuth } from "@/api/authentication";
 
 function App() {
   // const test = authentication.getAuth();
-  getAuth();
+  getAuth()
+    .then(() => {})
+    .catch(() => {});
 
   return (
     <div className="App">
