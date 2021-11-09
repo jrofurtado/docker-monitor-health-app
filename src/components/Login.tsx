@@ -1,14 +1,13 @@
 import { useState } from "react";
 
+import { authentication } from "@/api/authentication/authentication";
 import Container from "@/components/Container";
 
-interface Props {
-  onLogin: (username: string, password: string) => void;
-}
-
-export default function Login({ onLogin }: Props): JSX.Element {
+export default function Login(): JSX.Element {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+
+  const onLogin = () => authentication.getAuth(username, password);
 
   return (
     <Container centerHor>
@@ -52,7 +51,7 @@ export default function Login({ onLogin }: Props): JSX.Element {
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 type="button"
-                onClick={() => onLogin(username, password)}
+                onClick={onLogin}
               >
                 Sign In
               </button>
