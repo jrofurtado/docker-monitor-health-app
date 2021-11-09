@@ -1,5 +1,4 @@
-// import React from "react";
-
+import List from "@/components/Applications/List";
 import Login from "@/components/Login";
 import Page from "@/components/Page";
 import { useAuthorizationContext } from "@/context/AuthorizationContext";
@@ -8,7 +7,12 @@ function App() {
   // State
   const { token } = useAuthorizationContext();
 
-  if (token) return <div>Logged In!</div>;
+  if (token)
+    return (
+      <Page centerHor centerVer>
+        <List />
+      </Page>
+    );
 
   return (
     <Page centerHor centerVer>

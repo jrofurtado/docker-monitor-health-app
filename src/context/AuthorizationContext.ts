@@ -1,7 +1,7 @@
 import create from "zustand";
 import { persist } from "zustand/middleware";
 
-import { Authorization } from "@/api/authentication/types";
+import { Authorization } from "@/requests/authentication/types";
 
 export type AuthorizationState = {
   token: Authorization.Token | undefined;

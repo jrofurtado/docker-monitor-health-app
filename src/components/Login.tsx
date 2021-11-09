@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import { authentication } from "@/api/authentication/authentication";
 import Container from "@/components/Container";
+import { authentication } from "@/requests/authentication/authentication";
 
 export default function Login(): JSX.Element {
   const [username, setUsername] = useState<string>("");
