@@ -1,13 +1,11 @@
 // import React from "react";
 
-import { getAuth } from "@/api/authentication";
-
-// import authentication from "@/api/authentication";
+import { authentication } from "@/api/authentication/authentication";
 
 function App() {
-  // const test = authentication.getAuth();
-  getAuth()
-    .then(() => {})
+  authentication
+    .getAuth()
+    .then(() => console.log("done"))
     .catch(() => {});
 
   return (

@@ -43,6 +43,7 @@ module.exports = {
   },
   rules: {
     "react/jsx-filename-extension": [0],
+    "@typescript-eslint/no-namespace": "off",
     "prettier/prettier": ["error"],
     "import/prefer-default-export": "off",
     "import/no-extraneous-dependencies": "off",
@@ -87,7 +88,5 @@ module.exports = {
         ],
       },
     ],
-    // "react/jsx-uses-react": "off",
-    // "react/react-in-jsx-scope": "off",
   },
 };

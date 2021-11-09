@@ -3,7 +3,8 @@
     "baseUrl": "./src",
     "paths": {
       "@/components/*": ["components/*"],
-      "@/api/*": ["api/*"]
+      "@/api/*": ["api/*"],
+      "@/context/*": ["context/*"]
     }
   },
   "include": ["./**/*.ts", "./**/*.tsx"]
