@@ -10,7 +10,7 @@ module.exports = {
     "plugin:import/errors", // temp
     "plugin:import/warnings", // temp
     "plugin:import/typescript", // temp
-    "plugin:react-hooks/recommended",
+    // "plugin:react-hooks/recommended", // Not compatible with eslint 8 atm
     "prettier",
   ],
   overrides: [

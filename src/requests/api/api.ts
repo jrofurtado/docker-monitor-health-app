@@ -1,4 +1,5 @@
 import { AxiosResponse } from "axios";
+import moment from "moment";
 
 import {
   ApplicationData,
@@ -47,14 +48,16 @@ export const api = {
   getServiceHistory: async (
     app: string,
     server: string,
-    from: Date,
-    to: Date
+    fromDate: Date,
+    toDate: Date
   ): Promise<ServiceInterface[] | undefined> => {
     // Fetch
     try {
       const response: AxiosResponse<Array<ServiceInterface>> =
         await serviceAPI.get(
-          `/api/message/readInterval?appName=${app}&serverName=${server}&from=0&to=2629746`
+          `/message/readInterval?appName=${app}&serverName=${server}&from=${moment(
+            fromDate
+          ).valueOf()}&to=${moment(toDate).valueOf()}`
         );
       return response.data;
     } catch (error) {
