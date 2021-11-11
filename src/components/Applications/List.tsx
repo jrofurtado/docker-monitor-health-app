@@ -10,6 +10,7 @@ export default function List() {
   const [applications, setApplications] = useState<ApplicationInterface[]>([]);
 
   useEffect(() => {
+    console.log();
     api
       .getApplicationList()
       .then((response) => response && setApplications(response))

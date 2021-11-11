@@ -4,7 +4,9 @@ import { useAuthorizationContext } from "@/context/AuthorizationContext";
 import ROUTES from "@/resources/ROUTES";
 
 function RequireAuth({ children }: { children: JSX.Element }) {
+  // Context
   const { token } = useAuthorizationContext();
+  // Router
   const location = useLocation();
 
   if (!token) {

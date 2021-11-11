@@ -13,8 +13,11 @@ export default function Login(): JSX.Element {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
+  // TODO: switch to swr
   const onLogin = async () => {
-    await authentication.getAuth(username, password);
+    await authentication.getAuth(username, password, () =>
+      navigate(ROUTES.LOGIN)
+    );
     navigate(ROUTES.APPLICATIONS);
   };
 

@@ -35,44 +35,131 @@ const getKeycloakAuthUrl = (): string => {
   return `/realms/${REALM_NAME}/protocol/openid-connect/token`;
 };
 
+const fetchAuth = async (
+  username: string,
+  password: string
+): Promise<Token | undefined> => {
+  const keycloakUrl = getKeycloakAuthUrl();
+
+  try {
+    const response: AxiosResponse<Authorization.Token> = await keycloakAPI.post(
+      keycloakUrl,
+      querystring.stringify({
+        username,
+        password,
+        grant_type: "password",
+        client_id: CLIENT_ID,
+      })
+    );
+
+    console.log("response: ", response.data);
+
+    const token: Token = {
+      ...response.data,
+      expires_date: moment().unix() + response.data.expires_in,
+      refresh_expires_date: moment().unix() + response.data.expires_in,
+    };
+    return token;
+  } catch (error) {
+    console.log("error at fetchAuth: ", error);
+    return;
+  }
+};
+
+const refreshAuth = async (token: Token): Promise<Token | undefined> => {
+  const keycloakUrl = getKeycloakAuthUrl();
+
+  try {
+    const response: AxiosResponse<Authorization.Token> = await keycloakAPI.post(
+      keycloakUrl,
+      querystring.stringify({
+        refresh_token: token.refresh_token,
+        grant_type: "refresh_token",
+        client_id: CLIENT_ID,
+      })
+    );
+
+    console.log("refresh: ", response.data);
+
+    const newToken: Token = {
+      ...response.data,
+      expires_date: moment().unix() + response.data.expires_in,
+      refresh_expires_date: moment().unix() + response.data.expires_in,
+    };
+    return newToken;
+  } catch (error) {
+    console.log("error at refreshAuth: ", error);
+    return;
+  }
+};
+
 export const authentication = {
-  getAuth: async (username: string, password: string): Promise<boolean> => {
-    const keycloakUrl = getKeycloakAuthUrl();
-
-    try {
-      const response: AxiosResponse<Authorization.Token> =
-        await keycloakAPI.post(
-          keycloakUrl,
-          querystring.stringify({
-            username,
-            password,
-            grant_type: "password",
-            client_id: CLIENT_ID,
-          })
-        );
-
-      console.log("response: ", response.data);
-      authentication.setAuth(response.data);
-
-      const token: Token = {
-        ...response.data,
-        expires_date: moment().unix() + response.data.expires_in,
-        refresh_expires_date: moment().unix() + response.data.expires_in,
-      };
-      setToken(token);
+  getAuth: async (
+    username: string,
+    password: string,
+    requestCredentials: () => void
+  ): Promise<boolean> => {
+    const token: Token | undefined = await fetchAuth(username, password);
+    if (token) {
+      // setToken(token);
+      authentication.setAuth(token, requestCredentials);
       return true;
-    } catch (error) {
-      console.log("error: ", error);
-      return false;
     }
+    return false;
   },
-  setAuth: (token: Authorization.Token) => {
-    serviceAPI.interceptors.request.use(function (config) {
+  setAuth: (token: Token, requestCredentials: () => void) => {
+    setToken(token);
+
+    serviceAPI.interceptors.request.use(async (config) => {
+      const currentToken = useAuthorizationContext.getState().token;
+      const currentDate: number = moment().unix();
+
       config.headers = {
         ...config.headers,
-        Authorization: `Bearer ${token.access_token}`,
+        Authorization: `Bearer ${currentToken?.access_token ?? ""}`,
       };
+
+      if (!currentToken) {
+        // redirect to login
+        console.log("!!! No token");
+        requestCredentials();
+        return;
+      }
+
+      // If refresh expired
+      if (currentDate > currentToken.refresh_expires_date) {
+        // redirect to login
+        console.log("!!! Refresh token expired");
+        requestCredentials();
+        return;
+      }
+
+      // If time for refresh
+      if (currentDate > currentToken.expires_date) {
+        // use refresh token
+        console.log("!!! New token");
+        const newToken = await refreshAuth(currentToken);
+        console.log("!!! Got new token: ", !!newToken);
+        if (newToken) {
+          setToken(newToken);
+          config.headers = {
+            ...config.headers,
+            Authorization: `Bearer ${newToken.access_token}`,
+          };
+          return config;
+        }
+      }
       return config;
+
+      // Else
+      // if (currentToken?.expires_date)
+      //   if (currentToken?.access_token) {
+      //     config.headers = {
+      //       ...config.headers,
+      //       Authorization: `Bearer ${currentToken.access_token}`,
+      //     };
+      //   }
+      // return config;
     });
   },
 };
