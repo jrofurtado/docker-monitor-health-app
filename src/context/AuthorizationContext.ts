@@ -1,11 +1,11 @@
 import create from "zustand";
 import { persist } from "zustand/middleware";
 
-import { Authorization } from "@/requests/authentication/types";
+import { Token } from "@/resources/interfaces";
 
 export type AuthorizationState = {
-  token: Authorization.Token | undefined;
-  setToken: (token: Authorization.Token) => void;
+  token: Token | undefined;
+  setToken: (token: Token) => void;
 };
 
 export const useAuthorizationContext = create(

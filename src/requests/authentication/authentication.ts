@@ -1,9 +1,11 @@
 import querystring from "querystring";
 
 import axios, { AxiosResponse } from "axios";
+import moment from "moment";
 
 import { useAuthorizationContext } from "@/context/AuthorizationContext";
 import { Authorization } from "@/requests/authentication/types";
+import { Token } from "@/resources/interfaces";
 
 /**
  * ENV variables
@@ -51,7 +53,13 @@ export const authentication = {
 
       console.log("response: ", response.data);
       authentication.setAuth(response.data);
-      setToken(response.data);
+
+      const token: Token = {
+        ...response.data,
+        expires_date: moment().unix() + response.data.expires_in,
+        refresh_expires_date: moment().unix() + response.data.expires_in,
+      };
+      setToken(token);
       return true;
     } catch (error) {
       console.log("error: ", error);
