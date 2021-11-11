@@ -1,8 +1,10 @@
 import cx from "classnames";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 import go_arrow from "@/media/go_arrow.svg";
 import { ApplicationInterface } from "@/requests/api/types";
+import ROUTES from "@/resources/ROUTES";
 
 interface Props {
   item: ApplicationInterface;
@@ -39,9 +41,11 @@ export function Application({ item }: Props): JSX.Element {
                   {server.status.healthy ? "Healthy" : "Unhealthy"}
                 </td>
                 <td className="w-5 h-5">
-                  <button className="w-5 h-5">
-                    <img src={go_arrow} alt="" />
-                  </button>
+                  <Link to={ROUTES.SERVER(item.name, server.name)}>
+                    <div className="w-5 h-5">
+                      <img src={go_arrow} alt="" />
+                    </div>
+                  </Link>
                 </td>
               </tr>
             ))}

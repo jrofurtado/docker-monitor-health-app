@@ -5,7 +5,8 @@
       "@/components/*": ["components/*"],
       "@/requests/*": ["requests/*"],
       "@/context/*": ["context/*"],
-      "@/media/*": ["media/*"]
+      "@/media/*": ["media/*"],
+      "@/resources/*": ["resources/*"]
     }
   },
   "include": ["./**/*.ts", "./**/*.tsx"]

@@ -24,11 +24,15 @@ export interface ServerInterface {
 }
 
 export interface ServiceInterface {
-  serverName: string;
   appName: string;
+  serverName: string;
   created: string;
   expires: string;
   containers: Array<ContainerInterface>;
+  info: {
+    Containers: number;
+    ContainersRunning: number;
+  };
 }
 
 export interface ContainerInterface {

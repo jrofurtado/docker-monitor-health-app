@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 
 import {
   ApplicationData,
@@ -11,10 +11,8 @@ import { serviceAPI } from "@/requests/authentication/authentication";
 export const api = {
   getApplicationList: async (): Promise<ApplicationInterface[] | void> => {
     try {
-      console.log("fetching ...");
       const response: AxiosResponse<Array<ApplicationData>> =
         await serviceAPI.get("/status/readLast");
-      console.log("response: ", response);
       // Create an Array with ApplicationInterface Objects
       const apps: Array<ApplicationInterface> = [];
       for (const [key, value] of Object.entries(response.data)) {
@@ -40,7 +38,6 @@ export const api = {
           servers: servers,
         });
       }
-      console.log("apps: ", apps);
       return apps;
     } catch (error) {
       console.log("error: ", error);
@@ -48,14 +45,16 @@ export const api = {
     }
   },
   getServiceHistory: async (
-    appName: string,
-    serverName: string
+    app: string,
+    server: string,
+    from: Date,
+    to: Date
   ): Promise<ServiceInterface[] | undefined> => {
     // Fetch
     try {
       const response: AxiosResponse<Array<ServiceInterface>> =
         await serviceAPI.get(
-          `/api/message/readInterval?appName=${appName}&serverName=${serverName}&from=0&to=2629746`
+          `/api/message/readInterval?appName=${app}&serverName=${server}&from=0&to=2629746`
         );
       return response.data;
     } catch (error) {
