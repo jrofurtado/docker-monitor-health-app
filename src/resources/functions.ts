@@ -5,6 +5,5 @@ export const unixMiliToSecs = (time: number): number => {
 };
 
 export const unixMiliToDateString = (time: number): string => {
-  const timeSecs: number = unixMiliToSecs(time);
   return moment(time).format("DD/MM/YYYY @ H:mm:ss");
 };

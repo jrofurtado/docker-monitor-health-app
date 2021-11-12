@@ -119,7 +119,12 @@ export const authentication = {
         // redirect to login
         console.log("!!! No token");
         requestCredentials();
-        return;
+        return {
+          ...config,
+          cancelToken: new axios.CancelToken((cancel) =>
+            cancel("No authentication")
+          ),
+        };
       }
 
       // If refresh expired
@@ -127,7 +132,12 @@ export const authentication = {
         // redirect to login
         console.log("!!! Refresh token expired");
         requestCredentials();
-        return;
+        return {
+          ...config,
+          cancelToken: new axios.CancelToken((cancel) =>
+            cancel("No authentication")
+          ),
+        };
       }
 
       // If time for refresh
