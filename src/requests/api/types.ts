@@ -27,6 +27,7 @@ export interface ServiceInterface {
   appName: string;
   serverName: string;
   created: string;
+  createdTimestamp: number;
   expires: string;
   containers: Array<ContainerInterface>;
   info: {

@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 
-import { Application } from "@/components/Applications/Application";
+import { Application } from "@/components/applications/Application";
 import Page from "@/components/Page";
 import RequireAuth from "@/components/RequireAuth";
 import { api } from "@/requests/api/api";
 import { ApplicationInterface } from "@/requests/api/types";
 
-export default function List() {
+export default function ApplicationList(): JSX.Element {
   const [applications, setApplications] = useState<ApplicationInterface[]>([]);
 
+  // TODO: Switch to swr
   useEffect(() => {
-    console.log();
     api
       .getApplicationList()
       .then((response) => response && setApplications(response))

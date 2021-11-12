@@ -3,7 +3,11 @@ import { Navigate, useLocation } from "react-router-dom";
 import { useAuthorizationContext } from "@/context/AuthorizationContext";
 import ROUTES from "@/resources/ROUTES";
 
-function RequireAuth({ children }: { children: JSX.Element }) {
+interface Props {
+  children: JSX.Element;
+}
+
+function RequireAuth({ children }: Props): JSX.Element {
   // Context
   const { token } = useAuthorizationContext();
   // Router

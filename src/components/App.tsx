@@ -1,11 +1,11 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import List from "@/components/Applications/List";
-import Server from "@/components/Applications/Server";
+import List from "@/components/applications/ApplicationList";
+import Server from "@/components/applications/Server";
 import Login from "@/components/Login";
 import ROUTES from "@/resources/ROUTES";
 
-function App() {
+function App(): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>

@@ -50,8 +50,6 @@ const fetchAuth = async (
       })
     );
 
-    console.log("response: ", response.data);
-
     const token: Token = {
       ...response.data,
       expires_date: moment().unix() + response.data.expires_in,
@@ -76,8 +74,6 @@ const refreshAuth = async (token: Token): Promise<Token | undefined> => {
         client_id: CLIENT_ID,
       })
     );
-
-    console.log("refresh: ", response.data);
 
     const currentDate: number = moment().unix();
 
@@ -107,16 +103,12 @@ export const authentication = {
     }
     return false;
   },
-  setAuth: (token: Token, requestCredentials: () => void) => {
+  setAuth: (token: Token, requestCredentials: () => void): void => {
     setToken(token);
 
     serviceAPI.interceptors.request.use(async (config) => {
       const currentToken = useAuthorizationContext.getState().token;
       const currentDate: number = moment().unix();
-
-      console.log("currentDate: ", currentDate);
-      console.log("access_token: ", currentToken?.expires_date);
-      console.log("expires_token: ", currentToken?.refresh_expires_date);
 
       config.headers = {
         ...config.headers,

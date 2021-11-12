@@ -1,7 +1,6 @@
 import { AxiosResponse } from "axios";
 import moment from "moment";
 
-import { useAuthorizationContext } from "@/context/AuthorizationContext";
 import {
   ApplicationData,
   ApplicationInterface,
@@ -13,7 +12,6 @@ import { serviceAPI } from "@/requests/authentication/authentication";
 export const api = {
   getApplicationList: async (): Promise<ApplicationInterface[] | void> => {
     try {
-      console.log("query here", useAuthorizationContext.getState().token);
       const response: AxiosResponse<Array<ApplicationData>> =
         await serviceAPI.get("/status/readLast");
       // Create an Array with ApplicationInterface Objects

@@ -10,7 +10,7 @@ export type AuthorizationState = {
 
 export const useAuthorizationContext = create(
   persist(
-    (set, get) => {
+    (set) => {
       const initialState: AuthorizationState = {
         token: undefined,
         setToken: (token) => set({ token }),

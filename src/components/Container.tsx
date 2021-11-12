@@ -6,7 +6,11 @@ interface Props {
   children: React.ReactNode;
 }
 
-export default function Container({ centerHor, centerVer, children }: Props) {
+export default function Container({
+  centerHor,
+  centerVer,
+  children,
+}: Props): JSX.Element {
   return (
     <div
       className={cx(
