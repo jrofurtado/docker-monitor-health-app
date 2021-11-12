@@ -19,13 +19,11 @@ export const CLIENT_ID: string = process.env.REACT_APP_CLIENT_ID ?? "";
  */
 export const keycloakAPI = axios.create({
   baseURL: `http://${HOSTNAME}/auth`,
-  timeout: 1000,
   headers: { "Content-Type": "application/x-www-form-urlencoded" },
 });
 
 export const serviceAPI = axios.create({
   baseURL: `http://${HOSTNAME}/api`,
-  timeout: 1000,
   headers: { Authorization: "" },
 });
 
@@ -57,7 +55,7 @@ const fetchAuth = async (
     const token: Token = {
       ...response.data,
       expires_date: moment().unix() + response.data.expires_in,
-      refresh_expires_date: moment().unix() + response.data.expires_in,
+      refresh_expires_date: moment().unix() + response.data.refresh_expires_in,
     };
     return token;
   } catch (error) {
@@ -81,10 +79,12 @@ const refreshAuth = async (token: Token): Promise<Token | undefined> => {
 
     console.log("refresh: ", response.data);
 
+    const currentDate: number = moment().unix();
+
     const newToken: Token = {
       ...response.data,
-      expires_date: moment().unix() + response.data.expires_in,
-      refresh_expires_date: moment().unix() + response.data.expires_in,
+      expires_date: currentDate + response.data.expires_in,
+      refresh_expires_date: currentDate + response.data.refresh_expires_in,
     };
     return newToken;
   } catch (error) {
@@ -113,6 +113,10 @@ export const authentication = {
     serviceAPI.interceptors.request.use(async (config) => {
       const currentToken = useAuthorizationContext.getState().token;
       const currentDate: number = moment().unix();
+
+      console.log("currentDate: ", currentDate);
+      console.log("access_token: ", currentToken?.expires_date);
+      console.log("expires_token: ", currentToken?.refresh_expires_date);
 
       config.headers = {
         ...config.headers,
