@@ -10,9 +10,8 @@ import Page from "@/components/Page";
 import RequireAuth from "@/components/RequireAuth";
 import { api } from "@/requests/api/api";
 import {
-  downloadAsJSON,
-  unixMiliToDateString,
-  unixMiliToSecs,
+  downloadStatisticsAsJSON,
+  uptimeToReadable,
 } from "@/resources/functions";
 import { ServerUptime } from "@/resources/interfaces";
 import { getServerUptime } from "@/resources/statistics";
@@ -30,7 +29,7 @@ export default function Server(): JSX.Element {
     moment().endOf("month").endOf("day").toDate()
   );
 
-  const [statistics, setStatistics] = useState<ServerUptime | undefined>(
+  const [statistics, setStatistics] = useState<ServerUptime[] | undefined>(
     undefined
   );
 
@@ -43,7 +42,7 @@ export default function Server(): JSX.Element {
         .getServiceHistory(params.app, params.server, fromDate, toDate)
         .then((res) => {
           console.log("res: ", res);
-          if (res) setStatistics(getServerUptime(res));
+          if (res) setStatistics(getServerUptime(res, fromDate, toDate));
         })
         .catch(() => {});
     }
@@ -64,7 +63,6 @@ export default function Server(): JSX.Element {
                     moment(date).startOf("month").startOf("day").toDate()
                   )
                 }
-                // dateFormat="dd/MM/yyyy"
                 dateFormat="MMM yyyy"
                 showMonthYearPicker
               />
@@ -77,7 +75,6 @@ export default function Server(): JSX.Element {
                   !Array.isArray(date) &&
                   setToDate(moment(date).endOf("month").endOf("day").toDate())
                 }
-                // dateFormat="dd/MM/yyyy"
                 dateFormat="MMM yyyy"
                 showMonthYearPicker
               />
@@ -85,7 +82,7 @@ export default function Server(): JSX.Element {
           </div>
           {statistics ? (
             <div>
-              <ul>
+              {/* <ul>
                 <li>
                   <code>
                     Firt Report: {unixMiliToDateString(statistics.startTime)}
@@ -115,16 +112,18 @@ export default function Server(): JSX.Element {
                     {(statistics.uptime / statistics.elapsed) * 100}%
                   </code>
                 </li>
-              </ul>
+              </ul> */}
               <div>
                 <button
-                  onClick={() => downloadAsJSON(statistics)}
+                  onClick={() => downloadStatisticsAsJSON(statistics)}
                   className="rounded-md bg-indigo-500 p-3 text-white"
                 >
                   Download JSON
                 </button>
                 <div className="rounded-md bg-indigo-500 p-3 text-white">
-                  <CsvDownload data={statistics} />
+                  <CsvDownload
+                    data={statistics.map((stats) => uptimeToReadable(stats))}
+                  />
                 </div>
               </div>
             </div>

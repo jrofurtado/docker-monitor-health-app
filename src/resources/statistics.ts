@@ -1,3 +1,5 @@
+import moment from "moment";
+
 import { ServiceInterface } from "@/requests/api/types";
 import { ServerRuntime, ServerUptime } from "@/resources/interfaces";
 
@@ -56,15 +58,54 @@ const getUptime = (service: ServiceInterface[]): number => {
   return result.uptime;
 };
 
-export const getServerUptime = (service: ServiceInterface[]): ServerUptime => {
-  const { startTime, endTime, elapsed } = getStartEndTime(service);
-  const result: ServerUptime = {
-    uptime: getUptime(service),
-    startTime,
-    endTime,
-    elapsed,
-    reportCount: service.length,
-  };
-  console.log("result: ", result);
-  return result;
+export const getServerUptime = (
+  service: ServiceInterface[],
+  fromDate: Date,
+  toDate: Date
+): ServerUptime[] => {
+  // Get months from array
+  const interim = moment(fromDate).clone();
+  const timeValues = [];
+
+  while (
+    moment(toDate) > interim ||
+    interim.format("M") === moment(toDate).format("M")
+  ) {
+    timeValues.push(interim.valueOf());
+    interim.add(1, "month");
+  }
+
+  // Get stats for each month
+  const serverUptimes: ServerUptime[] = timeValues.map((month) => {
+    const filteredServicesByMonth = service.filter((serv) =>
+      moment(serv.created).isSame(moment(month), "month")
+    );
+    const { startTime, endTime, elapsed } = getStartEndTime(
+      filteredServicesByMonth
+    );
+    const result: ServerUptime = {
+      uptime: getUptime(service),
+      month: moment(month).format("M"),
+      startTime,
+      endTime,
+      elapsed,
+      reportCount: service.length,
+    };
+    return result;
+  });
+
+  console.log("serverUptimes: ", serverUptimes);
+
+  return serverUptimes;
+
+  // const { startTime, endTime, elapsed } = getStartEndTime(service);
+  // const result: ServerUptime = {
+  //   uptime: getUptime(service),
+  //   startTime,
+  //   endTime,
+  //   elapsed,
+  //   reportCount: service.length,
+  // };
+  // console.log("result: ", result);
+  // return result;
 };

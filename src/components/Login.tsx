@@ -1,12 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router";
 
 import Container from "@/components/Container";
 import Page from "@/components/Page";
 import { authentication } from "@/requests/authentication/authentication";
-import servicesMock from "@/resources/mocks/serviceHistory.json";
 import ROUTES from "@/resources/ROUTES";
-import { getServerUptime } from "@/resources/statistics";
 
 export default function Login(): JSX.Element {
   // Router
@@ -22,14 +20,6 @@ export default function Login(): JSX.Element {
     );
     navigate(ROUTES.APPLICATIONS);
   };
-
-  /**
-   * TESTING
-   */
-
-  useEffect(() => {
-    const test = getServerUptime(servicesMock);
-  }, []);
 
   return (
     <Page centerHor centerVer>

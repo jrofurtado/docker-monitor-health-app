@@ -1,6 +1,6 @@
 import moment from "moment";
 
-import { ServerUptime } from "@/resources/interfaces";
+import { ReadableServerUptime, ServerUptime } from "@/resources/interfaces";
 
 export const unixMiliToSecs = (time: number): number => {
   return Math.floor(time / 1000);
@@ -10,7 +10,29 @@ export const unixMiliToDateString = (time: number): string => {
   return moment(time).format("DD/MM/YYYY @ H:mm:ss");
 };
 
-export const downloadAsJSON = (statistics: ServerUptime) => {
+export const uptimeToReadable = (
+  uptime: ServerUptime
+): ReadableServerUptime => {
+  const readable: ReadableServerUptime = {
+    month: uptime.month,
+    uptime: (uptime.uptime / uptime.elapsed) * 100,
+    elapsed: uptime.elapsed
+      ? moment.duration(uptime.elapsed, "milliseconds").humanize()
+      : "0",
+    elapsed_miliseconds: uptime.elapsed,
+    startTime: uptime.startTime
+      ? moment(uptime.startTime).format("DD/MM/YYYY @ H:mm:ss")
+      : "",
+    startTime_unix: uptime.startTime,
+    endTime: uptime.endTime
+      ? moment(uptime.endTime).format("DD/MM/YYYY @ H:mm:ss")
+      : "",
+    endTime_unix: uptime.endTime,
+  };
+  return readable;
+};
+
+export const downloadStatisticsAsJSON = (statistics: ServerUptime[]) => {
   const filename = "export.json";
   const contentType = "application/json;charset=utf-8;";
   const a = document.createElement("a");
@@ -19,7 +41,11 @@ export const downloadAsJSON = (statistics: ServerUptime) => {
     "data:" +
     contentType +
     "," +
-    encodeURIComponent(JSON.stringify(statistics));
+    encodeURIComponent(
+      JSON.stringify({
+        statistics: statistics.map((stats) => uptimeToReadable(stats)),
+      })
+    );
   a.target = "_blank";
   document.body.appendChild(a);
   a.click();
