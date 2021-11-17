@@ -7308,6 +7308,11 @@ json-stable-stringify-without-jsonify@^1.0.1:
   resolved "https://registry.yarnpkg.com/json-stable-stringify-without-jsonify/-/json-stable-stringify-without-jsonify-1.0.1.tgz#9db7b59496ad3f3cfef30a75142d2d930ad72651"
   integrity sha1-nbe1lJatPzz+8wp1FC0tkwrXJlE=
 
+json-to-csv-export@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/json-to-csv-export/-/json-to-csv-export-1.0.2.tgz#79e3d9b00a932eee0a2455a0a974cfd0c25b5e0c"
+  integrity sha512-8yim1kx6h6KoAGDanN65KnFb2rTB60QBUbVqq1302AVSbj9bvzL7f7druqzSNEA5hMMGsqI5G5WcU0tnKWks1Q==
+
 json3@^3.3.3:
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/json3/-/json3-3.3.3.tgz#7fc10e375fc5ae42c4705a5cc0aa6f62be305b81"
@@ -9768,6 +9773,13 @@ react-is@^17.0.1:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
+
+react-json-to-csv@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/react-json-to-csv/-/react-json-to-csv-1.0.4.tgz#42b5fcc44642ef0f1b91f01e528d4fa8745dc3b2"
+  integrity sha512-WiLLNrJ3ruyLxPN6HS5kX5EOv5I1Wj3rB2/gS3uzz3gKHTvqUMaTEVIt2lLpvLoHHWRsRy0p629qiTsTN8hemw==
+  dependencies:
+    json-to-csv-export "^1.0.2"
 
 react-onclickoutside@^6.12.0:
   version "6.12.0"
