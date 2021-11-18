@@ -3,10 +3,12 @@ import querystring from "querystring";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import moment from "moment";
 import { VariantType } from "notistack";
+import { NavigateFunction } from "react-router";
 
 import { useAuthorizationContext } from "@/context/AuthorizationContext";
 import { Authorization, TokenResponse } from "@/requests/authentication/types";
 import { Token } from "@/resources/interfaces";
+import ROUTES from "@/resources/ROUTES";
 
 /**
  * ENV variables
@@ -15,20 +17,70 @@ export const HOSTNAME: string = process.env.REACT_APP_HOSTNAME ?? "";
 export const REALM_NAME: string = process.env.REACT_APP_REALM_NAME ?? "";
 export const CLIENT_ID: string = process.env.REACT_APP_CLIENT_ID ?? "";
 
+// Context
+const {
+  token: contextToken,
+  setToken,
+  removeToken,
+} = useAuthorizationContext.getState();
+
 /**
  * API instances
  */
-export const keycloakAPI = axios.create({
-  baseURL: `http://${HOSTNAME}/auth`,
-  headers: { "Content-Type": "application/x-www-form-urlencoded" },
-});
+export const keycloakAPI = {
+  axios: axios.create({
+    baseURL: `http://${HOSTNAME}/auth`,
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+  }),
+  setInterceptors: function (
+    callback: (message: string, type: VariantType) => void
+  ): void {
+    this.axios.interceptors.response.use(
+      function (response) {
+        return response;
+      },
+      function (error: AxiosError) {
+        if (401 === error.response?.status) {
+          // handle error: inform user, go to login, etc
+          callback("Username and password don't match", "error");
+        } else {
+          callback("An error occurred", "error");
+          return Promise.reject(error);
+        }
+      }
+    );
+  },
+};
 
-export const serviceAPI = axios.create({
-  baseURL: `http://${HOSTNAME}/api`,
-  headers: { Authorization: "" },
-});
-
-const { setToken } = useAuthorizationContext.getState();
+export const serviceAPI = {
+  axios: axios.create({
+    baseURL: `http://${HOSTNAME}/api`,
+    headers: {
+      Authorization: contextToken ? `Bearer ${contextToken.access_token}` : "",
+    },
+  }),
+  setInterceptors: function (
+    navigate: NavigateFunction,
+    callback: (message: string, type: VariantType) => void
+  ): void {
+    this.axios.interceptors.response.use(
+      function (response) {
+        return response;
+      },
+      function (error: AxiosError) {
+        console.log("error.response: ", error.response);
+        if (error.response && [401, 403].includes(error.response?.status)) {
+          // handle error: inform user, go to login, etc
+          callback("Authorization expired", "error");
+          navigate(ROUTES.LOGIN);
+        } else {
+          callback("An error occurred", "error");
+          return Promise.reject(error);
+        }
+      }
+    );
+  },
+};
 
 const getKeycloakAuthUrl = (): string => {
   return `/realms/${REALM_NAME}/protocol/openid-connect/token`;
@@ -41,15 +93,16 @@ const fetchAuth = async (
   const keycloakUrl = getKeycloakAuthUrl();
 
   try {
-    const response: AxiosResponse<Authorization.Token> = await keycloakAPI.post(
-      keycloakUrl,
-      querystring.stringify({
-        username,
-        password,
-        grant_type: "password",
-        client_id: CLIENT_ID,
-      })
-    );
+    const response: AxiosResponse<Authorization.Token> =
+      await keycloakAPI.axios.post(
+        keycloakUrl,
+        querystring.stringify({
+          username,
+          password,
+          grant_type: "password",
+          client_id: CLIENT_ID,
+        })
+      );
 
     const token: Token = {
       ...response.data,
@@ -67,14 +120,15 @@ const refreshAuth = async (token: Token): Promise<Token | undefined> => {
   const keycloakUrl = getKeycloakAuthUrl();
 
   try {
-    const response: AxiosResponse<Authorization.Token> = await keycloakAPI.post(
-      keycloakUrl,
-      querystring.stringify({
-        refresh_token: token.refresh_token,
-        grant_type: "refresh_token",
-        client_id: CLIENT_ID,
-      })
-    );
+    const response: AxiosResponse<Authorization.Token> =
+      await keycloakAPI.axios.post(
+        keycloakUrl,
+        querystring.stringify({
+          refresh_token: token.refresh_token,
+          grant_type: "refresh_token",
+          client_id: CLIENT_ID,
+        })
+      );
 
     const currentDate: number = moment().unix();
 
@@ -115,7 +169,7 @@ export const authentication = {
   setAuth: (token: Token, requestCredentials: () => void): void => {
     setToken(token);
 
-    serviceAPI.interceptors.request.use(async (config) => {
+    serviceAPI.axios.interceptors.request.use(async (config) => {
       const currentToken = useAuthorizationContext.getState().token;
       const currentDate: number = moment().unix();
 
@@ -177,37 +231,25 @@ export const authentication = {
       // return config;
     });
   },
-  setErrorHandling: (
-    callback: (message: string, type: VariantType) => void
-  ): void => {
-    keycloakAPI.interceptors.response.use(
-      function (response) {
-        return response;
-      },
-      function (error: AxiosError) {
-        if (401 === error.response?.status) {
-          // handle error: inform user, go to login, etc
-          callback("Username and password don't match", "error");
-        } else {
-          callback("An error occurred", "error");
-          return Promise.reject(error);
-        }
-      }
-    );
-
-    serviceAPI.interceptors.response.use(
-      function (response) {
-        return response;
-      },
-      function (error: AxiosError) {
-        if (401 === error.response?.status) {
-          // handle error: inform user, go to login, etc
-          callback("Authorization expired", "error");
-        } else {
-          callback("An error occurred", "error");
-          return Promise.reject(error);
-        }
-      }
-    );
+  removeAuth: (): void => {
+    removeToken();
   },
+  // setErrorHandling: (
+  //   callback: (message: string, type: VariantType) => void
+  // ): void => {
+  //   keycloakAPI.interceptors.response.use(
+  //     function (response) {
+  //       return response;
+  //     },
+  //     function (error: AxiosError) {
+  //       if (401 === error.response?.status) {
+  //         // handle error: inform user, go to login, etc
+  //         callback("Username and password don't match", "error");
+  //       } else {
+  //         callback("An error occurred", "error");
+  //         return Promise.reject(error);
+  //       }
+  //     }
+  //   );
+  // },
 };

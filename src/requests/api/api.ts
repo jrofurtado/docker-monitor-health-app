@@ -13,7 +13,7 @@ export const api = {
   getApplicationList: async (): Promise<ApplicationInterface[] | void> => {
     try {
       const response: AxiosResponse<Array<ApplicationData>> =
-        await serviceAPI.get("/status/readLast");
+        await serviceAPI.axios.get("/status/readLast");
       // Create an Array with ApplicationInterface Objects
       const apps: Array<ApplicationInterface> = [];
       for (const [key, value] of Object.entries(response.data)) {
@@ -54,7 +54,7 @@ export const api = {
     // Fetch
     try {
       const response: AxiosResponse<Array<ServiceInterface>> =
-        await serviceAPI.get(
+        await serviceAPI.axios.get(
           `/message/readInterval?appName=${app}&serverName=${server}&from=${moment(
             fromDate
           ).valueOf()}&to=${moment(toDate).valueOf()}`
