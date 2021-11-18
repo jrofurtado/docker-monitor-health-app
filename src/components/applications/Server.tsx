@@ -22,7 +22,6 @@ export default function Server(): JSX.Element {
 
   // State
   const [fromDate, setFromDate] = useState<Date | null>(
-    // moment().subtract(1, "months").startOf("day").toDate()
     moment().startOf("month").startOf("day").toDate()
   );
   const [toDate, setToDate] = useState<Date | null>(
@@ -82,37 +81,6 @@ export default function Server(): JSX.Element {
           </div>
           {statistics ? (
             <div>
-              {/* <ul>
-                <li>
-                  <code>
-                    Firt Report: {unixMiliToDateString(statistics.startTime)}
-                  </code>
-                </li>
-                <li>
-                  <code>
-                    Last Report: {unixMiliToDateString(statistics.endTime)}
-                  </code>
-                </li>
-                <li>
-                  <code>Report Count: {statistics.reportCount}</code>
-                </li>
-                <li>
-                  <code>
-                    Elapsed Time: {unixMiliToSecs(statistics.elapsed)} seconds
-                  </code>
-                </li>
-                <li>
-                  <code>
-                    Uptime: {unixMiliToSecs(statistics.uptime)} seconds
-                  </code>
-                </li>
-                <li>
-                  <code>
-                    Uptime Percentage:{" "}
-                    {(statistics.uptime / statistics.elapsed) * 100}%
-                  </code>
-                </li>
-              </ul> */}
               <div>
                 <button
                   onClick={() => downloadStatisticsAsJSON(statistics)}

@@ -15,7 +15,6 @@ export default function Login(): JSX.Element {
 
   const [loading, setLoading] = useState<boolean>(false);
 
-  // TODO: switch to swr
   const onLogin = async () => {
     setLoading(true);
     const response = await authentication.getAuth(username, password, () =>

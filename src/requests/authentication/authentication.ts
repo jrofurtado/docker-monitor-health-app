@@ -69,7 +69,7 @@ export const serviceAPI = {
       },
       function (error: AxiosError) {
         console.log("error.response: ", error.response);
-        if (error.response && [401, 403].includes(error.response?.status)) {
+        if (error.response && [401, 403].includes(error.response.status)) {
           // handle error: inform user, go to login, etc
           callback("Authorization expired", "error");
           navigate(ROUTES.LOGIN);
