@@ -1,10 +1,11 @@
 import querystring from "querystring";
 
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import moment from "moment";
+import { VariantType } from "notistack";
 
 import { useAuthorizationContext } from "@/context/AuthorizationContext";
-import { Authorization } from "@/requests/authentication/types";
+import { Authorization, TokenResponse } from "@/requests/authentication/types";
 import { Token } from "@/resources/interfaces";
 
 /**
@@ -36,7 +37,7 @@ const getKeycloakAuthUrl = (): string => {
 const fetchAuth = async (
   username: string,
   password: string
-): Promise<Token | undefined> => {
+): Promise<TokenResponse> => {
   const keycloakUrl = getKeycloakAuthUrl();
 
   try {
@@ -55,10 +56,10 @@ const fetchAuth = async (
       expires_date: moment().unix() + response.data.expires_in,
       refresh_expires_date: moment().unix() + response.data.refresh_expires_in,
     };
-    return token;
+    return { token, message: "" };
   } catch (error) {
     console.log("error at fetchAuth: ", error);
-    return;
+    return { token: undefined, message: "" };
   }
 };
 
@@ -84,7 +85,6 @@ const refreshAuth = async (token: Token): Promise<Token | undefined> => {
     };
     return newToken;
   } catch (error) {
-    console.log("error at refreshAuth: ", error);
     return;
   }
 };
@@ -94,14 +94,23 @@ export const authentication = {
     username: string,
     password: string,
     requestCredentials: () => void
-  ): Promise<boolean> => {
-    const token: Token | undefined = await fetchAuth(username, password);
-    if (token) {
+  ): Promise<{
+    success: boolean;
+    message: string;
+  }> => {
+    const response: TokenResponse = await fetchAuth(username, password);
+    if (response.token) {
       // setToken(token);
-      authentication.setAuth(token, requestCredentials);
-      return true;
+      authentication.setAuth(response.token, requestCredentials);
+      return {
+        success: true,
+        message: "",
+      };
     }
-    return false;
+    return {
+      success: false,
+      message: response.message,
+    };
   },
   setAuth: (token: Token, requestCredentials: () => void): void => {
     setToken(token);
@@ -167,5 +176,38 @@ export const authentication = {
       //   }
       // return config;
     });
+  },
+  setErrorHandling: (
+    callback: (message: string, type: VariantType) => void
+  ): void => {
+    keycloakAPI.interceptors.response.use(
+      function (response) {
+        return response;
+      },
+      function (error: AxiosError) {
+        if (401 === error.response?.status) {
+          // handle error: inform user, go to login, etc
+          callback("Username and password don't match", "error");
+        } else {
+          callback("An error occurred", "error");
+          return Promise.reject(error);
+        }
+      }
+    );
+
+    serviceAPI.interceptors.response.use(
+      function (response) {
+        return response;
+      },
+      function (error: AxiosError) {
+        if (401 === error.response?.status) {
+          // handle error: inform user, go to login, etc
+          callback("Authorization expired", "error");
+        } else {
+          callback("An error occurred", "error");
+          return Promise.reject(error);
+        }
+      }
+    );
   },
 };

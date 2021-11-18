@@ -13,12 +13,16 @@ export default function Login(): JSX.Element {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
+  const [loading, setLoading] = useState<boolean>(false);
+
   // TODO: switch to swr
   const onLogin = async () => {
-    await authentication.getAuth(username, password, () =>
+    setLoading(true);
+    const response = await authentication.getAuth(username, password, () =>
       navigate(ROUTES.LOGIN)
     );
-    navigate(ROUTES.APPLICATIONS);
+    setLoading(false);
+    if (response.success) navigate(ROUTES.APPLICATIONS);
   };
 
   return (
@@ -50,15 +54,12 @@ export default function Login(): JSX.Element {
                   Password
                 </label>
                 <input
-                  className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                   id="password"
                   type="password"
                   placeholder="******************"
                   onChange={(e) => setPassword(e.target.value)}
                 />
-                <p className="text-red-500 text-xs italic">
-                  Please choose a password.
-                </p>
               </div>
               <div className="flex items-center justify-between">
                 <button

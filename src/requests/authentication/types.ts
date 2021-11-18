@@ -1,3 +1,5 @@
+import { Token } from "@/resources/interfaces";
+
 export declare namespace Authorization {
   export interface Token {
     access_token: string;
@@ -10,4 +12,9 @@ export declare namespace Authorization {
     session_state: string;
     scope: string;
   }
+}
+
+export interface TokenResponse {
+  token: Token | undefined;
+  message: string;
 }
