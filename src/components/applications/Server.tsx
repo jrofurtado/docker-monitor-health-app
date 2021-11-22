@@ -51,33 +51,35 @@ export default function Server(): JSX.Element {
     <RequireAuth>
       <Page centerHor>
         <div className="mx-auto flex flex-col items-center">
-          <div className="mb-5">
-            <div>Select month range for reports</div>
+          <div className="mb-5 flex flex-col items-center">
+            <div className="mb-3">Select month range for reports</div>
             <div>
-              <span>From: </span>
-              <DatePicker
-                selected={fromDate}
-                onChange={(date) =>
-                  !Array.isArray(date) &&
-                  setFromDate(
-                    moment(date).startOf("month").startOf("day").toDate()
-                  )
-                }
-                dateFormat="MMM yyyy"
-                showMonthYearPicker
-              />
-            </div>
-            <div>
-              <span>To: </span>
-              <DatePicker
-                selected={toDate}
-                onChange={(date) =>
-                  !Array.isArray(date) &&
-                  setToDate(moment(date).endOf("month").endOf("day").toDate())
-                }
-                dateFormat="MMM yyyy"
-                showMonthYearPicker
-              />
+              <div>
+                <span>From: </span>
+                <DatePicker
+                  selected={fromDate}
+                  onChange={(date) =>
+                    !Array.isArray(date) &&
+                    setFromDate(
+                      moment(date).startOf("month").startOf("day").toDate()
+                    )
+                  }
+                  dateFormat="MMM yyyy"
+                  showMonthYearPicker
+                />
+              </div>
+              <div>
+                <span>To: </span>
+                <DatePicker
+                  selected={toDate}
+                  onChange={(date) =>
+                    !Array.isArray(date) &&
+                    setToDate(moment(date).endOf("month").endOf("day").toDate())
+                  }
+                  dateFormat="MMM yyyy"
+                  showMonthYearPicker
+                />
+              </div>
             </div>
           </div>
           {statistics ? (
