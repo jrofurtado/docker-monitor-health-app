@@ -49,9 +49,10 @@ export default function Server(): JSX.Element {
 
   return (
     <RequireAuth>
-      <Page centerHor centerVer>
-        <div className="mx-auto flex flex-col items-center justify-center">
-          <div>
+      <Page centerHor>
+        <div className="mx-auto flex flex-col items-center">
+          <div className="mb-5">
+            <div>Select month range for reports</div>
             <div>
               <span>From: </span>
               <DatePicker
@@ -81,22 +82,28 @@ export default function Server(): JSX.Element {
           </div>
           {statistics ? (
             <div>
-              <div>
+              <div className="grid gap-5">
                 <button
                   onClick={() => downloadStatisticsAsJSON(statistics)}
                   className="rounded-md bg-indigo-500 p-3 text-white"
                 >
                   Download JSON
                 </button>
-                <div className="rounded-md bg-indigo-500 p-3 text-white">
+                <div className="text-white">
                   <CsvDownload
                     data={statistics.map((stats) => uptimeToReadable(stats))}
+                    className="text-transparent translate-x-3"
                   />
+                  <div className="-translate-y-9 rounded-md bg-indigo-500 p-3 pointer-events-none">
+                    Download CSV
+                  </div>
                 </div>
               </div>
             </div>
           ) : (
-            <div>Loading ...</div>
+            <div className="rounded-md bg-indigo-500 p-3 text-white">
+              Loading ...
+            </div>
           )}
         </div>
       </Page>

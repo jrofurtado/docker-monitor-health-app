@@ -19,7 +19,7 @@ export default function ApplicationList(): JSX.Element {
 
   return (
     <RequireAuth>
-      <Page centerHor centerVer>
+      <Page centerHor>
         <div>
           <ul className="min-w-[450px]">
             {applications.map((item, index) => (

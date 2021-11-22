@@ -64,9 +64,9 @@ export default function Login(): JSX.Element {
                 <button
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                   type="button"
-                  onClick={onLogin}
+                  onClick={() => !loading && onLogin()}
                 >
-                  Sign In
+                  {!loading ? "Sign In" : "Signing In ..."}
                 </button>
               </div>
             </form>
