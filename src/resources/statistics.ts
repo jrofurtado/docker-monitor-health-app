@@ -12,17 +12,17 @@ const getStartEndTime = (service: ServiceInterface[]): ServerRuntime => {
   if (service.length) {
     const startTime: number = service[0]?.createdTimestamp;
     const endTime: number = service[service.length - 1]?.createdTimestamp;
-    const elapsed: number = endTime - startTime;
+    const runtime: number = endTime - startTime;
     return {
       startTime,
       endTime,
-      elapsed,
+      runtime,
     };
   }
   return {
     startTime: 0,
     endTime: 0,
-    elapsed: 0,
+    runtime: 0,
   };
 };
 
@@ -76,36 +76,29 @@ export const getServerUptime = (
   }
 
   // Get stats for each month
-  const serverUptimes: ServerUptime[] = timeValues.map((month) => {
-    const filteredServicesByMonth = service.filter((serv) =>
-      moment(serv.created).isSame(moment(month), "month")
-    );
-    const { startTime, endTime, elapsed } = getStartEndTime(
-      filteredServicesByMonth
-    );
-    const result: ServerUptime = {
-      uptime: getUptime(service),
-      month: moment(month).format("M"),
-      startTime,
-      endTime,
-      elapsed,
-      reportCount: service.length,
-    };
-    return result;
-  });
+  const serverUptimes: ServerUptime[] = timeValues
+    .map((month) => {
+      const filteredServicesByMonth = service.filter((serv) =>
+        moment(serv.created).isSame(moment(month), "month")
+      );
+      const { startTime, endTime, runtime } = getStartEndTime(
+        filteredServicesByMonth
+      );
+      const result: ServerUptime = {
+        uptime: getUptime(service),
+        month: moment(month).format("M"),
+        year: moment(month).format("YYYY"),
+        startTime,
+        endTime,
+        runtime,
+        reportCount: service.length,
+      };
+      return result;
+    })
+    // Remove months with no records
+    .filter((serverUptime) => serverUptime.startTime);
 
   console.log("serverUptimes: ", serverUptimes);
 
   return serverUptimes;
-
-  // const { startTime, endTime, elapsed } = getStartEndTime(service);
-  // const result: ServerUptime = {
-  //   uptime: getUptime(service),
-  //   startTime,
-  //   endTime,
-  //   elapsed,
-  //   reportCount: service.length,
-  // };
-  // console.log("result: ", result);
-  // return result;
 };

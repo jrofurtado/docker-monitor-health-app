@@ -7,7 +7,7 @@ export const unixMiliToSecs = (time: number): number => {
 };
 
 export const unixMiliToDateString = (time: number): string => {
-  return moment(time).format("DD/MM/YYYY @ H:mm:ss");
+  return moment(time).toISOString();
 };
 
 export const uptimeToReadable = (
@@ -15,18 +15,17 @@ export const uptimeToReadable = (
 ): ReadableServerUptime => {
   const readable: ReadableServerUptime = {
     month: uptime.month,
-    uptime: (uptime.uptime / uptime.elapsed) * 100,
-    elapsed: uptime.elapsed
-      ? moment.duration(uptime.elapsed, "milliseconds").humanize()
+    year: uptime.year,
+    uptime_percentage: (uptime.uptime / uptime.runtime) * 100,
+    uptime_miliseconds: uptime.uptime,
+    downtime_miliseconds: uptime.runtime - uptime.uptime,
+    runtime: uptime.runtime
+      ? moment.duration(uptime.runtime, "milliseconds").humanize()
       : "0",
-    elapsed_miliseconds: uptime.elapsed,
-    startTime: uptime.startTime
-      ? moment(uptime.startTime).format("DD/MM/YYYY @ H:mm:ss")
-      : "",
+    runtime_miliseconds: uptime.runtime,
+    startTime: uptime.startTime ? moment(uptime.startTime).toISOString() : "",
     startTime_unix: uptime.startTime,
-    endTime: uptime.endTime
-      ? moment(uptime.endTime).format("DD/MM/YYYY @ H:mm:ss")
-      : "",
+    endTime: uptime.endTime ? moment(uptime.endTime).toISOString() : "",
     endTime_unix: uptime.endTime,
   };
   return readable;
