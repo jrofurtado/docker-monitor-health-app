@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@/components/*": ["components/*"],
+      "@/requests/*": ["requests/*"],
+      "@/context/*": ["context/*"],
+      "@/media/*": ["media/*"],
+      "@/resources/*": ["resources/*"]
+    }
+  },
+  "include": ["./**/*.ts", "./**/*.tsx"]
+}
