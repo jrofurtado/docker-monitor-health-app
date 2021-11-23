@@ -36,8 +36,8 @@
     "zustand": "^3.6.4"
   },
   "scripts": {
-    "start": "NODE_ENV=development TAILWIND_MODE=watch craco start",
-    "build": "craco build",
+    "start": "NODE_ENV=development TAILWIND_MODE=watch chmod +x ./env.sh && ./env.sh && cp env-config.js ./public/ &&  craco start",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
     "lint": "eslint src --ext .ts,.tsx",

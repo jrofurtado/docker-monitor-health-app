@@ -10,12 +10,20 @@ import { Authorization, TokenResponse } from "@/requests/authentication/types";
 import { Token } from "@/resources/interfaces";
 import ROUTES from "@/resources/ROUTES";
 
+declare global {
+  interface Window {
+    _env_: {
+      [key: string]: string;
+    };
+  }
+}
+
 /**
  * ENV variables
  */
-export const HOSTNAME: string = process.env.REACT_APP_HOSTNAME ?? "";
-export const REALM_NAME: string = process.env.REACT_APP_REALM_NAME ?? "";
-export const CLIENT_ID: string = process.env.REACT_APP_CLIENT_ID ?? "";
+export const HOSTNAME: string = window._env_.REACT_APP_HOSTNAME ?? "";
+export const REALM_NAME: string = window._env_.REACT_APP_REALM_NAME ?? "";
+export const CLIENT_ID: string = window._env_.REACT_APP_CLIENT_ID ?? "";
 
 // Context
 const {
