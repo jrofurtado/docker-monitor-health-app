@@ -37,7 +37,7 @@ const {
  */
 export const keycloakAPI = {
   axios: axios.create({
-    baseURL: `http://${HOSTNAME}/auth`,
+    baseURL: `https://${HOSTNAME}/auth`,
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
   }),
   setInterceptors: function (
@@ -62,7 +62,7 @@ export const keycloakAPI = {
 
 export const serviceAPI = {
   axios: axios.create({
-    baseURL: `http://${HOSTNAME}/api`,
+    baseURL: `https://${HOSTNAME}/api`,
     headers: {
       Authorization: contextToken ? `Bearer ${contextToken.access_token}` : "",
     },
