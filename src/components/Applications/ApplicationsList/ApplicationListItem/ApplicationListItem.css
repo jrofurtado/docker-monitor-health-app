@@ -1,0 +1,13 @@
+.application-item {
+  cursor: pointer;
+}
+
+.server-item:hover{
+  background-color: #C7D2DE;
+  border-radius: 5px;
+}
+
+.name {
+  padding: 1rem;
+  color: rgb(5, 12, 22);
+}

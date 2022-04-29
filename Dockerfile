@@ -1,32 +1,37 @@
-# => Build container
-FROM node:alpine as builder
+# FROM node:9.8.0 AS build
+#FROM node:10.16.3-alpine AS build
+###LABEL maintainer "jrofurtado@gmail.com"
+###WORKDIR /app
+###COPY package.json yarn.lock ./
+###RUN yarn
+###COPY . .babelrc backup/
+###RUN rm -rf backup/node_modules dist coverage && cp -r backup/* . && cp backup/.babelrc . && rm -rf backup
+# RUN yarn test && yarn build
+###RUN yarn build
+###RUN mkdir vendor && mkdir app && mkdir other && mv dist/vendor* vendor && mv dist/app* app && mv dist/* other
+
+#FROM nginx:1.13.10-alpine
+###LABEL maintainer "jrofurtado@gmail.com"
+###RUN apk add --update curl && rm -rf /var/cache/apk/*
+###HEALTHCHECK --interval=30s --timeout=3s CMD curl -f http://localhost:8080/ || exit 1
+###COPY nginx-conf-setup-preload.sh /
+###COPY nginx.conf /etc/nginx/
+###COPY --from=build /app/vendor /usr/share/nginx/html/
+###COPY --from=build /app/other /usr/share/nginx/html/
+###COPY --from=build /app/app /usr/share/nginx/html/
+###RUN sed -i 's@__PRELOAD@'"$(sh /nginx-conf-setup-preload.sh /usr/share/nginx/html)"'@g' /etc/nginx/nginx.conf
+
+FROM node:13.10.1-alpine3.11 as builder
 WORKDIR /app
-COPY package.json .
-COPY yarn.lock .
-RUN yarn
-COPY . .
+COPY package.json ./
+COPY yarn.lock ./
+RUN yarn install
+COPY . ./
 RUN yarn build
 
-# => Run container
-FROM nginx:1.15.2-alpine
-
-# Nginx config
-RUN rm -rf /etc/nginx/conf.d
-COPY conf /etc/nginx
-
-# Static build
-COPY --from=builder /app/build /usr/share/nginx/html/
-
-# Default port exposure
+FROM nginx:1.17.9-alpine
+# COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/build /usr/share/nginx/html
 EXPOSE 80
-
-# Copy .env file and shell script to container
-WORKDIR /usr/share/nginx/html
-COPY ./env.sh .
-COPY .env .
-
-# Make our shell script executable
-RUN chmod +x env.sh
-
-# Start Nginx server
-CMD ["/bin/sh", "-c", "/usr/share/nginx/html/env.sh && nginx -g \"daemon off;\""]
+COPY env.sh /
+CMD ["sh", "/env.sh"]

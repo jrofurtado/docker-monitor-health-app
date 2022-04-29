@@ -1,0 +1,86 @@
+.container-info-div{
+    margin-top: 1rem;
+  }
+
+.container-div{
+    color: black;
+    border-radius: 0.3rem;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 2px 1px 14px -1px rgba(41,57,77,1);
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.containers-ul {
+    padding: 0 1rem;
+    margin: 1rem 0;
+    list-style-type: none;
+}
+
+h6 > span{
+    font-weight: lighter;
+}
+
+.healthy-value{
+    display: inline;
+    font-weight: lighter;
+}
+
+
+.title{
+    margin: 2.5rem 0 1.5rem 0;
+}
+
+.json-container{
+    list-style-type: none;
+    white-space: pre-wrap;
+    line-height: 1.7;
+    padding: 0 1rem;
+    margin: 1rem 0;
+}
+
+/* Buttons & Icons */
+.buttons-container{
+    margin: 1.65rem 0 1rem 0;
+    text-align: right;
+}
+
+.json-button, .download-button{
+    font-size: 0.8rem;
+    border-radius: 0.3rem;
+    margin: 0 0.2rem;
+    padding: 0.3rem 0.5rem;
+    border: none;
+    color: white;
+}
+
+.json-button{
+    background-color: rgb(100, 134, 207);
+}
+
+.json-button:hover{
+    background-color: rgb(124, 158, 230);
+}
+
+.download-button{
+    background-color: #4CAF50;
+}
+
+.download-button:hover{
+    background-color: rgb(116, 216, 119);;
+}
+
+#close-icon{
+    color: white;
+    padding: 0.2rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: none;
+    background-color: rgb(180, 7, 7);
+    border-radius: 3rem;
+}
+
+#close-icon:hover{
+    color: white;
+    background-color: rgb(224, 26, 26);
+}

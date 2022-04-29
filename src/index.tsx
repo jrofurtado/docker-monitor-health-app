@@ -1,22 +1,74 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Provider } from "react-redux";
+import { applyMiddleware, createStore } from "redux";
+import thunk from "redux-thunk";
 import "./index.css";
-// Library CSS
-import "react-datepicker/dist/react-datepicker.css";
-// Datepicker
-import { registerLocale, setDefaultLocale } from "react-datepicker";
-import pt from "date-fns/locale/pt";
-registerLocale("pt", pt);
-setDefaultLocale("pt");
+import * as serviceWorker from "./serviceWorker";
+import * as Keycloak from "keycloak-js";
+import axios from "axios";
+import App from "./components/App/App";
+import rootReducer from "./redux/reducers";
 
-import App from "@/components/App";
-import { SnackbarProvider } from "notistack";
+const middleware = [thunk];
+const store = createStore(rootReducer, applyMiddleware(...middleware));
 
-ReactDOM.render(
-  <React.StrictMode>
-    <SnackbarProvider maxSnack={3}>
-      <App />
-    </SnackbarProvider>
-  </React.StrictMode>,
-  document.getElementById("root")
+/*eslint-disable*/
+function getKeycloak() {
+  if (process.env.NODE_ENV === "production") {
+    // @ts-ignore
+    return new Keycloak({
+      url: "___KEYCLOAK_AUTH_SERVER_URL___",
+      realm: "___KEYCLOAK_REALM___",
+      clientId: "___KEYCLOAK_RESOURCE___",
+    });
+  } else {
+    let host = "172.17.0.1";
+    if (process.env.REACT_APP_HOST != null) {
+      host = process.env.REACT_APP_HOST;
+    }
+    // @ts-ignore
+    return new Keycloak({
+      url: `http://${host}/auth`,
+      realm: "docker-monitor-health-server",
+      clientId: "app",
+    });
+  }
+}
+/*eslint-enable*/
+
+const kc = getKeycloak();
+
+kc.init({ promiseType: "native", onLoad: "login-required" }).then(
+  (authenticated: boolean) => {
+    if (authenticated) {
+      store.getState().keycloak = kc;
+
+      ReactDOM.render(
+        <Provider store={store}>
+          <App kc={kc} />
+        </Provider>,
+        document.getElementById("root")
+      );
+    } else {
+      kc.login();
+    }
+  }
 );
+
+/* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["axiosConfig"] }] */
+axios.interceptors.request.use((axiosConfig) =>
+  kc
+    .updateToken(5)
+    .then(() => {
+      axiosConfig.headers.Authorization = `Bearer ${kc.token}`;
+      return Promise.resolve(axiosConfig);
+    })
+    .catch(kc.login)
+);
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://bit.ly/CRA-PWA
+serviceWorker.unregister();

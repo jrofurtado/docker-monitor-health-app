@@ -1,0 +1,19 @@
+{
+  "data": {
+    "global": false,
+    "apps": [
+      {
+        "appName": "monitor",
+        "isSubscribed": true
+      },
+      {
+        "appName": "globaleda",
+        "isSubscribed": false
+      },
+      {
+        "appName": "lagoa",
+        "isSubscribed": false
+      }
+    ]
+  }
+}

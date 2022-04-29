@@ -1,0 +1,695 @@
+{
+  "data": {
+    "key": "fab4d210-69db-11ea-8339-811ba1916331",
+    "appName": "monitor",
+    "createdTimestamp": 1585154975284,
+    "created": "2020-03-25T16:49:35.284Z",
+    "expiresTimestamp": 1585155035284,
+    "expires": "2020-03-25T16:50:35.284Z",
+    "containers": [
+      {
+        "Id": "457fd13e19e6c2403c99ea71ed19d497434cf7cfe87e4ee8840241dfdae3d21f",
+        "Names": ["/docker-monitor-health-app_lb_1"],
+        "Image": "jrofurtado/nghttpx-autoreload-with-healthcheck:1.0.0",
+        "ImageID": "sha256:93cd4ced2ee718a2e0d30e226b6a358afb08d4e3cd11ec3813dde41db97cc836",
+        "Command": "/bin/sh -c /entrypoint.sh",
+        "Created": 1585136769,
+        "Ports": [
+          {
+            "IP": "0.0.0.0",
+            "PrivatePort": 80,
+            "PublicPort": 80,
+            "Type": "tcp"
+          }
+        ],
+        "Labels": {
+          "com.docker.compose.config-hash": "ac19e866afc0c95f300688b346b90ff0566dbdcba9af25a3bbbd092638885d31",
+          "com.docker.compose.container-number": "1",
+          "com.docker.compose.oneoff": "False",
+          "com.docker.compose.project": "docker-monitor-health-app",
+          "com.docker.compose.project.config_files": "docker-compose.yml",
+          "com.docker.compose.project.working_dir": "C:\\Users\\Utilizador\\Desktop\\docker-monitor-health-app",
+          "com.docker.compose.service": "lb",
+          "com.docker.compose.version": "1.25.4",
+          "maintainer": "jrofurtado@gmail.com"
+        },
+        "State": "running",
+        "Status": "Up 5 hours (healthy)",
+        "HostConfig": { "NetworkMode": "docker-monitor-health-app_default" },
+        "NetworkSettings": {
+          "Networks": {
+            "docker-monitor-health-app_default": {
+              "IPAMConfig": null,
+              "Links": null,
+              "Aliases": null,
+              "NetworkID": "8cac10c272a09c83bc18e8c1c1cfc1815f3bbef109ff41773d2dbf9a68be2f7a",
+              "EndpointID": "ff796b90d0c823f681142b8779712a82719ec2bc8a3656256b3be744092c5401",
+              "Gateway": "172.20.0.1",
+              "IPAddress": "172.20.0.5",
+              "IPPrefixLen": 16,
+              "IPv6Gateway": "",
+              "GlobalIPv6Address": "",
+              "GlobalIPv6PrefixLen": 0,
+              "MacAddress": "02:42:ac:14:00:05",
+              "DriverOpts": null
+            }
+          }
+        },
+        "Mounts": [],
+        "_Healthy": true
+      },
+      {
+        "Id": "6293419d2073912a18a4c16ebfb424ca6b713bb06b6c2bf67853882f30de30e1",
+        "Names": ["/docker-monitor-health-app_server_1"],
+        "Image": "jrofurtado/docker-monitor-health-server:latest",
+        "ImageID": "sha256:15c302eb0c4e6627411b3d3a51631e1eafab8d121a39142f8d586c6618c79942",
+        "Command": "docker-entrypoint.sh /bin/sh -c /entrypoint.sh",
+        "Created": 1585136769,
+        "Ports": [],
+        "Labels": {
+          "com.docker.compose.config-hash": "3e6afabb1a8af145c8e3ce1dae0272c9a49edb4bd29cc1d33581bee2241d5769",
+          "com.docker.compose.container-number": "1",
+          "com.docker.compose.oneoff": "False",
+          "com.docker.compose.project": "docker-monitor-health-app",
+          "com.docker.compose.project.config_files": "docker-compose.yml",
+          "com.docker.compose.project.working_dir": "C:\\Users\\Utilizador\\Desktop\\docker-monitor-health-app",
+          "com.docker.compose.service": "server",
+          "com.docker.compose.version": "1.25.4"
+        },
+        "State": "running",
+        "Status": "Up 5 hours (healthy)",
+        "HostConfig": { "NetworkMode": "docker-monitor-health-app_default" },
+        "NetworkSettings": {
+          "Networks": {
+            "docker-monitor-health-app_default": {
+              "IPAMConfig": null,
+              "Links": null,
+              "Aliases": null,
+              "NetworkID": "8cac10c272a09c83bc18e8c1c1cfc1815f3bbef109ff41773d2dbf9a68be2f7a",
+              "EndpointID": "2e5feda9e58c1aed16b7c5002400d0a9e076d8559df4fd91363553a0148185cb",
+              "Gateway": "172.20.0.1",
+              "IPAddress": "172.20.0.3",
+              "IPPrefixLen": 16,
+              "IPv6Gateway": "",
+              "GlobalIPv6Address": "",
+              "GlobalIPv6PrefixLen": 0,
+              "MacAddress": "02:42:ac:14:00:03",
+              "DriverOpts": null
+            }
+          }
+        },
+        "Mounts": [
+          {
+            "Type": "volume",
+            "Name": "docker-monitor-health-app_server_data",
+            "Source": "/var/lib/docker/volumes/docker-monitor-health-app_server_data/_data",
+            "Destination": "/volume",
+            "Driver": "local",
+            "Mode": "rw",
+            "RW": true,
+            "Propagation": ""
+          }
+        ],
+        "_Healthy": true
+      },
+      {
+        "Id": "61f3e1af181baebd1ad549df31dd72af6dbf10b4d789e0d95a20c62757889e45",
+        "Names": ["/docker-monitor-health-app_agent_1"],
+        "Image": "jrofurtado/docker-monitor-health-agent:latest",
+        "ImageID": "sha256:c436d890c00ddd038d3f6a699938bddc52d48bc1191b13c23b66c08c88a4bbd1",
+        "Command": "docker-entrypoint.sh /bin/sh -c /entrypoint.sh",
+        "Created": 1585136769,
+        "Ports": [],
+        "Labels": {
+          "com.docker.compose.config-hash": "eeac42db277524b6ee2dd13cc68cb2433d78690f9cebb397523b4220a570d9cd",
+          "com.docker.compose.container-number": "1",
+          "com.docker.compose.oneoff": "False",
+          "com.docker.compose.project": "docker-monitor-health-app",
+          "com.docker.compose.project.config_files": "docker-compose.yml",
+          "com.docker.compose.project.working_dir": "C:\\Users\\Utilizador\\Desktop\\docker-monitor-health-app",
+          "com.docker.compose.service": "agent",
+          "com.docker.compose.version": "1.25.4"
+        },
+        "State": "running",
+        "Status": "Up 5 hours (healthy)",
+        "HostConfig": { "NetworkMode": "docker-monitor-health-app_default" },
+        "NetworkSettings": {
+          "Networks": {
+            "docker-monitor-health-app_default": {
+              "IPAMConfig": null,
+              "Links": null,
+              "Aliases": null,
+              "NetworkID": "8cac10c272a09c83bc18e8c1c1cfc1815f3bbef109ff41773d2dbf9a68be2f7a",
+              "EndpointID": "93726f109e124e0b4ea0322199442d4da6b4a35697f932b1449f8ee9a26080da",
+              "Gateway": "172.20.0.1",
+              "IPAddress": "172.20.0.4",
+              "IPPrefixLen": 16,
+              "IPv6Gateway": "",
+              "GlobalIPv6Address": "",
+              "GlobalIPv6PrefixLen": 0,
+              "MacAddress": "02:42:ac:14:00:04",
+              "DriverOpts": null
+            }
+          }
+        },
+        "Mounts": [
+          {
+            "Type": "bind",
+            "Source": "/var/run/docker.sock",
+            "Destination": "/var/run/docker.sock",
+            "Mode": "rw",
+            "RW": true,
+            "Propagation": "rprivate"
+          }
+        ],
+        "_Healthy": true
+      },
+      {
+        "Id": "6970f2fc84a81756f90352e0f99287e18a4dacbe6ae30a5a8f80025761a71310",
+        "Names": ["/docker-monitor-health-app_auth_1"],
+        "Image": "jrofurtado/keycloak-with-healthcheck:8.0.1",
+        "ImageID": "sha256:5f689f80bcdf3bf0528c65ee9ab51e3d6d4a5c4cbbc94d173479918e349d1d2a",
+        "Command": "/opt/jboss/tools/docker-entrypoint.sh -b 0.0.0.0",
+        "Created": 1585136545,
+        "Ports": [
+          { "PrivatePort": 8080, "Type": "tcp" },
+          { "PrivatePort": 8443, "Type": "tcp" }
+        ],
+        "Labels": {
+          "architecture": "x86_64",
+          "authoritative-source-url": "registry.access.redhat.com",
+          "build-date": "2019-10-29T16:44:07.247612",
+          "com.docker.compose.config-hash": "d3b2cb13779a4a0c02eeeb186167badcaf09f9482b296f7600c70c5be0e49750",
+          "com.docker.compose.container-number": "1",
+          "com.docker.compose.oneoff": "False",
+          "com.docker.compose.project": "docker-monitor-health-app",
+          "com.docker.compose.project.config_files": "docker-compose.yml",
+          "com.docker.compose.project.working_dir": "C:\\Users\\Utilizador\\Desktop\\docker-monitor-health-app",
+          "com.docker.compose.service": "auth",
+          "com.docker.compose.version": "1.25.4",
+          "com.redhat.build-host": "cpt-1006.osbs.prod.upshift.rdu2.redhat.com",
+          "com.redhat.component": "ubi8-minimal-container",
+          "com.redhat.license_terms": "https://www.redhat.com/en/about/red-hat-end-user-license-agreements#UBI",
+          "description": "The Universal Base Image Minimal is a stripped down image that uses microdnf as a package manager. This base image is freely redistributable, but Red Hat only supports Red Hat technologies through subscriptions for Red Hat products. This image is maintained by Red Hat and updated regularly.",
+          "distribution-scope": "public",
+          "io.k8s.description": "The Universal Base Image Minimal is a stripped down image that uses microdnf as a package manager. This base image is freely redistributable, but Red Hat only supports Red Hat technologies through subscriptions for Red Hat products. This image is maintained by Red Hat and updated regularly.",
+          "io.k8s.display-name": "Red Hat Universal Base Image 8 Minimal",
+          "io.openshift.expose-services": "",
+          "io.openshift.tags": "minimal rhel8",
+          "maintainer": "Red Hat, Inc.",
+          "name": "ubi8-minimal",
+          "release": "279",
+          "summary": "Provides the latest release of the minimal Red Hat Universal Base Image 8.",
+          "url": "https://access.redhat.com/containers/#/registry.access.redhat.com/ubi8-minimal/images/8.1-279",
+          "vcs-ref": "fdfa536a6288731283f8c7931bd3e09fa176bf0f",
+          "vcs-type": "git",
+          "vendor": "Red Hat, Inc.",
+          "version": "8.1"
+        },
+        "State": "running",
+        "Status": "Up 5 hours (healthy)",
+        "HostConfig": { "NetworkMode": "docker-monitor-health-app_default" },
+        "NetworkSettings": {
+          "Networks": {
+            "docker-monitor-health-app_default": {
+              "IPAMConfig": null,
+              "Links": null,
+              "Aliases": null,
+              "NetworkID": "8cac10c272a09c83bc18e8c1c1cfc1815f3bbef109ff41773d2dbf9a68be2f7a",
+              "EndpointID": "5c98b1803b37d3d9dade8e2d81c41a84c174dc85115465637aadcbf77a99eed9",
+              "Gateway": "172.20.0.1",
+              "IPAddress": "172.20.0.6",
+              "IPPrefixLen": 16,
+              "IPv6Gateway": "",
+              "GlobalIPv6Address": "",
+              "GlobalIPv6PrefixLen": 0,
+              "MacAddress": "02:42:ac:14:00:06",
+              "DriverOpts": null
+            }
+          }
+        },
+        "Mounts": [],
+        "_Healthy": true
+      },
+      {
+        "Id": "008209ecc8c741139c804ac9f386822d25e5629a2cdb1333a128a2d150e46d0b",
+        "Names": ["/docker-monitor-health-app_db_1"],
+        "Image": "jrofurtado/mysql-with-healthcheck:5.7.28",
+        "ImageID": "sha256:ca8d4bb83805c5ce09e0e8d9f9f441ffa9aef7a07a395121844dd8687bac12d5",
+        "Command": "docker-entrypoint.sh mysqld",
+        "Created": 1585075024,
+        "Ports": [
+          { "PrivatePort": 3306, "Type": "tcp" },
+          { "PrivatePort": 33060, "Type": "tcp" }
+        ],
+        "Labels": {
+          "com.docker.compose.config-hash": "43faabe223a2c22222bf806a42d4ae1c2d80ed7ae8b0457ed62a3d8d6aa4b8b0",
+          "com.docker.compose.container-number": "1",
+          "com.docker.compose.oneoff": "False",
+          "com.docker.compose.project": "docker-monitor-health-app",
+          "com.docker.compose.project.config_files": "docker-compose.yml",
+          "com.docker.compose.project.working_dir": "C:\\Users\\Utilizador\\Desktop\\docker-monitor-health-app",
+          "com.docker.compose.service": "db",
+          "com.docker.compose.version": "1.25.4"
+        },
+        "State": "running",
+        "Status": "Up 5 hours (healthy)",
+        "HostConfig": { "NetworkMode": "docker-monitor-health-app_default" },
+        "NetworkSettings": {
+          "Networks": {
+            "docker-monitor-health-app_default": {
+              "IPAMConfig": null,
+              "Links": null,
+              "Aliases": null,
+              "NetworkID": "8cac10c272a09c83bc18e8c1c1cfc1815f3bbef109ff41773d2dbf9a68be2f7a",
+              "EndpointID": "5e61290237a56e9f8d77df16231948bdd407fd3dc995a13cd4f080549da7d7a1",
+              "Gateway": "172.20.0.1",
+              "IPAddress": "172.20.0.2",
+              "IPPrefixLen": 16,
+              "IPv6Gateway": "",
+              "GlobalIPv6Address": "",
+              "GlobalIPv6PrefixLen": 0,
+              "MacAddress": "02:42:ac:14:00:02",
+              "DriverOpts": null
+            }
+          }
+        },
+        "Mounts": [
+          {
+            "Type": "volume",
+            "Name": "docker-monitor-health-app_db_data",
+            "Source": "/var/lib/docker/volumes/docker-monitor-health-app_db_data/_data",
+            "Destination": "/var/lib/mysql",
+            "Driver": "local",
+            "Mode": "rw",
+            "RW": true,
+            "Propagation": ""
+          },
+          {
+            "Type": "bind",
+            "Source": "/host_mnt/c/Users/Utilizador/Desktop/docker-monitor-health-app/initial-data",
+            "Destination": "/docker-entrypoint-initdb.d",
+            "Mode": "rw",
+            "RW": true,
+            "Propagation": "rprivate"
+          }
+        ],
+        "_Healthy": true
+      },
+      {
+        "Id": "0c8450b20a505e4e4aeab5da81038ac1e9481325f887c1c512ed7867c52fc365",
+        "Names": ["/sweet_rhodes"],
+        "Image": "sha256:e6e51a8a563b20e19d79db755e6c9055f5339688e56639867c5e5b3dcb511e79",
+        "ImageID": "sha256:e6e51a8a563b20e19d79db755e6c9055f5339688e56639867c5e5b3dcb511e79",
+        "Command": "/bin/sh -c 'npm run build'",
+        "Created": 1584550400,
+        "Ports": [],
+        "Labels": {},
+        "State": "exited",
+        "Status": "Exited (1) 7 days ago",
+        "HostConfig": { "NetworkMode": "default" },
+        "NetworkSettings": {
+          "Networks": {
+            "bridge": {
+              "IPAMConfig": null,
+              "Links": null,
+              "Aliases": null,
+              "NetworkID": "54ec52023d319dcb9f3c36c9e5c162eaa7e3e35705dbfa5f5e16610507781a5a",
+              "EndpointID": "",
+              "Gateway": "",
+              "IPAddress": "",
+              "IPPrefixLen": 0,
+              "IPv6Gateway": "",
+              "GlobalIPv6Address": "",
+              "GlobalIPv6PrefixLen": 0,
+              "MacAddress": "",
+              "DriverOpts": null
+            }
+          }
+        },
+        "Mounts": [],
+        "_Healthy": false
+      },
+      {
+        "Id": "9aefd40278f25a14fc90b71c3a30f1e1e11cb5953501b7a7a48946950b982527",
+        "Names": ["/fervent_archimedes"],
+        "Image": "sha256:008069f87c82fde02de96f338b9daf815d8f96eed9a31fa160bf0fb7b95201d0",
+        "ImageID": "sha256:008069f87c82fde02de96f338b9daf815d8f96eed9a31fa160bf0fb7b95201d0",
+        "Command": "/bin/sh -c 'npm run build'",
+        "Created": 1584545531,
+        "Ports": [],
+        "Labels": {},
+        "State": "exited",
+        "Status": "Exited (2) 7 days ago",
+        "HostConfig": { "NetworkMode": "default" },
+        "NetworkSettings": {
+          "Networks": {
+            "bridge": {
+              "IPAMConfig": null,
+              "Links": null,
+              "Aliases": null,
+              "NetworkID": "54ec52023d319dcb9f3c36c9e5c162eaa7e3e35705dbfa5f5e16610507781a5a",
+              "EndpointID": "",
+              "Gateway": "",
+              "IPAddress": "",
+              "IPPrefixLen": 0,
+              "IPv6Gateway": "",
+              "GlobalIPv6Address": "",
+              "GlobalIPv6PrefixLen": 0,
+              "MacAddress": "",
+              "DriverOpts": null
+            }
+          }
+        },
+        "Mounts": [],
+        "_Healthy": false
+      },
+      {
+        "Id": "d0e6ee5a4421328a8bbb30697934d413dd7296c559e31e5da31aaae8538503d4",
+        "Names": ["/gracious_cartwright"],
+        "Image": "fooapp:v2",
+        "ImageID": "sha256:e5620dcaa8fe0a6749b8f4914367e70353d7b64fbba6d449f34a93cf83e5632f",
+        "Command": "nginx -g 'daemon off;'",
+        "Created": 1583942896,
+        "Ports": [],
+        "Labels": {
+          "maintainer": "NGINX Docker Maintainers <docker-maint@nginx.com>"
+        },
+        "State": "exited",
+        "Status": "Exited (0) 2 weeks ago",
+        "HostConfig": { "NetworkMode": "default" },
+        "NetworkSettings": {
+          "Networks": {
+            "bridge": {
+              "IPAMConfig": null,
+              "Links": null,
+              "Aliases": null,
+              "NetworkID": "0943b8aff4c3c17dd7c0d2a288c62d209c2e8a8fc1cbb8eb726dee254a1073b7",
+              "EndpointID": "",
+              "Gateway": "",
+              "IPAddress": "",
+              "IPPrefixLen": 0,
+              "IPv6Gateway": "",
+              "GlobalIPv6Address": "",
+              "GlobalIPv6PrefixLen": 0,
+              "MacAddress": "",
+              "DriverOpts": null
+            }
+          }
+        },
+        "Mounts": [],
+        "_Healthy": false
+      },
+      {
+        "Id": "d5d2813a9c006db3c3f8dc9e48f7caeba5c3534f5102f5e3fa3348a6ab0b7bf9",
+        "Names": ["/objective_euclid"],
+        "Image": "fooapp:v2",
+        "ImageID": "sha256:e5620dcaa8fe0a6749b8f4914367e70353d7b64fbba6d449f34a93cf83e5632f",
+        "Command": "nginx -g 'daemon off;'",
+        "Created": 1583939380,
+        "Ports": [],
+        "Labels": {
+          "maintainer": "NGINX Docker Maintainers <docker-maint@nginx.com>"
+        },
+        "State": "exited",
+        "Status": "Exited (0) 2 weeks ago",
+        "HostConfig": { "NetworkMode": "default" },
+        "NetworkSettings": {
+          "Networks": {
+            "bridge": {
+              "IPAMConfig": null,
+              "Links": null,
+              "Aliases": null,
+              "NetworkID": "0943b8aff4c3c17dd7c0d2a288c62d209c2e8a8fc1cbb8eb726dee254a1073b7",
+              "EndpointID": "",
+              "Gateway": "",
+              "IPAddress": "",
+              "IPPrefixLen": 0,
+              "IPv6Gateway": "",
+              "GlobalIPv6Address": "",
+              "GlobalIPv6PrefixLen": 0,
+              "MacAddress": "",
+              "DriverOpts": null
+            }
+          }
+        },
+        "Mounts": [],
+        "_Healthy": false
+      },
+      {
+        "Id": "3a02af9d3e4e66fbd2afd413cc756cf96f13f8e74b5758ff71cb44507b0e92f4",
+        "Names": ["/amazing_chandrasekhar"],
+        "Image": "fooapp:v2",
+        "ImageID": "sha256:e5620dcaa8fe0a6749b8f4914367e70353d7b64fbba6d449f34a93cf83e5632f",
+        "Command": "nginx -g 'daemon off;'",
+        "Created": 1583939325,
+        "Ports": [],
+        "Labels": {
+          "maintainer": "NGINX Docker Maintainers <docker-maint@nginx.com>"
+        },
+        "State": "exited",
+        "Status": "Exited (0) 2 weeks ago",
+        "HostConfig": { "NetworkMode": "default" },
+        "NetworkSettings": {
+          "Networks": {
+            "bridge": {
+              "IPAMConfig": null,
+              "Links": null,
+              "Aliases": null,
+              "NetworkID": "0943b8aff4c3c17dd7c0d2a288c62d209c2e8a8fc1cbb8eb726dee254a1073b7",
+              "EndpointID": "",
+              "Gateway": "",
+              "IPAddress": "",
+              "IPPrefixLen": 0,
+              "IPv6Gateway": "",
+              "GlobalIPv6Address": "",
+              "GlobalIPv6PrefixLen": 0,
+              "MacAddress": "",
+              "DriverOpts": null
+            }
+          }
+        },
+        "Mounts": [],
+        "_Healthy": false
+      },
+      {
+        "Id": "a48243337ffc31b51498ac9c38d8377ed43bea8c838dcc61c90b6d19e6074abc",
+        "Names": ["/gallant_lovelace"],
+        "Image": "sha256:0ee195bcdd17bda2a89bd5dd10d5b8b03e4d94b1fbe2a402d89c249f6c694983",
+        "ImageID": "sha256:0ee195bcdd17bda2a89bd5dd10d5b8b03e4d94b1fbe2a402d89c249f6c694983",
+        "Command": "nginx -g 'daemon off;'",
+        "Created": 1583939295,
+        "Ports": [],
+        "Labels": {
+          "maintainer": "NGINX Docker Maintainers <docker-maint@nginx.com>"
+        },
+        "State": "exited",
+        "Status": "Exited (1) 2 weeks ago",
+        "HostConfig": { "NetworkMode": "default" },
+        "NetworkSettings": {
+          "Networks": {
+            "bridge": {
+              "IPAMConfig": null,
+              "Links": null,
+              "Aliases": null,
+              "NetworkID": "0943b8aff4c3c17dd7c0d2a288c62d209c2e8a8fc1cbb8eb726dee254a1073b7",
+              "EndpointID": "",
+              "Gateway": "",
+              "IPAddress": "",
+              "IPPrefixLen": 0,
+              "IPv6Gateway": "",
+              "GlobalIPv6Address": "",
+              "GlobalIPv6PrefixLen": 0,
+              "MacAddress": "",
+              "DriverOpts": null
+            }
+          }
+        },
+        "Mounts": [],
+        "_Healthy": false
+      },
+      {
+        "Id": "45530ce69a32ae7fd85d567a664ccb3d3dbaa17e2abf80ef2b3894dc606ae37d",
+        "Names": ["/blissful_shamir"],
+        "Image": "sha256:0ee195bcdd17bda2a89bd5dd10d5b8b03e4d94b1fbe2a402d89c249f6c694983",
+        "ImageID": "sha256:0ee195bcdd17bda2a89bd5dd10d5b8b03e4d94b1fbe2a402d89c249f6c694983",
+        "Command": "nginx -g 'daemon off;'",
+        "Created": 1583939258,
+        "Ports": [],
+        "Labels": {
+          "maintainer": "NGINX Docker Maintainers <docker-maint@nginx.com>"
+        },
+        "State": "exited",
+        "Status": "Exited (1) 2 weeks ago",
+        "HostConfig": { "NetworkMode": "default" },
+        "NetworkSettings": {
+          "Networks": {
+            "bridge": {
+              "IPAMConfig": null,
+              "Links": null,
+              "Aliases": null,
+              "NetworkID": "0943b8aff4c3c17dd7c0d2a288c62d209c2e8a8fc1cbb8eb726dee254a1073b7",
+              "EndpointID": "",
+              "Gateway": "",
+              "IPAddress": "",
+              "IPPrefixLen": 0,
+              "IPv6Gateway": "",
+              "GlobalIPv6Address": "",
+              "GlobalIPv6PrefixLen": 0,
+              "MacAddress": "",
+              "DriverOpts": null
+            }
+          }
+        },
+        "Mounts": [],
+        "_Healthy": false
+      },
+      {
+        "Id": "159e492130053ba8f6cd0624949cac289fc01891846be7ed68572aa26462a8c5",
+        "Names": ["/sad_goodall"],
+        "Image": "fooapp:v1",
+        "ImageID": "sha256:e5620dcaa8fe0a6749b8f4914367e70353d7b64fbba6d449f34a93cf83e5632f",
+        "Command": "nginx -g 'daemon off;'",
+        "Created": 1583938764,
+        "Ports": [],
+        "Labels": {
+          "maintainer": "NGINX Docker Maintainers <docker-maint@nginx.com>"
+        },
+        "State": "exited",
+        "Status": "Exited (0) 2 weeks ago",
+        "HostConfig": { "NetworkMode": "default" },
+        "NetworkSettings": {
+          "Networks": {
+            "bridge": {
+              "IPAMConfig": null,
+              "Links": null,
+              "Aliases": null,
+              "NetworkID": "0943b8aff4c3c17dd7c0d2a288c62d209c2e8a8fc1cbb8eb726dee254a1073b7",
+              "EndpointID": "",
+              "Gateway": "",
+              "IPAddress": "",
+              "IPPrefixLen": 0,
+              "IPv6Gateway": "",
+              "GlobalIPv6Address": "",
+              "GlobalIPv6PrefixLen": 0,
+              "MacAddress": "",
+              "DriverOpts": null
+            }
+          }
+        },
+        "Mounts": [],
+        "_Healthy": false
+      }
+    ],
+    "info": {
+      "ID": "CZHG:CCHW:JOUK:2XB6:CYAA:OROP:LQED:GO2C:TDAF:WUWT:IX2N:UX5T",
+      "Containers": 13,
+      "ContainersRunning": 5,
+      "ContainersPaused": 0,
+      "ContainersStopped": 8,
+      "Images": 392,
+      "Driver": "overlay2",
+      "DriverStatus": [
+        ["Backing Filesystem", "<unknown>"],
+        ["Supports d_type", "true"],
+        ["Native Overlay Diff", "true"]
+      ],
+      "SystemStatus": null,
+      "Plugins": {
+        "Volume": ["local"],
+        "Network": ["bridge", "host", "ipvlan", "macvlan", "null", "overlay"],
+        "Authorization": null,
+        "Log": [
+          "awslogs",
+          "fluentd",
+          "gcplogs",
+          "gelf",
+          "journald",
+          "json-file",
+          "local",
+          "logentries",
+          "splunk",
+          "syslog"
+        ]
+      },
+      "MemoryLimit": true,
+      "SwapLimit": true,
+      "KernelMemory": true,
+      "KernelMemoryTCP": true,
+      "CpuCfsPeriod": true,
+      "CpuCfsQuota": true,
+      "CPUShares": true,
+      "CPUSet": true,
+      "PidsLimit": true,
+      "IPv4Forwarding": true,
+      "BridgeNfIptables": true,
+      "BridgeNfIp6tables": true,
+      "Debug": true,
+      "NFd": 81,
+      "OomKillDisable": true,
+      "NGoroutines": 114,
+      "SystemTime": "2020-03-25T16:49:35.323654618Z",
+      "LoggingDriver": "json-file",
+      "CgroupDriver": "cgroupfs",
+      "NEventsListener": 4,
+      "KernelVersion": "4.19.76-linuxkit",
+      "OperatingSystem": "Docker Desktop",
+      "OSType": "linux",
+      "Architecture": "x86_64",
+      "IndexServerAddress": "https://index.docker.io/v1/",
+      "RegistryConfig": {
+        "AllowNondistributableArtifactsCIDRs": [],
+        "AllowNondistributableArtifactsHostnames": [],
+        "InsecureRegistryCIDRs": ["127.0.0.0/8"],
+        "IndexConfigs": {
+          "docker.io": {
+            "Name": "docker.io",
+            "Mirrors": [],
+            "Secure": true,
+            "Official": true
+          }
+        },
+        "Mirrors": []
+      },
+      "NCPU": 2,
+      "MemTotal": 2085904384,
+      "GenericResources": null,
+      "DockerRootDir": "/var/lib/docker",
+      "HttpProxy": "",
+      "HttpsProxy": "",
+      "NoProxy": "",
+      "Name": "docker-desktop",
+      "Labels": [],
+      "ExperimentalBuild": false,
+      "ServerVersion": "19.03.8",
+      "ClusterStore": "",
+      "ClusterAdvertise": "",
+      "Runtimes": { "runc": { "path": "runc" } },
+      "DefaultRuntime": "runc",
+      "Swarm": {
+        "NodeID": "",
+        "NodeAddr": "",
+        "LocalNodeState": "inactive",
+        "ControlAvailable": false,
+        "Error": "",
+        "RemoteManagers": null
+      },
+      "LiveRestoreEnabled": false,
+      "Isolation": "",
+      "InitBinary": "docker-init",
+      "ContainerdCommit": {
+        "ID": "7ad184331fa3e55e52b890ea95e65ba581ae3429",
+        "Expected": "7ad184331fa3e55e52b890ea95e65ba581ae3429"
+      },
+      "RuncCommit": {
+        "ID": "dc9208a3303feef5b3839f4323d9beb36df0a9dd",
+        "Expected": "dc9208a3303feef5b3839f4323d9beb36df0a9dd"
+      },
+      "InitCommit": { "ID": "fec3683", "Expected": "fec3683" },
+      "SecurityOptions": ["name=seccomp,profile=default"],
+      "ProductLicense": "Community Engine",
+      "Warnings": null
+    },
+    "serverName": "docker-desktop"
+  }
+}

@@ -1,8 +1,10 @@
-#!/bin/sh
-# line endings must be \n, not \r\n !
-echo "window._env_ = {" > ./env-config.js
-awk -F '=' '{ print $1 ": \"" (ENVIRON[$1] ? ENVIRON[$1] : $2) "\"," }' ./.env >> ./env-config.js
-echo "}" >> ./env-config.js
-#echo "window._env_ = {" > ./public/env-config.js
-#awk -F '=' '{ print $1 ": \"" (ENVIRON[$1] ? ENVIRON[$1] : $2) "\"," }' ./.env >> ./public/env-config.js
-#echo "}" >> ./public/env-config.js
+set -e
+
+sed -i s%___KEYCLOAK_AUTH_SERVER_URL___%"$KEYCLOAK_AUTH_SERVER_URL"%g /usr/share/nginx/html/static/js/*.js
+sed -i s%___KEYCLOAK_AUTH_SERVER_URL___%"$KEYCLOAK_AUTH_SERVER_URL"%g /usr/share/nginx/html/static/js/*.js.map
+sed -i s%___KEYCLOAK_REALM___%"$KEYCLOAK_REALM"%g /usr/share/nginx/html/static/js/*.js
+sed -i s%___KEYCLOAK_REALM___%"$KEYCLOAK_REALM"%g /usr/share/nginx/html/static/js/*.js.map
+sed -i s%___KEYCLOAK_RESOURCE___%"$KEYCLOAK_RESOURCE"%g /usr/share/nginx/html/static/js/*.js
+sed -i s%___KEYCLOAK_RESOURCE___%"$KEYCLOAK_RESOURCE"%g /usr/share/nginx/html/static/js/*.js.map
+
+nginx -g 'daemon off;'

@@ -1,33 +1,43 @@
-import { Authorization } from "@/requests/authentication/types";
+// Define used objects as interfaces
 
-export interface Token extends Authorization.Token {
-  expires_date: number;
-  refresh_expires_date: number;
+export interface ApplicationInterface {
+  name: string;
+  healthy: boolean;
+  servers: Array<ServerInterface>;
 }
 
-export interface ServerRuntime {
-  startTime: number;
-  endTime: number;
-  runtime: number;
+export interface ServerInterface {
+  name: string;
+  status: {
+    healthy: boolean;
+    containers: number;
+  };
 }
 
-export interface ServerUptime extends ServerRuntime {
-  uptime: number;
-  month: string;
-  year: string;
-  reportCount: number;
+export interface ServiceInterface {
+  serverName: string;
+  appName: string;
+  created: string;
+  expires: string;
+  containers: Array<ContainerInterface>;
 }
 
-export interface ReadableServerUptime {
-  month: string;
-  year: string;
-  uptime_percentage: number;
-  uptime_miliseconds: number;
-  downtime_miliseconds: number;
-  runtime: string;
-  runtime_miliseconds: number;
-  startTime: string;
-  startTime_unix: number;
-  endTime: string;
-  endTime_unix: number;
+export interface ContainerInterface {
+  Id: string;
+  _Healthy: boolean;
+  [key: string]: any;
+}
+
+export interface ApplicationKeyInterface {
+  key: string;
+}
+
+export interface NotificationStatusInterface {
+  global: boolean;
+  apps: Array<NotificationAppStatusInterface>;
+}
+
+export interface NotificationAppStatusInterface {
+  appName: string;
+  isSubscribed: boolean;
 }
