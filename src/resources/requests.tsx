@@ -5,15 +5,14 @@ import {
   ServerInterface,
   ServiceInterface,
   ContainerInterface,
-  NotificationStatusInterface
+  NotificationStatusInterface,
 } from "./interfaces";
+import moment from "moment";
 /* develblock:start */
 import allMocks from "../mocks/mockResponses";
 /* develblock:end */
 
-export async function getApplicationNamesList(): Promise<Array<
-  ApplicationInterface
-> | void> {
+export async function getApplicationNamesList(): Promise<Array<ApplicationInterface> | void> {
   /* develblock:start */
   // Mock
   if (process.env.NODE_ENV !== "production") {
@@ -114,10 +113,14 @@ export async function getServiceHistory(
     return allMocks.getServiceHistory(appName, serverName);
   }
   /* develblock:end */
+
+  const from = moment().startOf("day").valueOf();
+  const to = moment().endOf("day").valueOf();
+
   // Fetch
   return await axios
     .get(
-      `/api/message/readInterval?appName=${appName}&serverName=${serverName}&from=0&to=2629746`
+      `/api/message/readInterval?appName=${appName}&serverName=${serverName}&from=${from}&to=${to}`
     )
     .then((response) => {
       const serviceHistory: Array<ServiceInterface> | any = [];
