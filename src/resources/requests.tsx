@@ -105,7 +105,9 @@ export async function getServiceInfo(
 
 export async function getServiceHistory(
   appName: string,
-  serverName: string
+  serverName: string,
+  from: number,
+  to: number
 ): Promise<Array<ServiceInterface> | void> {
   /* develblock:start */
   // Mock
@@ -113,9 +115,6 @@ export async function getServiceHistory(
     return allMocks.getServiceHistory(appName, serverName);
   }
   /* develblock:end */
-
-  const from = moment().startOf("day").valueOf();
-  const to = moment().endOf("day").valueOf();
 
   // Fetch
   return await axios

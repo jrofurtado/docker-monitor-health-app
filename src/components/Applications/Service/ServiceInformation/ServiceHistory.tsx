@@ -16,6 +16,7 @@ import {
   ContainerInterface,
 } from "../../../../resources/interfaces";
 import { firstLetterToUpperCase } from "../../../../resources/scripts";
+import moment from "moment";
 
 interface Props {
   appName: string;
@@ -27,7 +28,13 @@ interface Props {
 
 export default function ServiceHistory(props: Props): JSX.Element {
   // State
-  const { handleMessageClick, appName, serviceName, handleHeaderTitle, handleCurrentComp } = props;
+  const {
+    handleMessageClick,
+    appName,
+    serviceName,
+    handleHeaderTitle,
+    handleCurrentComp,
+  } = props;
   const [service, setService] = useState<Array<ServiceInterface> | any>([]);
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState("");
@@ -36,33 +43,45 @@ export default function ServiceHistory(props: Props): JSX.Element {
 
   useEffect(() => {
     handleCurrentComp("ServiceHistory");
-    getServiceHistory(appName, serviceName).then((res) => {
+
+    let from = moment().startOf("day").valueOf();
+    let to = moment().endOf("day").valueOf();
+    if (selectedDate) {
+      from = moment(selectedDate).startOf("day").valueOf();
+      to = moment(selectedDate).endOf("day").valueOf();
+    }
+
+    getServiceHistory(appName, serviceName, from, to).then((res) => {
       if (res) {
         for (let key in res) {
           let localDate = new Date().toISOString();
           let index = Object.keys(res).indexOf(key);
-          let index2 = (index < res.length) ? index + 1 : index;
+          let index2 = index < res.length ? index + 1 : index;
 
-          if (Date.parse(res[0].expires) < Date.parse(localDate) &&
-            res[0].containers.length !== 0) {
+          if (
+            Date.parse(res[0].expires) < Date.parse(localDate) &&
+            res[0].containers.length !== 0
+          ) {
             let noDataReceived: ServiceInterface = {
               serverName: res[0].serverName,
               appName: res[0].appName,
               created: res[0].created,
               expires: res[0].expires,
-              containers: []
+              containers: [],
             };
             res.splice(0, 0, noDataReceived);
           }
 
-          if (Date.parse(res[index].expires) < Date.parse(res[index2].created) &&
-            res[index].containers.length !== 0) {
+          if (
+            Date.parse(res[index].expires) < Date.parse(res[index2].created) &&
+            res[index].containers.length !== 0
+          ) {
             let noDataReceived: ServiceInterface = {
               serverName: res[index].serverName,
               appName: res[index].appName,
               created: res[index].created,
               expires: res[index].expires,
-              containers: []
+              containers: [],
             };
             res.splice(index2, 0, noDataReceived);
           }
@@ -71,14 +90,22 @@ export default function ServiceHistory(props: Props): JSX.Element {
         setLoading(false);
       }
     });
-    handleHeaderTitle(firstLetterToUpperCase(appName), firstLetterToUpperCase(serviceName), "Messages");
-  }, [handleHeaderTitle, appName, serviceName, handleCurrentComp]);
-
+    handleHeaderTitle(
+      firstLetterToUpperCase(appName),
+      firstLetterToUpperCase(serviceName),
+      "Messages"
+    );
+  }, [
+    handleHeaderTitle,
+    appName,
+    serviceName,
+    handleCurrentComp,
+    selectedDate,
+  ]);
 
   const response = JSON.stringify(service, undefined, 2);
 
   let messages = JSON.parse(response);
-
 
   //Sets the status to the one chosen by the user.
   const handleSelect = (event: any) => {
@@ -112,7 +139,6 @@ export default function ServiceHistory(props: Props): JSX.Element {
     return `${hours}:${minutes}`;
   };
 
-
   //Checks if the message is healthy or unhealthy and returns the message created date.
   const checkMessageStatus = (message: any) => {
     for (var i = 0; i < message.containers.length; i++) {
@@ -142,7 +168,10 @@ export default function ServiceHistory(props: Props): JSX.Element {
               message.created === checkMessageStatus(message))
           );
         } else {
-          return message.created === checkMessageStatus(message) || message.containers.length === 0
+          return (
+            message.created === checkMessageStatus(message) ||
+            message.containers.length === 0
+          );
         }
       case "healthy":
         if (selectedDate && selectedHour) {
@@ -159,7 +188,10 @@ export default function ServiceHistory(props: Props): JSX.Element {
               message.created !== checkMessageStatus(message))
           );
         } else {
-          return message.created !== checkMessageStatus(message) && message.containers.length !== 0;
+          return (
+            message.created !== checkMessageStatus(message) &&
+            message.containers.length !== 0
+          );
         }
       default:
         if (selectedDate && selectedHour) {
@@ -190,50 +222,43 @@ export default function ServiceHistory(props: Props): JSX.Element {
   return loading ? (
     <p>Not loaded</p>
   ) : (
-      <>
-        <DateSearchBar
-          onChange={handleSelect}
-          onDateChange={handleDateChange}
-          onHourChange={handleHourChange}
-        />
-        {filteredMessages.map((service: ServiceInterface, index: number) => {
-          let date: string =
-            service.created.substr(0, 10) + " " + service.created.substr(11, 8);
-          let date1: string =
-            service.expires.substr(0, 10) + " " + service.expires.substr(11, 8);
-          let createdDate = new Date(date);
-          let expiresDate = new Date(date1);
-          return (
-            service.containers.length === 0 ? (
-              <Grid
-                container
-                key={index}
-                className="message"
-              >
-                <NoDataReceivedItemRow name={`${expiresDate.toLocaleString()} | No data received`} />
-              </Grid>
-
-            ) :
-
-              <Grid
-                container
-                key={index}
-                className="message"
-                onClick={() => handleMessageClick(service)}
-              >
-
-
-                <ServiceItemRow
-                  name={
-                    createdDate.toLocaleString() +
-                    " | Containers: " +
-                    service.containers.length
-                  }
-                  healthy={checkServiceStatus(service.containers)}
-                />
-              </Grid>
-          )
-        })}
-      </>
-    );
+    <>
+      <DateSearchBar
+        onChange={handleSelect}
+        onDateChange={handleDateChange}
+        onHourChange={handleHourChange}
+      />
+      {filteredMessages.map((service: ServiceInterface, index: number) => {
+        let date: string =
+          service.created.substr(0, 10) + " " + service.created.substr(11, 8);
+        let date1: string =
+          service.expires.substr(0, 10) + " " + service.expires.substr(11, 8);
+        let createdDate = new Date(date);
+        let expiresDate = new Date(date1);
+        return service.containers.length === 0 ? (
+          <Grid container key={index} className="message">
+            <NoDataReceivedItemRow
+              name={`${expiresDate.toLocaleString()} | No data received`}
+            />
+          </Grid>
+        ) : (
+          <Grid
+            container
+            key={index}
+            className="message"
+            onClick={() => handleMessageClick(service)}
+          >
+            <ServiceItemRow
+              name={
+                createdDate.toLocaleString() +
+                " | Containers: " +
+                service.containers.length
+              }
+              healthy={checkServiceStatus(service.containers)}
+            />
+          </Grid>
+        );
+      })}
+    </>
+  );
 }
