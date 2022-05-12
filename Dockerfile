@@ -31,7 +31,7 @@ RUN yarn build
 
 FROM nginx:1.17.9-alpine
 COPY files/ /
-HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 CMD node /healthcheck.js
+HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 CMD wget -O /dev/null http://localhost || exit 1
 COPY --from=builder /app/build /usr/share/nginx/html
 EXPOSE 80
 CMD ["sh", "/env.sh"]
