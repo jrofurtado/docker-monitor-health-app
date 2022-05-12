@@ -30,8 +30,8 @@ COPY . ./
 RUN yarn build
 
 FROM nginx:1.17.9-alpine
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY files/ /
+HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 CMD node /healthcheck.js
 COPY --from=builder /app/build /usr/share/nginx/html
 EXPOSE 80
-COPY env.sh /
 CMD ["sh", "/env.sh"]
