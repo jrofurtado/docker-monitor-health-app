@@ -44,8 +44,8 @@ export default function ServiceHistory(props: Props): JSX.Element {
   useEffect(() => {
     handleCurrentComp("ServiceHistory");
 
-    let from = moment().startOf("day").valueOf();
-    let to = moment().endOf("day").valueOf();
+    let from = moment().subtract(15, "minutes").valueOf();
+    let to = moment().valueOf();
     if (selectedDate) {
       from = moment(selectedDate).startOf("day").valueOf();
       to = moment(selectedDate).endOf("day").valueOf();
