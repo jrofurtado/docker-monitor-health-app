@@ -1,3 +1,15 @@
+### Start Docker locally
+
+```
+sh launch-docker-sh
+```
+
+browse to 172.17.0.1 in browser
+
+---
+
+Create React App Boiler Plate bellow
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
