@@ -14,7 +14,7 @@ import {
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import ClearIcon from '@material-ui/icons/Clear';
+import ClearIcon from "@material-ui/icons/Clear";
 
 interface Props {
   onChange: (event: any) => void;
@@ -23,14 +23,10 @@ interface Props {
 }
 
 export default function DateAndTimePickers(props: Props): JSX.Element {
-  const { onChange, onDateChange, onHourChange} = props;
+  const { onChange, onDateChange, onHourChange } = props;
 
-  const [selectedDate, setSelectedDate] = useState<any | null>(
-    moment().format()
-  );
-  const [selectedHour, setSelectedHour] = useState<any | null>(
-    moment().format()
-  );
+  const [selectedDate, setSelectedDate] = useState<any | null>(null);
+  const [selectedHour, setSelectedHour] = useState<any | null>(null);
 
   const handleDateChange = (date: any | null) => {
     setSelectedDate(date);
@@ -41,13 +37,13 @@ export default function DateAndTimePickers(props: Props): JSX.Element {
     setSelectedHour(hour);
     onHourChange(hour ? hour.format("LTS") : null);
   };
-  
+
   const cleanFilter = () => {
-    setSelectedDate(null)
-    setSelectedHour(null)
-    onDateChange(null)
-    onHourChange(null)
-  }
+    setSelectedDate(null);
+    setSelectedHour(null);
+    onDateChange(null);
+    onHourChange(null);
+  };
 
   return (
     <div className="date-picker-container">
@@ -97,12 +93,13 @@ export default function DateAndTimePickers(props: Props): JSX.Element {
             </FormControl>
           </div>
 
-         <div className="button-container">
-          <button onClick={cleanFilter} className="clean-filter-button"><ClearIcon fontSize="small"/></button>
+          <div className="button-container">
+            <button onClick={cleanFilter} className="clean-filter-button">
+              <ClearIcon fontSize="small" />
+            </button>
           </div>
         </Grid>
       </MuiPickersUtilsProvider>
-     
     </div>
   );
 }

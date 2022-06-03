@@ -11,6 +11,7 @@ import NoDataReceivedItemRow from "./ServiceItemRow/NoDataReceivedItemRow";
 
 // Material-UI
 import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
 import {
   ServiceInterface,
   ContainerInterface,
@@ -40,15 +41,25 @@ export default function ServiceHistory(props: Props): JSX.Element {
   const [status, setStatus] = useState("");
   const [selectedHour, setSelectedHour] = useState<any | null>();
   const [selectedDate, setSelectedDate] = useState<any | null>();
+  const [currentPage, setCurrentPage] = useState<number>(0);
 
   useEffect(() => {
     handleCurrentComp("ServiceHistory");
 
-    let from = moment().subtract(15, "minutes").valueOf();
-    let to = moment().valueOf();
-    if (selectedDate) {
-      from = moment(selectedDate).startOf("day").valueOf();
-      to = moment(selectedDate).endOf("day").valueOf();
+    let from = moment()
+      .subtract(15 + 10 * currentPage, "minutes")
+      .valueOf();
+    let to = moment()
+      .subtract(10 * currentPage, "minutes")
+      .valueOf();
+
+    if (selectedDate && selectedHour) {
+      const queriedTime = moment(
+        selectedDate + " " + selectedHour,
+        "YYYY-MM-DD HH:mm"
+      );
+      from = queriedTime.subtract(10, "minutes").valueOf();
+      to = queriedTime.add(20, "minutes").valueOf();
     }
 
     getServiceHistory(appName, serviceName, from, to).then((res) => {
@@ -101,6 +112,8 @@ export default function ServiceHistory(props: Props): JSX.Element {
     serviceName,
     handleCurrentComp,
     selectedDate,
+    selectedHour,
+    currentPage,
   ]);
 
   const response = JSON.stringify(service, undefined, 2);
@@ -154,59 +167,11 @@ export default function ServiceHistory(props: Props): JSX.Element {
     let messageCreatedHour = message.created.substr(11, 5);
     switch (status) {
       case "unhealthy":
-        if (selectedDate && selectedHour) {
-          return (
-            messageCreatedDate === selectedDate &&
-            messageCreatedHour === selectedHour &&
-            message.created === checkMessageStatus(message)
-          );
-        } else if (selectedDate || selectedHour) {
-          return (
-            (messageCreatedDate === selectedDate &&
-              message.created === checkMessageStatus(message)) ||
-            (messageCreatedHour === selectedHour &&
-              message.created === checkMessageStatus(message))
-          );
-        } else {
-          return (
-            message.created === checkMessageStatus(message) ||
-            message.containers.length === 0
-          );
-        }
+        return message.created === checkMessageStatus(message);
       case "healthy":
-        if (selectedDate && selectedHour) {
-          return (
-            messageCreatedDate === selectedDate &&
-            messageCreatedHour === selectedHour &&
-            message.created !== checkMessageStatus(message)
-          );
-        } else if (selectedDate || selectedHour) {
-          return (
-            (messageCreatedDate === selectedDate &&
-              message.created !== checkMessageStatus(message)) ||
-            (messageCreatedHour === selectedHour &&
-              message.created !== checkMessageStatus(message))
-          );
-        } else {
-          return (
-            message.created !== checkMessageStatus(message) &&
-            message.containers.length !== 0
-          );
-        }
+        return message.created !== checkMessageStatus(message);
       default:
-        if (selectedDate && selectedHour) {
-          return (
-            messageCreatedDate === selectedDate &&
-            messageCreatedHour === selectedHour
-          );
-        } else if (selectedDate || selectedHour) {
-          return (
-            messageCreatedDate === selectedDate ||
-            messageCreatedHour === selectedHour
-          );
-        } else {
-          return message;
-        }
+        return message;
     }
   });
 
@@ -223,11 +188,14 @@ export default function ServiceHistory(props: Props): JSX.Element {
     <p>Not loaded</p>
   ) : (
     <>
+      {/* SEARCH BAR */}
       <DateSearchBar
         onChange={handleSelect}
         onDateChange={handleDateChange}
         onHourChange={handleHourChange}
       />
+
+      {/* RESULTS ROWS */}
       {filteredMessages.map((service: ServiceInterface, index: number) => {
         let date: string =
           service.created.substr(0, 10) + " " + service.created.substr(11, 8);
@@ -259,6 +227,21 @@ export default function ServiceHistory(props: Props): JSX.Element {
           </Grid>
         );
       })}
+
+      {/* PAGINATIONS */}
+      <div className="pagination-div">
+        <Button
+          className="ver-mais-btn"
+          variant="contained"
+          color="default"
+          onClick={() => {
+            console.log("Ver mais");
+            setCurrentPage(currentPage + 1);
+          }}
+        >
+          Ver mais
+        </Button>
+      </div>
     </>
   );
 }
