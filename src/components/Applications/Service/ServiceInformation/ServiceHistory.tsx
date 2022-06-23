@@ -229,19 +229,20 @@ export default function ServiceHistory(props: Props): JSX.Element {
       })}
 
       {/* PAGINATIONS */}
-      <div className="pagination-div">
-        <Button
-          className="ver-mais-btn"
-          variant="contained"
-          color="default"
-          onClick={() => {
-            console.log("Ver mais");
-            setCurrentPage(currentPage + 1);
-          }}
-        >
-          Ver mais
-        </Button>
-      </div>
+      {!selectedDate && !selectedHour && (
+        <div className="pagination-div">
+          <Button
+            className="ver-mais-btn"
+            variant="contained"
+            color="default"
+            onClick={() => {
+              setCurrentPage(currentPage + 1);
+            }}
+          >
+            Ver mais
+          </Button>
+        </div>
+      )}
     </>
   );
 }
