@@ -90,7 +90,7 @@ export default function Applications(props: Props): JSX.Element {
         });
         return fetchNotificationInfo;
       })(),
-      10000
+      30000
     );
 
     return (): void => {

@@ -38,11 +38,21 @@ function getKeycloak() {
 }
 /*eslint-enable*/
 
-const kc = getKeycloak();
+export const kc = getKeycloak();
 
-kc.init({ promiseType: "native", onLoad: "login-required" }).then(
+kc.init({ promiseType: "native", onLoad: "login-required" },{loadUserInfo: true}).then(
   (authenticated: boolean) => {
     if (authenticated) {
+      console.log(kc.tokenParsed.realm_access.roles);
+      console.log(kc.tokenParsed.attributes);
+      console.log(kc.tokenParsed);
+      console.log('kc:',kc);
+      kc.loadUserInfo().then((userInfo: any) => {
+        console.log('userInfo',userInfo);
+      });
+      kc.loadUserProfile().then((userProfile: any) => {
+        console.log('userProfile',userProfile);
+      });
       store.getState().keycloak = kc;
 
       ReactDOM.render(
