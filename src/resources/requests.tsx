@@ -1,4 +1,5 @@
 import axios from "axios";
+import { kc } from "../index";
 // TypeScript
 import {
   ApplicationInterface,

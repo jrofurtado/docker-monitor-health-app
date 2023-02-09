@@ -18,7 +18,8 @@ services:
         -b"server,3000;/api/;dns;"
         -b"auth,8080;/auth/;dns;"'
   server:
-    image: jrofurtado/docker-monitor-health-server:latest
+    # image: jrofurtado/docker-monitor-health-server:latest
+    image: registry.gitlab.com/globaleda.pt/infraestrutura-desenvolvimento/docker-monitor-health-server:latest
     volumes:
       - server_data:/volume
     environment:

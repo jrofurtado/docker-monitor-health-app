@@ -18,7 +18,8 @@ services:
         -b"server,3000;/api/;dns;"
         -b"auth,8080;/auth/;dns;"'
   server:
-    image: jrofurtado/docker-monitor-health-server:latest
+    # image: jrofurtado/docker-monitor-health-server:latest
+    image: registry.gitlab.com/globaleda.pt/infraestrutura-desenvolvimento/docker-monitor-health-server:latest
     volumes:
       - server_data:/volume
     environment:
@@ -64,7 +65,8 @@ services:
       - MONITORING_URL=http://${REACT_APP_HOST:-172.17.0.1}/api/message
       - MONITORING_DELAY=30
   app:
-    image: jrofurtado/docker-monitor-health-app:latest
+    # image: jrofurtado/docker-monitor-health-app:latest
+    image: registry.gitlab.com/globaleda.pt/infraestrutura-desenvolvimento/docker-monitor-health-app:latest
     build: ./
     environment:
       - KEYCLOAK_AUTH_SERVER_URL=http://172.17.0.1/auth
