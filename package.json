@@ -33,7 +33,7 @@
     "react-gravatar": "^2.6.3",
     "react-icons": "^3.9.0",
     "react-redux": "^7.2.0",
-    "react-scripts": "3.4.1",
+    "react-scripts": "5.0.1",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "typescript": "~3.7.2"
