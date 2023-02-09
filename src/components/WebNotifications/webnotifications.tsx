@@ -11,6 +11,7 @@ const WebNotifications: React.FC<Props> = ({title, options, onClose}) => {
 
     const requestPermission = () => {
 
+        // Verifica se o browser suporta notificações
         if (!("Notification" in window)) {
             console.error("Este browser não suporta notificações.");
         } else if (Notification.permission === "granted") {
@@ -18,6 +19,7 @@ const WebNotifications: React.FC<Props> = ({title, options, onClose}) => {
             if (notification != null) {
                 if (onClose) notification.addEventListener("close", onClose);
             }
+        // No caso do utilizador tenha negado permissão para notificações 
         } else if (Notification.permission !== "denied") {
             Notification.requestPermission().then((permission) => {
                 if (permission === "granted") {
