@@ -6,6 +6,7 @@ import Service from '../Applications/Service/Service';
 import Container from "@material-ui/core/Container";
 import Header from "../Header/Header";
 import { ServiceInterface } from "../../resources/interfaces";
+import ApplicationsStatus from "../Applications/Status/ApplicationsStatus";
 
 interface ServInterface {
   serviceName: string;
@@ -59,6 +60,7 @@ export default function Navigation(props: Props): JSX.Element {
 
     return handleServiceClick();
   }
+  console.log('serviceName: ', service.serviceName)
 
   return service.serviceName !== "" ? (
     <div>
@@ -73,6 +75,9 @@ export default function Navigation(props: Props): JSX.Element {
         <Header kc={kc} title={headerTitle} currentComp={currentComp} handleBackButtonClick={() => null} />
         <Container maxWidth="md">
           <Applications handleServiceClick={handleServiceClick} handleHeaderTitle={handleHeaderTitle} handleCurrentComp={handleCurrentComp} />
+        </Container>
+        <Container maxWidth="md">
+          <ApplicationsStatus />
         </Container>
       </div>
     );

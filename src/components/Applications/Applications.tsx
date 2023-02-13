@@ -51,7 +51,7 @@ export default function Applications(props: Props): JSX.Element {
     const appInterval = setInterval(
       (function fetchApplications(): TimerHandler {
         getApplicationNamesList().then((res) => {
-          console.log("Fetched Apps: ", res);
+          // console.log("Fetched Apps: ", res);
           if (res) {
             setApplications(res);
           }
@@ -67,36 +67,36 @@ export default function Applications(props: Props): JSX.Element {
   }, [dispatch, handleCurrentComp]);
 
   /* Notifications */
-  useEffect(() => {
-    // Set Fetched Notification Status
+  // useEffect(() => {
+  //   // Set Fetched Notification Status
 
-    const setNotificationStatus = (
-      notificationStatus: NotificationStatusInterface
-    ): void => {
-      dispatch(
-        allActions.applicationActions.addNotificationStatus(notificationStatus)
-      );
-    };
+  //   const setNotificationStatus = (
+  //     notificationStatus: NotificationStatusInterface
+  //   ): void => {
+  //     dispatch(
+  //       allActions.applicationActions.addNotificationStatus(notificationStatus)
+  //     );
+  //   };
 
-    handleHeaderTitle();
-    // Get Notification state every 10 seconds
-    const notificationInterval = setInterval(
-      (function fetchNotificationInfo(): TimerHandler {
-        getNotificationInfo().then((res) => {
-          console.log("Fetched Notification Status: ", res);
-          if (res) {
-            setNotificationStatus(res);
-          }
-        });
-        return fetchNotificationInfo;
-      })(),
-      30000
-    );
+  //   handleHeaderTitle();
+  //   // Get Notification state every 10 seconds
+  //   const notificationInterval = setInterval(
+  //     (function fetchNotificationInfo(): TimerHandler {
+  //       getNotificationInfo().then((res) => {
+  //         console.log("Fetched Notification Status: ", res);
+  //         if (res) {
+  //           setNotificationStatus(res);
+  //         }
+  //       });
+  //       return fetchNotificationInfo;
+  //     })(),
+  //     10000
+  //   );
 
-    return (): void => {
-      clearInterval(notificationInterval);
-    };
-  }, [dispatch, handleHeaderTitle]);
+  //   return (): void => {
+  //     clearInterval(notificationInterval);
+  //   };
+  // }, [dispatch, handleHeaderTitle]);
 
   return (
     <div>

@@ -7,6 +7,7 @@ import {
   ServiceInterface,
   ContainerInterface,
   NotificationStatusInterface,
+  ApplicationsStatusInterface,
 } from "./interfaces";
 import moment from "moment";
 /* develblock:start */
@@ -149,6 +150,21 @@ export async function getServiceHistory(
     })
     .catch((error) => {
       console.log("getApplicationNamesList Error: ", error);
+    });
+}
+
+export async function getApplicationsStatus(
+  from: number,
+  count: number
+): Promise<Array<ApplicationsStatusInterface> | void> {
+  // Fetch
+  return await axios
+    .get(`/api/status/readIntervalFixedCount?from=${from}&count=${count}`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.log("getApplicationsStatus Error: ", error);
     });
 }
 

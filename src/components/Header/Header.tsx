@@ -66,7 +66,7 @@ export default function Header(props: Props): JSX.Element {
               <></>
             }
             <Grid item xs={11}>
-              <h3 className="app-name">{title} + XXX</h3>
+              <h3 className="app-name">{title}</h3>
             </Grid>
           </Grid>
         </Grid>

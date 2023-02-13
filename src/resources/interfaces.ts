@@ -41,3 +41,19 @@ export interface NotificationAppStatusInterface {
   appName: string;
   isSubscribed: boolean;
 }
+
+export interface StatusInterface {
+  healthy: boolean;
+  containers: number;
+}
+export interface ServerStatusInterface {
+  [key: string]: StatusInterface;
+}
+
+export interface ApplicationStatusInterface {
+  [key: string]: ServerStatusInterface;
+}
+export interface ApplicationsStatusInterface {
+  timestamp: number;
+  apps: ApplicationStatusInterface;
+}
