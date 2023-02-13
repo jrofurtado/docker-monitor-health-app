@@ -56,6 +56,7 @@ kc.init({ promiseType: "native", onLoad: "login-required" },{loadUserInfo: true}
   }
 );
 
+
 /* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["axiosConfig"] }] */
 axios.interceptors.request.use((axiosConfig) =>
   kc
@@ -66,6 +67,7 @@ axios.interceptors.request.use((axiosConfig) =>
     })
     .catch(kc.login)
 );
+
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
