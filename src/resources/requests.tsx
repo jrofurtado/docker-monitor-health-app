@@ -157,6 +157,13 @@ export async function getApplicationsStatus(
   from: number,
   count: number
 ): Promise<Array<ApplicationsStatusInterface> | void> {
+  /* develblock:start */
+  // Mock
+  console.log("process.env.NODE_ENV: ", process.env.NODE_ENV);
+  if (process.env.NODE_ENV === "production") {
+    return await allMocks.getApplicationsStatus();
+  }
+  /* develblock:end */
   // Fetch
   return await axios
     .get(`/api/status/readIntervalFixedCount?from=${from}&count=${count}`)

@@ -112,11 +112,27 @@ export default function ApplicationsStatus() {
 
   const getServersCount = (appsObject: any) => {
     let serversCount = 0;
-    const apps= Object.values(appsObject);
+    const apps = Object.values(appsObject);
+    console.log("apps", apps);
     apps.forEach((app: any) => {
+      console.log("app", app);
+      const servers = Object.values(app);
+      console.log("servers", servers);
       serversCount += getAppServers(app).length;
     });
     return serversCount;
+  };
+
+  const getContainersCount = (appsObject: any) => {
+    let contCount = 0;
+    const apps = Object.values(appsObject);
+    apps.forEach((app: any) => {
+      const servers = Object.values(app);
+      servers.forEach((server: any) => {
+        contCount += server.containers;
+      });
+    });
+    return contCount;
   };
 
   // use effect to get applications status
@@ -126,8 +142,6 @@ export default function ApplicationsStatus() {
       if (res) {
         setApplicationsStatusBlock(res);
         setApplicationsStatus([...applicationsStatus, ...res]);
-        console.log("keys", iterateJsonKeys(res[0]));
-        console.log("keys apps", iterateJsonKeys(res[0].apps));
       }
     });
   }, [from]);
@@ -144,9 +158,10 @@ export default function ApplicationsStatus() {
       {applicationsStatus.map((appStatus) => {
         return (
           <div key={appStatus.timestamp}>
-            {formatTimestamp(appStatus.timestamp)}&nbsp;
-            Apps:{getAppsCount(appStatus.apps)}&nbsp;
-            {/* Servers:{getServersCount(appStatus.apps)} */}
+            {formatTimestamp(appStatus.timestamp)}&nbsp; Apps:&nbsp;
+            {getAppsCount(appStatus.apps)}&nbsp; Servers:&nbsp;
+            {getServersCount(appStatus.apps)}&nbsp; Containers:&nbsp;
+            {getContainersCount(appStatus.apps)}
           </div>
         );
       })}

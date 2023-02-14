@@ -1,0 +1,47 @@
+[
+  {
+    "timestamp": 1676288870004,
+    "apps": {
+      "monitor": {
+        "jmeireles-Latitude-5401": {
+          "healthy": false,
+          "containers": 7
+        },
+        "server1": {
+          "healthy": true,
+          "containers": 5
+        }
+      }
+    }
+  },
+  {
+    "timestamp": 1676287060005,
+    "apps": {
+      "monitor": {
+        "jmeireles-Latitude-5401": {
+          "healthy": true,
+          "containers": 6
+        },
+        "server1": {
+          "healthy": false,
+          "containers": 7
+        }
+      }
+    }
+  },
+  {
+    "timestamp": 1676031140003,
+    "apps": {
+      "monitor": {
+        "jmeireles-Latitude-5401": {
+          "healthy": false,
+          "containers": 4
+        },
+        "server1": {
+          "healthy": true,
+          "containers": 8
+        }
+      }
+    }
+  }
+]

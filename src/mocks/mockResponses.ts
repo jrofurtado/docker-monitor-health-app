@@ -4,11 +4,10 @@ import {
   ServiceInterface,
   ContainerInterface,
   NotificationStatusInterface,
+  ApplicationsStatusInterface,
 } from "../resources/interfaces";
 
-export async function getApplicationStatus(): Promise<Array<
-  ApplicationInterface
-> | void> {
+export async function getApplicationStatus(): Promise<Array<ApplicationInterface> | void> {
   // Define the recieved data format
   interface Data {
     [key: string]: {
@@ -101,8 +100,19 @@ export async function getServiceHistory(
 
 export async function getNotificationStatus(): Promise<NotificationStatusInterface | void> {
   // Get the data from the Mock Response
-  const data: NotificationStatusInterface = require("./responses/notificationState.json")
-    .data;
+  const data: NotificationStatusInterface =
+    require("./responses/notificationState.json").data;
+  return data;
+}
+
+export async function getApplicationsStatus(): Promise<
+  Array<ApplicationsStatusInterface>
+> {
+  console.log("getApplicationsStatus");
+  // Get the data from the Mock Response
+  const data: Array<ApplicationsStatusInterface> =
+    require("./responses/applicationsStatus.json");
+  console.log("data:", data);
   return data;
 }
 
@@ -111,6 +121,7 @@ const allMocks = {
   getServiceStatus,
   getServiceHistory,
   getNotificationStatus,
+  getApplicationsStatus,
 };
 
 export default allMocks;
