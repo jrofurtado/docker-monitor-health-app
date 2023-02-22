@@ -21,7 +21,7 @@
 ###COPY --from=build /app/app /usr/share/nginx/html/
 ###RUN sed -i 's@__PRELOAD@'"$(sh /nginx-conf-setup-preload.sh /usr/share/nginx/html)"'@g' /etc/nginx/nginx.conf
 
-FROM node:13.10.1-alpine3.11 as builder
+FROM node:19.6.1-alpine3.16 as builder
 WORKDIR /app
 COPY package.json ./
 COPY yarn.lock ./

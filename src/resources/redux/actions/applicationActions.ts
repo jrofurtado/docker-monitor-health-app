@@ -1,7 +1,7 @@
 import {
   ApplicationInterface,
   NotificationStatusInterface,
-} from "../../resources/interfaces";
+} from "../../interfaces";
 
 interface ActionAddApplication {
   type: string;

@@ -43,6 +43,7 @@ export default function ApplicationListItem(props: Props): JSX.Element {
         <Grid
           container
           direction="row"
+          justifyContent="center"
           alignItems="center"
           className={`server-item max-width ${open ? "active" : ""}`}
           onClick={(): void => handleRowClick(application.name)}
@@ -59,6 +60,7 @@ export default function ApplicationListItem(props: Props): JSX.Element {
           <Grid
             container
             direction="column"
+            justifyContent="center"
             alignItems="flex-start"
             item
             xs={12}
@@ -68,6 +70,7 @@ export default function ApplicationListItem(props: Props): JSX.Element {
                 key={`${server.name}`}
                 container
                 direction="row"
+                justifyContent="center"
                 alignItems="center"
                 className="server-item"
                 onClick={(): void => handleRowClick(server.name)}

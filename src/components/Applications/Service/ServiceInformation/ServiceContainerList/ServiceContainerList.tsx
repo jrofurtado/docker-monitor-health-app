@@ -2,7 +2,8 @@ import React from "react";
 //Script
 import { firstLetterToUpperCase } from "../../../../../resources/scripts";
 // Material-UI
-import { Grid, makeStyles } from "@mui/material";
+import { Grid } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 //Interface
 import {
   ServiceInterface,

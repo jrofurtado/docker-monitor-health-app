@@ -4,7 +4,7 @@ import "./ServiceInformation.css";
 import { firstLetterToUpperCase } from "../../../../resources/scripts";
 // Material-UI
 
-import {GetApp,FindInPage} from "@mui/icons-material"
+import { GetApp, FindInPage } from "@mui/icons-material";
 
 // import GetAppIcon from "@mui/icons-material/GetApp";
 // import FindInPageIcon from "@mui/icons-material/FindInPage";
@@ -96,15 +96,16 @@ export default function ServiceInformation(props: Props): JSX.Element {
   };
 
   const serviceInfoJSON = { ...service };
-  delete serviceInfoJSON["containers"];
+  serviceInfoJSON.containers = [];
+  // delete serviceInfoJSON["containers"];
 
   return (
     <>
-        <JsonHTML
-          json={serviceInfoJSON}
-          title="Service Information"
-          showButtons={false}
-        />
+      <JsonHTML
+        json={serviceInfoJSON}
+        title="Service Information"
+        showButtons={false}
+      />
 
       {openContainer && containerView ? (
         <JsonHTML

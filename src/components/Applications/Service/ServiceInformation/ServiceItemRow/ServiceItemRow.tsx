@@ -17,7 +17,14 @@ export default function ApplicationItemRow(props: Props): JSX.Element {
       <Grid item xs={6} className="name">
         {firstLetterToUpperCase(name)}
       </Grid>
-      <Grid container direction="row" alignItems="center" item xs={6}>
+      <Grid
+        container
+        direction="row"
+        justifyContent="flex-end"
+        alignItems="center"
+        item
+        xs={6}
+      >
         {healthy ? (
           <IconButton aria-label="health" className="green-color">
             <Check fontSize="small" />

@@ -60,7 +60,7 @@ export default function FromSearchBar(props: Props): JSX.Element {
   return (
     <div className="date-picker-container">
       <LocalizationProvider dateAdapter={MomentUtils}>
-        <Grid container>
+        <Grid container justifyContent="space-around">
           <div className="date-picker">
             <DatePicker
               label="Date picker"

@@ -24,6 +24,7 @@ export default function ApplicationItemRow(props: Props): JSX.Element {
       <Grid
         container
         direction="row"
+        justifyContent="flex-end"
         alignItems="center"
         item
         xs={6}
