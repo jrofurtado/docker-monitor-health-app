@@ -1,14 +1,20 @@
 import React, { useState } from "react";
 import MomentUtils from "@date-io/moment";
+// import {
+//   KeyboardDatePicker,
+//   KeyboardTimePicker,
+//   MuiPickersUtilsProvider,
+// } from "@material-ui/pickers";
+
 import {
-  KeyboardDatePicker,
-  KeyboardTimePicker,
-  MuiPickersUtilsProvider,
-} from "@material-ui/pickers";
+  DatePicker,
+  TimePicker,
+  LocalizationProvider,
+} from "@mui/x-date-pickers";
 
 import "./FromSearchBar.css";
-import { Grid } from "@material-ui/core";
-import ClearIcon from "@material-ui/icons/Clear";
+import { Grid, TextField } from "@mui/material";
+import { Clear } from "@mui/icons-material";
 import moment from "moment";
 
 interface Props {
@@ -53,8 +59,37 @@ export default function FromSearchBar(props: Props): JSX.Element {
 
   return (
     <div className="date-picker-container">
-      <MuiPickersUtilsProvider utils={MomentUtils}>
-        <Grid container justify="space-around">
+      <LocalizationProvider dateAdapter={MomentUtils}>
+        <Grid container>
+          <div className="date-picker">
+            <DatePicker
+              label="Date picker"
+              inputFormat="YYYY-MM-DD"
+              value={selectedDate}
+              onChange={handleDateChange}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </div>
+
+          <div className="time-picker">
+            <TimePicker
+              ampm={false}
+              label="Time picker"
+              value={selectedHour}
+              onChange={handleHourChange}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </div>
+
+          <div className="button-container">
+            <button className="clean-filter" onClick={cleanFilter}>
+              <Clear fontSize="small" />
+            </button>
+          </div>
+        </Grid>
+      </LocalizationProvider>
+      {/* <MuiPickersUtilsProvider utils={MomentUtils}>
+        <Grid container>
           <MuiPickersUtilsProvider utils={MomentUtils} locale="fr">
             <div className="date-picker">
               <KeyboardDatePicker
@@ -82,11 +117,11 @@ export default function FromSearchBar(props: Props): JSX.Element {
 
           <div className="button-container">
             <button onClick={cleanFilter} className="clean-filter-button">
-              <ClearIcon fontSize="small" />
+              <Clear fontSize="small" />
             </button>
           </div>
         </Grid>
-      </MuiPickersUtilsProvider>
+      </MuiPickersUtilsProvider> */}
     </div>
   );
 }

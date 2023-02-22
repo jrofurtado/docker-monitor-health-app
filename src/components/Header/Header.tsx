@@ -8,13 +8,9 @@ import { NotificationStatusInterface } from "../../resources/interfaces";
 // Redux
 import allActions from "../../redux/actions";
 // Material-UI
-import Grid from "@material-ui/core/Grid";
-import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
-import NotificationsOffIcon from "@material-ui/icons/NotificationsOff";
+import { Grid, MenuItem, Menu } from "@mui/material";
 import NavigationBar from "../Navigation/NavigationBar/NavigationBar";
+import {ExitToApp,NotificationsActive,NotificationsOff} from "@mui/icons-material";
 
 interface Props {
   kc: any;
@@ -56,22 +52,28 @@ export default function Header(props: Props): JSX.Element {
 
   return (
     <div className="header">
-      <Grid container direction="row" justify="flex-start" alignItems="center">
+      <Grid container direction="row" justifyContent="flex-start" alignItems="center">
         <Grid item xs={8}>
-          <Grid container direction="row" justify="flex-start" alignItems="center">
+          <Grid
+            container
+            direction="row"
+            justifyContent="flex-start"
+            alignItems="center"
+          >
             {currentComp !== "Applications" ? (
               <Grid item xs={1}>
                 <NavigationBar handleBackButtonClick={handleBackButtonClick} />
-              </Grid>) :
+              </Grid>
+            ) : (
               <></>
-            }
+            )}
             <Grid item xs={11}>
               <h3 className="app-name">{title}</h3>
             </Grid>
           </Grid>
         </Grid>
         <Grid item xs={4}>
-          <Grid container justify="flex-end">
+          <Grid container justifyContent="flex-end">
             <Grid item>
               <Gravatar
                 email={kc.tokenParsed.preferred_username}
@@ -97,36 +99,30 @@ export default function Header(props: Props): JSX.Element {
                   }
                 >
                   {notificationStatus.global ? (
-                    <NotificationsActiveIcon className="active" />
+                    <NotificationsActive className="active" />
                   ) : (
-                      <NotificationsOffIcon />
-                    )}
+                    <NotificationsOff />
+                  )}
                   <button>Subscrição Global</button>
                 </MenuItem>
                 <MenuItem
                   className="user-menu-item logout-button"
                   onClick={kc.logout}
                 >
-                  <ExitToAppIcon />
+                  <ExitToApp />
                   <button>Logout</button>
                 </MenuItem>
               </Menu>
             </Grid>
             <Grid item>
               <h6 id="username">
-                {firstLetterToUpperCase(
-                  kc.tokenParsed.preferred_username
-                )}
+                {firstLetterToUpperCase(kc.tokenParsed.preferred_username)}
               </h6>
-              <p>
-                {firstLetterToUpperCase(
-                  kc.tokenParsed.preferred_username
-                )}
-              </p>
+              <p>{firstLetterToUpperCase(kc.tokenParsed.preferred_username)}</p>
             </Grid>
           </Grid>
         </Grid>
       </Grid>
-    </div >
+    </div>
   );
 }

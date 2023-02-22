@@ -1,10 +1,8 @@
 import React, { MouseEvent } from "react";
 import "./NotificationBell.css";
 // Material-UI
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
-import NotificationsOffIcon from "@material-ui/icons/NotificationsOff";
+import { IconButton } from "@mui/material";
+import { NotificationsActive, NotificationsOff } from "@mui/icons-material";
 // Snackbar
 import { useSnackbar, SnackbarKey } from "notistack";
 
@@ -15,11 +13,8 @@ interface Props {
 }
 
 function NotificationBell(props: Props): JSX.Element {
-  const {
-    applicationName,
-    notificationEnabled,
-    notificationGlobalEnabled,
-  } = props;
+  const { applicationName, notificationEnabled, notificationGlobalEnabled } =
+    props;
   const { enqueueSnackbar } = useSnackbar();
 
   const handleClick = (event: MouseEvent) => {
@@ -53,7 +48,7 @@ function NotificationBell(props: Props): JSX.Element {
       aria-label="notification"
       className="notification-bell active"
     >
-      <NotificationsActiveIcon fontSize="small" />
+      <NotificationsActive fontSize="small" />
     </IconButton>
   ) : (
     <IconButton
@@ -61,7 +56,7 @@ function NotificationBell(props: Props): JSX.Element {
       aria-label="notification"
       className="notification-bell"
     >
-      <NotificationsOffIcon fontSize="small" />
+      <NotificationsOff fontSize="small" />
     </IconButton>
   );
 }

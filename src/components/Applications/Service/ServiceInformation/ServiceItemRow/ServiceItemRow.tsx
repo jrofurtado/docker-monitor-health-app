@@ -2,10 +2,8 @@ import React from "react";
 import "./ServiceItemRow.css";
 import { firstLetterToUpperCase } from "../../../../../resources/scripts";
 // Material-UI
-import Grid from "@material-ui/core/Grid";
-import IconButton from "@material-ui/core/IconButton";
-import CheckIcon from '@material-ui/icons/Check';
-import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
+import { Grid, IconButton } from "@mui/material";
+import { Check, PriorityHigh } from "@mui/icons-material";
 
 interface Props {
   name: string;
@@ -19,21 +17,14 @@ export default function ApplicationItemRow(props: Props): JSX.Element {
       <Grid item xs={6} className="name">
         {firstLetterToUpperCase(name)}
       </Grid>
-      <Grid
-        container
-        direction="row"
-        justify="flex-end"
-        alignItems="center"
-        item
-        xs={6}
-      >
+      <Grid container direction="row" alignItems="center" item xs={6}>
         {healthy ? (
           <IconButton aria-label="health" className="green-color">
-            <CheckIcon fontSize="small" />
+            <Check fontSize="small" />
           </IconButton>
         ) : (
           <IconButton aria-label="health" className="red-color">
-            <PriorityHighIcon fontSize="small" />
+            <PriorityHigh fontSize="small" />
           </IconButton>
         )}
       </Grid>

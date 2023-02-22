@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./ApplicationsList.css";
 // Material-UI
-import Grid from "@material-ui/core/Grid";
+import { Grid } from "@mui/material";
 // Components
 import ApplicationListItem from "./ApplicationListItem/ApplicationListItem";
 // Interfaces
@@ -36,21 +36,23 @@ export default function ApplicationsList(props: Props): JSX.Element {
   return (
     <>
       <Grid container spacing={1} className="applications-container">
-        {applications.map((application: ApplicationInterface, index: number) => {
-          const shouldOpen = openAppName === application.name ? true : false;
-          return (
-            <Grid key={index} item xs={12}>
-              <ApplicationListItem
-                application={application}
-                open={shouldOpen}
-                notificationEnabled={getNotificationState(application)}
-                notificationGlobalEnabled={notificationState.global}
-                handleApplicationClick={handleApplicationClick}
-                handleServiceClick={handleServiceClick}
-              />
-            </Grid>
-          );
-        })}
+        {applications.map(
+          (application: ApplicationInterface, index: number) => {
+            const shouldOpen = openAppName === application.name ? true : false;
+            return (
+              <Grid key={index} item xs={12}>
+                <ApplicationListItem
+                  application={application}
+                  open={shouldOpen}
+                  notificationEnabled={getNotificationState(application)}
+                  notificationGlobalEnabled={notificationState.global}
+                  handleApplicationClick={handleApplicationClick}
+                  handleServiceClick={handleServiceClick}
+                />
+              </Grid>
+            );
+          }
+        )}
       </Grid>
     </>
   );

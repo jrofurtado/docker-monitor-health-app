@@ -6,9 +6,7 @@ import {
   ServerInterface,
 } from "../../../../resources/interfaces";
 // Material-UI
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Collapse from "@material-ui/core/Collapse";
+import { Grid, Paper, Collapse } from "@mui/material";
 // Components
 import ApplicationItemRow from "./ApplicationItemRow/ApplicationItemRow";
 
@@ -45,7 +43,6 @@ export default function ApplicationListItem(props: Props): JSX.Element {
         <Grid
           container
           direction="row"
-          justify="center"
           alignItems="center"
           className={`server-item max-width ${open ? "active" : ""}`}
           onClick={(): void => handleRowClick(application.name)}
@@ -62,7 +59,6 @@ export default function ApplicationListItem(props: Props): JSX.Element {
           <Grid
             container
             direction="column"
-            justify="center"
             alignItems="flex-start"
             item
             xs={12}
@@ -72,7 +68,6 @@ export default function ApplicationListItem(props: Props): JSX.Element {
                 key={`${server.name}`}
                 container
                 direction="row"
-                justify="center"
                 alignItems="center"
                 className="server-item"
                 onClick={(): void => handleRowClick(server.name)}

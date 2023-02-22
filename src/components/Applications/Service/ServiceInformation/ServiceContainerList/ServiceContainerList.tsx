@@ -2,8 +2,7 @@ import React from "react";
 //Script
 import { firstLetterToUpperCase } from "../../../../../resources/scripts";
 // Material-UI
-import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
+import { Grid, makeStyles } from "@mui/material";
 //Interface
 import {
   ServiceInterface,
@@ -39,8 +38,14 @@ export default function ServiceContainerList(props: Props) {
               container
               key={index}
               className={classes.paper}
-              onClick={() => handleContainerClick(container, firstLetterToUpperCase(
-                container.names.toString().substring(1, 50)))}
+              onClick={() =>
+                handleContainerClick(
+                  container,
+                  firstLetterToUpperCase(
+                    container.names.toString().substring(1, 50)
+                  )
+                )
+              }
             >
               <ServiceItemRow
                 name={firstLetterToUpperCase(

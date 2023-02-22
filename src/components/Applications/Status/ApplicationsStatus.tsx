@@ -5,7 +5,8 @@ import { ApplicationsStatusInterface } from "../../../resources/interfaces";
 import { getApplicationsStatus } from "../../../resources/requests";
 import FromSearchBar from "./FromSearchBar";
 import "./ApplicationsStatus.css";
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
+import AppsStatusItem from "./AppsStatusItem";
 
 export default function ApplicationsStatus() {
   const rowsPerPage = 10;
@@ -48,11 +49,6 @@ export default function ApplicationsStatus() {
     setFrom(from);
   };
 
-  // format timestamp to YYYY-MM-DD HH:mm
-  const formatTimestamp = (timestamp: any) => {
-    return moment(timestamp).format("YYYY-MM-DD HH:mm");
-  };
-
   //Converts 12h time to 24h time.
   const convertTime12to24 = (time12h: any | null) => {
     if (!time12h) {
@@ -80,61 +76,6 @@ export default function ApplicationsStatus() {
     setFrom(newFrom);
   };
 
-  // iterate through json keys
-  const iterateJsonKeys = (json: any) => {
-    let keys = [];
-    for (let key in json) {
-      keys.push(key);
-    }
-    return keys;
-  };
-
-  const getAppsKeys = (apps: any) => {
-    let keys = [];
-    for (let key in apps) {
-      keys.push(key);
-    }
-    console.log("keys", keys);
-    return keys;
-  };
-
-  const getAppServers = (app: any) => {
-    let servers = [];
-    for (let key in app) {
-      servers.push(key);
-    }
-    return servers;
-  };
-
-  const getAppsCount = (apps: any) => {
-    return getAppsKeys(apps).length;
-  };
-
-  const getServersCount = (appsObject: any) => {
-    let serversCount = 0;
-    const apps = Object.values(appsObject);
-    console.log("apps", apps);
-    apps.forEach((app: any) => {
-      console.log("app", app);
-      const servers = Object.values(app);
-      console.log("servers", servers);
-      serversCount += getAppServers(app).length;
-    });
-    return serversCount;
-  };
-
-  const getContainersCount = (appsObject: any) => {
-    let contCount = 0;
-    const apps = Object.values(appsObject);
-    apps.forEach((app: any) => {
-      const servers = Object.values(app);
-      servers.forEach((server: any) => {
-        contCount += server.containers;
-      });
-    });
-    return contCount;
-  };
-
   // use effect to get applications status
   React.useEffect(() => {
     const count = rowsPerPage;
@@ -156,14 +97,7 @@ export default function ApplicationsStatus() {
       />
       {/* RESULTS ROWS */}
       {applicationsStatus.map((appStatus) => {
-        return (
-          <div key={appStatus.timestamp}>
-            {formatTimestamp(appStatus.timestamp)}&nbsp; Apps:&nbsp;
-            {getAppsCount(appStatus.apps)}&nbsp; Servers:&nbsp;
-            {getServersCount(appStatus.apps)}&nbsp; Containers:&nbsp;
-            {getContainersCount(appStatus.apps)}
-          </div>
-        );
+        return <AppsStatusItem appStatus={appStatus} />;
       })}
       {/* PAGINATIONS */}
       {selectedDate &&
@@ -173,7 +107,7 @@ export default function ApplicationsStatus() {
             <Button
               className="ver-mais-btn"
               variant="contained"
-              color="default"
+              color="primary"
               onClick={() => {
                 loadMore();
               }}

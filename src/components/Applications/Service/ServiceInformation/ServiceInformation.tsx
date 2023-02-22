@@ -3,8 +3,11 @@ import "./ServiceInformation.css";
 //Script
 import { firstLetterToUpperCase } from "../../../../resources/scripts";
 // Material-UI
-import GetAppIcon from "@material-ui/icons/GetApp";
-import FindInPageIcon from "@material-ui/icons/FindInPage";
+
+import {GetApp,FindInPage} from "@mui/icons-material"
+
+// import GetAppIcon from "@mui/icons-material/GetApp";
+// import FindInPageIcon from "@mui/icons-material/FindInPage";
 //Interface
 import {
   ServiceInterface,
@@ -117,7 +120,7 @@ export default function ServiceInformation(props: Props): JSX.Element {
             <div>
               <button className="json-button" onClick={openAllInJson}>
                 {text}
-                <FindInPageIcon fontSize="small" />
+                <FindInPage fontSize="small" />
               </button>
               <a
                 href={URL.createObjectURL(
@@ -129,7 +132,7 @@ export default function ServiceInformation(props: Props): JSX.Element {
               >
                 <button className="download-button">
                   Download All
-                  <GetAppIcon fontSize="small" />
+                  <GetApp fontSize="small" />
                 </button>
               </a>
             </div>

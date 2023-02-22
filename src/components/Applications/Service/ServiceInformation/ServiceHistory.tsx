@@ -10,8 +10,7 @@ import DateSearchBar from "../../../Search/DateSearchBar";
 import NoDataReceivedItemRow from "./ServiceItemRow/NoDataReceivedItemRow";
 
 // Material-UI
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
+import { Grid, Button } from "@mui/material";
 import {
   ServiceInterface,
   ContainerInterface,
@@ -234,7 +233,7 @@ export default function ServiceHistory(props: Props): JSX.Element {
           <Button
             className="ver-mais-btn"
             variant="contained"
-            color="default"
+            color="primary"
             onClick={() => {
               setCurrentPage(currentPage + 1);
             }}

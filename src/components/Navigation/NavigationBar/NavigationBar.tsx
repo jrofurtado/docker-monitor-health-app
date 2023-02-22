@@ -1,10 +1,9 @@
 import React from "react";
-import "./NavigationBar.css"
+import "./NavigationBar.css";
 // Material-UI
-import Grid from "@material-ui/core/Grid";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import IconButton from "@material-ui/core/IconButton";
-import blue from "@material-ui/core/colors/purple";
+import { Grid, IconButton } from "@mui/material";
+import { ArrowBack } from "@mui/icons-material";
+import { blue } from "@mui/material/colors";
 
 interface Props {
   handleBackButtonClick: () => void;
@@ -22,7 +21,7 @@ export default function NavigationBar(props: Props): JSX.Element {
       <Grid container>
         <Grid item xs={1}>
           <IconButton onClick={() => handleBackButtonClick()}>
-            <ArrowBackIcon style={style} />
+            <ArrowBack style={style} />
           </IconButton>
         </Grid>
       </Grid>

@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import "./JsonHTML.css";
-import { IconButton, Grid } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
-import GetAppIcon from "@material-ui/icons/GetApp";
-import FindInPageIcon from "@material-ui/icons/FindInPage";
+import { IconButton, Grid } from "@mui/material";
+import { Close, GetApp, FindInPage } from "@mui/icons-material";
 
 interface Props {
   title?: string;
@@ -130,8 +128,8 @@ export default function JsonHTML(props: Props) {
           <ul className="containers-ul">{getObjectElement()}</ul>
         </li>
       ) : (
-          <ul className="containers-ul">{getObjectElement()}</ul>
-        );
+        <ul className="containers-ul">{getObjectElement()}</ul>
+      );
     };
 
     return handleObject(json, undefined, false);
@@ -144,28 +142,30 @@ export default function JsonHTML(props: Props) {
           {title ? <h5 className="title">{title}</h5> : null}
         </Grid>
         <Grid item xs={4}>
-          {showButtons ? <div className="buttons-container">
-            <button className="json-button" onClick={openInJson}>
-              {text}
-              <FindInPageIcon fontSize="small" />
-            </button>
-            <a
-              href={URL.createObjectURL(
-                new Blob([JSON.stringify(json, null, 2)], {
-                  type: "text/plain",
-                })
-              )}
-              download={title + "JSON.txt"}
-            >
-              <button className="download-button">
-                Download
-                <GetAppIcon fontSize="small" />
+          {showButtons ? (
+            <div className="buttons-container">
+              <button className="json-button" onClick={openInJson}>
+                {text}
+                <FindInPage fontSize="small" />
               </button>
-            </a>
-            <IconButton onClick={closeView}>
-              <CloseIcon fontSize="small" id="close-icon" />
-            </IconButton>
-          </div> : null}
+              <a
+                href={URL.createObjectURL(
+                  new Blob([JSON.stringify(json, null, 2)], {
+                    type: "text/plain",
+                  })
+                )}
+                download={title + "JSON.txt"}
+              >
+                <button className="download-button">
+                  Download
+                  <GetApp fontSize="small" />
+                </button>
+              </a>
+              <IconButton onClick={closeView}>
+                <Close fontSize="small" id="close-icon" />
+              </IconButton>
+            </div>
+          ) : null}
         </Grid>
       </Grid>
       <div className="container-div">{isJson ? viewJson() : getRender()}</div>

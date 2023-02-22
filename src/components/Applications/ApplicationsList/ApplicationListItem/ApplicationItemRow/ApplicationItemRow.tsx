@@ -3,10 +3,8 @@ import { firstLetterToUpperCase } from "../../../../../resources/scripts";
 // Components
 import NotificationBell from "../../../../Notifications/NotificationBell/NotificationBell";
 // Material-UI
-import Grid from "@material-ui/core/Grid";
-import IconButton from "@material-ui/core/IconButton";
-import CheckIcon from '@material-ui/icons/Check';
-import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
+import { Grid, IconButton } from "@mui/material";
+import { Check, PriorityHigh } from "@mui/icons-material";
 
 interface Props {
   name: string;
@@ -16,12 +14,8 @@ interface Props {
 }
 
 export default function ApplicationItemRow(props: Props): JSX.Element {
-  const {
-    name,
-    healthy,
-    notificationEnabled,
-    notificationGlobalEnabled,
-  } = props;
+  const { name, healthy, notificationEnabled, notificationGlobalEnabled } =
+    props;
   return (
     <>
       <Grid item xs={6} className="name">
@@ -30,7 +24,6 @@ export default function ApplicationItemRow(props: Props): JSX.Element {
       <Grid
         container
         direction="row"
-        justify="flex-end"
         alignItems="center"
         item
         xs={6}
@@ -50,13 +43,13 @@ export default function ApplicationItemRow(props: Props): JSX.Element {
         ) : null}
         {healthy ? (
           <IconButton aria-label="delete" className="green-color">
-            <CheckIcon fontSize="small" />
+            <Check fontSize="small" />
           </IconButton>
         ) : (
-            <IconButton aria-label="delete" className="red-color">
-              <PriorityHighIcon fontSize="small" />
-            </IconButton>
-          )}
+          <IconButton aria-label="delete" className="red-color">
+            <PriorityHigh fontSize="small" />
+          </IconButton>
+        )}
       </Grid>
     </>
   );
