@@ -1,4 +1,7 @@
+import React from "react";
 import { ExpandMore } from "@mui/icons-material";
+import "./AppsStatusItem.css";
+
 import {
   Accordion,
   AccordionDetails,
@@ -6,14 +9,14 @@ import {
   Typography,
 } from "@mui/material";
 import moment from "moment";
-import React from "react";
 import { ApplicationsStatusInterface } from "../../../resources/interfaces";
 
 interface Props {
   appStatus: ApplicationsStatusInterface;
+  prevAppStatus: ApplicationsStatusInterface;
 }
 export default function AppsStatusItem(props: Props): JSX.Element {
-  const { appStatus } = props;
+  const { appStatus, prevAppStatus } = props;
 
   // helper functions
 
@@ -27,7 +30,6 @@ export default function AppsStatusItem(props: Props): JSX.Element {
     for (let key in apps) {
       keys.push(key);
     }
-    console.log("keys", keys);
     return keys;
   };
 
@@ -46,11 +48,7 @@ export default function AppsStatusItem(props: Props): JSX.Element {
   const getServersCount = (appsObject: any) => {
     let serversCount = 0;
     const apps = Object.values(appsObject);
-    console.log("apps", apps);
     apps.forEach((app: any) => {
-      console.log("app", app);
-      const servers = Object.values(app);
-      console.log("servers", servers);
       serversCount += getAppServers(app).length;
     });
     return serversCount;
@@ -69,7 +67,7 @@ export default function AppsStatusItem(props: Props): JSX.Element {
   };
 
   return (
-    <div key={appStatus.timestamp}>
+    <div key={appStatus.timestamp} className="container">
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMore />}
@@ -84,7 +82,16 @@ export default function AppsStatusItem(props: Props): JSX.Element {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>detalhes</Typography>
+          <div className="details">
+            <div className="details-column">
+              <Typography>Anterior</Typography>
+              <pre>{JSON.stringify(prevAppStatus.apps, null, 2)}</pre>
+            </div>
+            <div className="details-column">
+              <Typography>Actual</Typography>
+              <pre>{JSON.stringify(appStatus.apps, null, 2)}</pre>
+            </div>
+          </div>
         </AccordionDetails>
       </Accordion>
     </div>

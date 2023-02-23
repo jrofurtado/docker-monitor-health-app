@@ -82,46 +82,12 @@ export default function FromSearchBar(props: Props): JSX.Element {
           </div>
 
           <div className="button-container">
-            <button className="clean-filter" onClick={cleanFilter}>
+            <button className="clean-filter-button" onClick={cleanFilter}>
               <Clear fontSize="small" />
             </button>
           </div>
         </Grid>
       </LocalizationProvider>
-      {/* <MuiPickersUtilsProvider utils={MomentUtils}>
-        <Grid container>
-          <MuiPickersUtilsProvider utils={MomentUtils} locale="fr">
-            <div className="date-picker">
-              <KeyboardDatePicker
-                label="Date picker"
-                format={"YYYY-MM-DD"}
-                value={selectedDate}
-                onChange={handleDateChange}
-                animateYearScrolling={false}
-              />
-            </div>
-          </MuiPickersUtilsProvider>
-
-          <div className="time-picker">
-            <KeyboardTimePicker
-              ampm={false}
-              id="time-picker"
-              label="Time picker"
-              value={selectedHour}
-              onChange={handleHourChange}
-              KeyboardButtonProps={{
-                "aria-label": "change time",
-              }}
-            />
-          </div>
-
-          <div className="button-container">
-            <button onClick={cleanFilter} className="clean-filter-button">
-              <Clear fontSize="small" />
-            </button>
-          </div>
-        </Grid>
-      </MuiPickersUtilsProvider> */}
     </div>
   );
 }

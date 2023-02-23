@@ -65,7 +65,6 @@ export default function Navigation(props: Props): JSX.Element {
 
     return handleServiceClick();
   };
-  console.log("serviceName: ", service.serviceName);
 
   return service.serviceName !== "" ? (
     <div>

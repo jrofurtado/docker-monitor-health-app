@@ -159,8 +159,7 @@ export async function getApplicationsStatus(
 ): Promise<Array<ApplicationsStatusInterface> | void> {
   /* develblock:start */
   // Mock
-  console.log("process.env.NODE_ENV: ", process.env.NODE_ENV);
-  if (process.env.NODE_ENV === "production") {
+  if (process.env.NODE_ENV !== "production") {
     return await allMocks.getApplicationsStatus();
   }
   /* develblock:end */

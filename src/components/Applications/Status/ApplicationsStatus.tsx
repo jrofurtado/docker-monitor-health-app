@@ -5,22 +5,22 @@ import { ApplicationsStatusInterface } from "../../../resources/interfaces";
 import { getApplicationsStatus } from "../../../resources/requests";
 import FromSearchBar from "./FromSearchBar";
 import "./ApplicationsStatus.css";
-import { Button } from "@mui/material";
+import { Grid, Button } from "@mui/material";
 import AppsStatusItem from "./AppsStatusItem";
 
 export default function ApplicationsStatus() {
   const rowsPerPage = 10;
-  // create state for applications status
   const [applicationsStatus, setApplicationsStatus] = React.useState<
     ApplicationsStatusInterface[]
   >([]);
-  // create state for block of applications status
   const [applicationsStatusBlock, setApplicationsStatusBlock] = React.useState<
     ApplicationsStatusInterface[]
   >([]);
-  //create state for from initializing at present time
   const [from, setFrom] = React.useState<number>(moment().valueOf());
-  // create state for selected date and hour and initialize at present date and time in 24 hour format
+  // set state for updatedFrom
+  const [updatedFrom, setUpdatedFrom] = React.useState<number>(
+    moment().valueOf()
+  );
   const [selectedDate, setSelectedDate] = React.useState<any | null>(
     moment().format("YYYY-MM-DD")
   );
@@ -67,25 +67,40 @@ export default function ApplicationsStatus() {
   };
 
   const loadMore = () => {
-    let newFrom = from;
+    let newFrom = updatedFrom;
     if (applicationsStatusBlock.length === rowsPerPage) {
       newFrom =
-        applicationsStatusBlock[applicationsStatusBlock.length - 1].timestamp -
-        1;
+        applicationsStatusBlock[applicationsStatusBlock.length - 1].timestamp;
     }
-    setFrom(newFrom);
+    getApplicationsStatus(newFrom, rowsPerPage).then((res) => {
+      if (res) {
+        setApplicationsStatusBlock(res);
+        setApplicationsStatus([...applicationsStatus, ...res]);
+        setUpdatedFrom(newFrom);
+      }
+    });
   };
+
+  // use effect to refresh applications status
 
   // use effect to get applications status
   React.useEffect(() => {
-    const count = rowsPerPage;
-    getApplicationsStatus(from, count).then((res) => {
+    getApplicationsStatus(from, rowsPerPage).then((res) => {
       if (res) {
         setApplicationsStatusBlock(res);
         setApplicationsStatus([...applicationsStatus, ...res]);
       }
     });
+    setUpdatedFrom(from);
   }, [from]);
+
+  React.useEffect(() => {
+    // Scroll to the bottom of the page
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: "smooth",
+    });
+  }, [from, updatedFrom]);
 
   return (
     <>
@@ -96,8 +111,18 @@ export default function ApplicationsStatus() {
         from={from}
       />
       {/* RESULTS ROWS */}
-      {applicationsStatus.map((appStatus) => {
-        return <AppsStatusItem appStatus={appStatus} />;
+      {applicationsStatus.map((appStatus, index) => {
+        if (index === applicationsStatus.length - 1) {
+          return null;
+        }
+        return (
+          <Grid container key={index} className="message">
+            <AppsStatusItem
+              appStatus={appStatus}
+              prevAppStatus={applicationsStatus[index + 1]}
+            />
+          </Grid>
+        );
       })}
       {/* PAGINATIONS */}
       {selectedDate &&
