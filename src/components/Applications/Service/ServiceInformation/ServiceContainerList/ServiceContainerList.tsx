@@ -3,7 +3,7 @@ import React from "react";
 import { firstLetterToUpperCase } from "../../../../../resources/scripts";
 // Material-UI
 import { Grid } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 //Interface
 import {
   ServiceInterface,
@@ -12,14 +12,14 @@ import {
 //Components
 import ServiceItemRow from "../ServiceItemRow/ServiceItemRow";
 
-const useStyles = makeStyles({
+/* const useStyles = makeStyles({
   paper: {
     borderRadius: "0.3rem",
     backgroundColor: "white",
     margin: "0.5rem 0",
     cursor: "pointer",
   },
-});
+}); */
 
 interface Props {
   service: ServiceInterface;
@@ -28,8 +28,14 @@ interface Props {
 
 export default function ServiceContainerList(props: Props) {
   const { service, handleContainerClick } = props;
-  const classes = useStyles();
-
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const useStyles = styled("div")(({ theme }) => ({
+    borderRadius: "0.3rem",
+    backgroundColor: "white",
+    margin: "0.5rem 0",
+    cursor: "pointer",
+    boxShadow: theme.shadows[5],
+  }));
   return (
     <>
       {service.containers.map(
@@ -38,7 +44,6 @@ export default function ServiceContainerList(props: Props) {
             <Grid
               container
               key={index}
-              className={classes.paper}
               onClick={() =>
                 handleContainerClick(
                   container,

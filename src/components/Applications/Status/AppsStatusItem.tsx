@@ -1,6 +1,6 @@
-import React from "react";
 import { ExpandMore } from "@mui/icons-material";
 import "./AppsStatusItem.css";
+import ReactDiffViewer, { DiffMethod } from "react-diff-viewer-continued";
 
 import {
   Accordion,
@@ -10,16 +10,56 @@ import {
 } from "@mui/material";
 import moment from "moment";
 import { ApplicationsStatusInterface } from "../../../resources/interfaces";
+import * as React from "react";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Box from "@mui/material/Box";
 
 interface Props {
   appStatus: ApplicationsStatusInterface;
   prevAppStatus: ApplicationsStatusInterface;
 }
+interface TabPanelsProps {
+  children?: React.ReactNode;
+  index: string;
+  value: string;
+}
+
+function TabPanel(props: TabPanelsProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`vertical-tabpanel-${index}`}
+      aria-labelledby={`vertical-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+function a11yProps(index: string) {
+  return {
+    id: `vertical-tab-${index}`,
+    "aria-controls": `vertical-tabpanel-${index}`,
+  };
+}
+
 export default function AppsStatusItem(props: Props): JSX.Element {
   const { appStatus, prevAppStatus } = props;
 
   // helper functions
-
+  const [value, setValue] = React.useState("0");
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+  };
   // format timestamp to YYYY-MM-DD HH:mm
   const formatTimestamp = (timestamp: any) => {
     return moment(timestamp).format("YYYY-MM-DD HH:mm");
@@ -82,16 +122,36 @@ export default function AppsStatusItem(props: Props): JSX.Element {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <div className="details">
-            <div className="details-column">
-              <Typography>Anterior</Typography>
-              <pre>{JSON.stringify(prevAppStatus.apps, null, 2)}</pre>
-            </div>
-            <div className="details-column">
-              <Typography>Actual</Typography>
-              <pre>{JSON.stringify(appStatus.apps, null, 2)}</pre>
-            </div>
-          </div>
+          <Box sx={{ width: "100%" }}>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <Tabs value={value} onChange={handleChange} aria-label="status">
+                <Tab label="Delta" value="0" {...a11yProps("0")} />
+                <Tab label="Previous" value="1" {...a11yProps("1")} />
+                <Tab label="Actual" value="2" {...a11yProps("2")} />
+              </Tabs>
+            </Box>
+            <TabPanel value={value} index="0">
+              <Box sx={{ overflowX: "auto" }}>
+                <ReactDiffViewer
+                  oldValue={JSON.stringify(prevAppStatus.apps.monitor, null, 2)}
+                  newValue={JSON.stringify(appStatus.apps.monitor, null, 2)}
+                  splitView={false}
+                  hideLineNumbers={true}
+                  compareMethod={DiffMethod.WORDS}
+                />
+              </Box>
+            </TabPanel>
+            <TabPanel value={value} index="1">
+              <Box sx={{ overflowX: "auto" }}>
+                <pre>{JSON.stringify(prevAppStatus.apps.monitor, null, 2)}</pre>
+              </Box>
+            </TabPanel>
+            <TabPanel value={value} index="2">
+              <Box sx={{ overflowX: "auto" }}>
+                <pre>{JSON.stringify(appStatus.apps.monitor, null, 2)}</pre>
+              </Box>
+            </TabPanel>
+          </Box>
         </AccordionDetails>
       </Accordion>
     </div>
