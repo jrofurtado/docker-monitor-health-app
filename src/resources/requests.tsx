@@ -1,5 +1,4 @@
 import axios from "axios";
-import { kc } from "../index";
 // TypeScript
 import {
   ApplicationInterface,
@@ -9,7 +8,6 @@ import {
   NotificationStatusInterface,
   ApplicationsStatusInterface,
 } from "./interfaces";
-import moment from "moment";
 /* develblock:start */
 import allMocks from "../mocks/mockResponses";
 /* develblock:end */
@@ -195,3 +193,5 @@ export async function getNotificationInfo(): Promise<NotificationStatusInterface
       console.log("getNotificationInfo Error: ", error);
     });
 }
+
+export type { ApplicationsStatusInterface };

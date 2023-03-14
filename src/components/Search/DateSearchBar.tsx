@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import "./DateSearchBar.css";
+import "../../styles/DateSearchBar.css";
 
 //Material-UI
 import "date-fns";
-import moment from "moment";
+
 import {
   Grid,
   InputLabel,

@@ -1,0 +1,9 @@
+.application-item {
+  cursor: pointer;
+  display: flex;
+}
+
+.name {
+  padding: 1rem;
+  color: rgb(5, 12, 22);
+}

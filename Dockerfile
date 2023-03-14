@@ -24,10 +24,10 @@
 FROM node:19.6.1-alpine3.16 as builder
 WORKDIR /app
 COPY package.json ./
-COPY yarn.lock ./
-RUN yarn install
+COPY package-lock.json ./
+RUN npm install
 COPY . ./
-RUN yarn build
+RUN npm run build
 
 FROM nginx:1.17.9-alpine
 COPY files/ /

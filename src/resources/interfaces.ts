@@ -26,6 +26,7 @@ export interface ContainerInterface {
   Id: string;
   _Healthy: boolean;
   [key: string]: any;
+  style: {};
 }
 
 export interface ApplicationKeyInterface {
