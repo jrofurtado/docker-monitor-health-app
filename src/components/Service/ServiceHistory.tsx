@@ -6,7 +6,7 @@ import { getServiceHistory } from "../../resources/requests";
 
 // Components
 import ServiceItemRow from "./ServiceItemRow";
-import DateSearchBar from "../../components/Search/DateSearchBar";
+
 import NoDataReceivedItemRow from "./NoDataReceivedItemRow";
 
 // Material-UI
@@ -188,11 +188,6 @@ export default function ServiceHistory(props: Props): JSX.Element {
   ) : (
     <>
       {/* SEARCH BAR */}
-      <DateSearchBar
-        onChange={handleSelect}
-        onDateChange={handleDateChange}
-        onHourChange={handleHourChange}
-      />
 
       {/* RESULTS ROWS */}
       {filteredMessages.map((service: ServiceInterface, index: number) => {

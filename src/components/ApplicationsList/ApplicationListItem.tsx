@@ -6,16 +6,18 @@ import {
   ServerInterface,
 } from "../../resources/interfaces";
 // Material-UI
-import { Collapse, Grid } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 import { ApplicationGrid, StyledGrid } from "../../JsxStyles/Styles";
 // Components
 import ApplicationItemRow from "./ApplicationItemRow";
+import { ExpandMore } from "@mui/icons-material";
+
+import ServerList from "./ServerList";
 
 interface Props {
   application: ApplicationInterface;
   open: boolean;
   notificationEnabled: boolean;
-  notificationGlobalEnabled: boolean;
   handleApplicationClick: (name: string) => void;
   handleServiceClick: (app: string, service: string) => void;
 }
@@ -23,9 +25,7 @@ interface Props {
 export default function ApplicationListItem(props: Props): JSX.Element {
   const {
     application,
-    open,
     notificationEnabled,
-    notificationGlobalEnabled,
     handleApplicationClick,
     handleServiceClick,
   } = props;
@@ -39,51 +39,37 @@ export default function ApplicationListItem(props: Props): JSX.Element {
   };
 
   return (
-    <>
-      <StyledGrid
-        container
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
-        className={`server-item max-width ${open ? "active" : ""}`}
-        onClick={(): void => handleRowClick(application.name)}
-      >
-        <ApplicationItemRow
-          name={application.name}
-          healthy={application.healthy}
-          notificationEnabled={notificationEnabled}
-          notificationGlobalEnabled={notificationGlobalEnabled}
-        />
-      </StyledGrid>
-
-      <Collapse in={open} timeout="auto" unmountOnExit>
-        <ApplicationGrid
-          container
-          direction="column"
-          justifyContent="start"
-          alignItems="center"
-          item
-          xs={12}
+    <div className="container">
+      <Accordion style={{ margin: "0.5rem 0" }}>
+        <AccordionSummary
+          expandIcon={<ExpandMore />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
         >
-          {application.servers.map((server: ServerInterface) => (
-            <Grid
-              key={`${server.name}`}
-              container
-              direction="column"
-              justifyContent="start"
-              alignItems="center"
-              className="server-item"
-              onClick={(): void => handleRowClick(server.name)}
-            >
-              <ApplicationItemRow
-                name={server.name}
-                healthy={server.status.healthy}
-                notificationGlobalEnabled={notificationGlobalEnabled}
-              />
-            </Grid>
-          ))}
-        </ApplicationGrid>
-      </Collapse>
-    </>
+          <ApplicationItemRow
+            name={application.name}
+            notificationEnabled={notificationEnabled}
+            healthy={application.healthy}
+          />
+        </AccordionSummary>
+        <AccordionDetails>
+          <StyledGrid container spacing={1} alignContent="center">
+            {application.servers.map((server: ServerInterface) => (
+              <ApplicationGrid
+                alignContent="center"
+                item
+                key={`${server.name}`}
+                onClick={() => handleRowClick(server.name)}
+              >
+                <ServerList
+                  name={server.name}
+                  healthy={server.status.healthy}
+                />
+              </ApplicationGrid>
+            ))}
+          </StyledGrid>
+        </AccordionDetails>
+      </Accordion>
+    </div>
   );
 }

@@ -1,64 +1,56 @@
-import React, { MouseEvent } from "react";
+import { MouseEvent, useState, useEffect } from "react";
+import { NotificationProps } from "../../resources/interfaces";
 import "../../styles/NotificationBell.css";
 // Material-UI
-import { IconButton } from "@mui/material";
 import { NotificationsActive, NotificationsOff } from "@mui/icons-material";
 // Snackbar
 import { useSnackbar } from "notistack";
 
-interface Props {
-  applicationName: string;
-  notificationEnabled: boolean;
-  notificationGlobalEnabled: boolean;
-}
-
-function NotificationBell(props: Props): JSX.Element {
-  const { applicationName, notificationEnabled, notificationGlobalEnabled } =
-    props;
+function NotificationBell(props: NotificationProps): JSX.Element {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { applicationName, notificationEnabled } = props;
   const { enqueueSnackbar } = useSnackbar();
+  const [isActive, setISActive] = useState(false);
+  const [isFirstRender, setIsFirstRender] = useState(true);
 
-  const handleClick = (event: MouseEvent) => {
-    event.stopPropagation();
+  useEffect(() => {
+    let message = isActive
+      ? `You have subscribed from ${applicationName} notifications`
+      : `You have unsubscribed to ${applicationName} notifications`;
 
-    let message = "";
-    if (notificationGlobalEnabled) {
-      message = "Está subscrito globalmente";
-    } else {
-      message = `${
-        notificationEnabled ? "Retirou a subscrição a" : "Subscreveu a"
-      } ${applicationName}`;
+    if (!isFirstRender) {
+      enqueueSnackbar(message, {
+        variant: "info",
+        anchorOrigin: {
+          vertical: "bottom",
+          horizontal: "center",
+        },
+        autoHideDuration: 3000,
+      });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isActive]);
 
-    enqueueSnackbar(message, {
-      variant: notificationGlobalEnabled
-        ? "warning"
-        : notificationEnabled
-        ? "warning"
-        : "success",
-      anchorOrigin: {
-        vertical: "bottom",
-        horizontal: "center",
-      },
-    });
-  };
-
-  return notificationEnabled ? (
-    <IconButton
-      onClick={handleClick}
-      aria-label="notification"
-      className="notification-bell active"
-    >
-      <NotificationsActive fontSize="small" style={{ marginLeft: "auto" }} />
-    </IconButton>
-  ) : (
-    <IconButton
-      style={{ marginRight: "auto" }}
-      onClick={handleClick}
-      aria-label="notification"
-      className="notification-bell"
-    >
-      <NotificationsOff fontSize="small" style={{ marginLeft: "auto" }} />
-    </IconButton>
+  return (
+    <div className="notification-bell">
+      {isActive ? (
+        <NotificationsActive
+          onClick={(e: MouseEvent) => {
+            e.stopPropagation();
+            setISActive(!isActive);
+            setIsFirstRender(false);
+          }}
+        />
+      ) : (
+        <NotificationsOff
+          onClick={(e: MouseEvent) => {
+            e.stopPropagation();
+            setISActive(!isActive);
+            setIsFirstRender(false);
+          }}
+        />
+      )}
+    </div>
   );
 }
 

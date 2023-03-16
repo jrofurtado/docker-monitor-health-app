@@ -139,8 +139,8 @@ export default function AppsStatusItem(props: Props): JSX.Element {
             <TabPanel value={value} index="0">
               <Box sx={{ overflowX: "auto" }}>
                 <ReactDiffViewer
-                  oldValue={JSON.stringify(prevAppStatus.apps.monitor, null, 2)}
-                  newValue={JSON.stringify(appStatus.apps.monitor, null, 2)}
+                  oldValue={JSON.stringify(prevAppStatus.apps, null, 2)}
+                  newValue={JSON.stringify(appStatus.apps, null, 2)}
                   splitView={false}
                   hideLineNumbers={true}
                   compareMethod={DiffMethod.WORDS}
@@ -149,12 +149,12 @@ export default function AppsStatusItem(props: Props): JSX.Element {
             </TabPanel>
             <TabPanel value={value} index="1">
               <Box sx={{ overflowX: "auto" }}>
-                <pre>{JSON.stringify(prevAppStatus.apps.monitor, null, 2)}</pre>
+                <pre>{JSON.stringify(prevAppStatus.apps, null, 2)}</pre>
               </Box>
             </TabPanel>
             <TabPanel value={value} index="2">
               <Box sx={{ overflowX: "auto" }}>
-                <pre>{JSON.stringify(appStatus.apps.monitor, null, 2)}</pre>
+                <pre>{JSON.stringify(appStatus.apps, null, 2)}</pre>
               </Box>
             </TabPanel>
           </Box>

@@ -58,3 +58,14 @@ export interface ApplicationsStatusInterface {
   timestamp: number;
   apps: ApplicationStatusInterface;
 }
+export interface NotificationProps {
+  applicationName: string;
+  notificationEnabled: boolean;
+}
+export interface ServiceHistoryProps {
+  appName: string;
+  serviceName: string;
+  handleMessageClick: (service: ServiceInterface) => void;
+  handleHeaderTitle: (...args: string[]) => void;
+  handleCurrentComp: (currentComp: string) => void;
+}

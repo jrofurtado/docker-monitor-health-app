@@ -10,33 +10,26 @@ interface Props {
   name: string;
   healthy: boolean;
   notificationEnabled?: boolean;
-  notificationGlobalEnabled: boolean;
 }
 
 export default function ApplicationItemRow(props: Props): JSX.Element {
-  const { name, healthy, notificationEnabled, notificationGlobalEnabled } =
-    props;
+  const { name, healthy, notificationEnabled } = props;
   return (
-    <StyledGrid container>
-      {notificationGlobalEnabled ? (
-        <NotificationBell
-          applicationName={name}
-          notificationEnabled={true}
-          notificationGlobalEnabled={notificationGlobalEnabled}
-        />
-      ) : notificationEnabled !== undefined ? (
-        <NotificationBell
-          applicationName={name}
-          notificationEnabled={notificationEnabled}
-          notificationGlobalEnabled={notificationGlobalEnabled}
-        />
-      ) : null}
+    <StyledGrid container alignItems="center">
       {firstLetterToUpperCase(name)}
       {healthy ? (
         <Check style={{ color: "green", marginLeft: "auto" }} />
       ) : (
         <PriorityHigh style={{ color: "red", marginLeft: "auto" }} />
       )}
+      {notificationEnabled ? (
+        <NotificationBell applicationName={name} notificationEnabled={true} />
+      ) : notificationEnabled !== undefined ? (
+        <NotificationBell
+          applicationName={name}
+          notificationEnabled={notificationEnabled}
+        />
+      ) : null}
     </StyledGrid>
   );
 }

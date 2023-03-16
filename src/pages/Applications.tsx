@@ -7,9 +7,10 @@ import {
 } from "../resources/requests";
 // Components
 import ApplicationsList from "../components/ApplicationsList/ApplicationsList";
+
 // Redux
 import allActions from "../redux-store/New-apps-redux/actions";
-import { ApplicationGrid } from "../JsxStyles/Styles";
+
 // Interfaces
 import {
   ApplicationInterface,

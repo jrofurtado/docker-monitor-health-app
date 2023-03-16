@@ -42,7 +42,6 @@ export default function ApplicationsList(props: Props): JSX.Element {
             application={application}
             open={shouldOpen}
             notificationEnabled={getNotificationState(application)}
-            notificationGlobalEnabled={notificationState.global}
             handleApplicationClick={handleApplicationClick}
             handleServiceClick={handleServiceClick}
           />

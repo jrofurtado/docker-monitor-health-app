@@ -1,30 +1,28 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import moment from "moment";
 
 import { ApplicationsStatusInterface } from "../../resources/requests";
 import { getApplicationsStatus } from "../../resources/requests";
-import FromSearchBar from "../Search/FromSearchBar";
+import DatePick from "../Search/DatePicker";
 import "../../styles/ApplicationsStatus.css";
 import { Grid, Button } from "@mui/material";
 import AppsStatusItem from "./AppsStatusItem";
 
 export default function ApplicationsStatus() {
   const rowsPerPage = 5;
-  const [applicationsStatus, setApplicationsStatus] = React.useState<
+  const [applicationsStatus, setApplicationsStatus] = useState<
     ApplicationsStatusInterface[]
   >([]);
-  const [applicationsStatusBlock, setApplicationsStatusBlock] = React.useState<
+  const [applicationsStatusBlock, setApplicationsStatusBlock] = useState<
     ApplicationsStatusInterface[]
   >([]);
-  const [from, setFrom] = React.useState<number>(moment().valueOf());
+  const [from, setFrom] = useState<number>(moment().valueOf());
   // set state for updatedFrom
-  const [updatedFrom, setUpdatedFrom] = React.useState<number>(
-    moment().valueOf()
-  );
-  const [selectedDate, setSelectedDate] = React.useState<any | null>(
+  const [updatedFrom, setUpdatedFrom] = useState<number>(moment().valueOf());
+  const [selectedDate, setSelectedDate] = useState<any | null>(
     moment().format("YYYY-MM-DD")
   );
-  const [selectedHour, setSelectedHour] = React.useState<any | null>(
+  const [selectedHour, setSelectedHour] = useState<any | null>(
     moment().format("HH:mm")
   );
 
@@ -50,22 +48,55 @@ export default function ApplicationsStatus() {
   };
 
   //Converts 12h time to 24h time.
-  const convertTime12to24 = (time12h: any | null) => {
-    if (!time12h) {
-      return null;
-    }
+  const convertTime12to24 = (time12h: any) => {
     const [time, modifier] = time12h.split(" ");
     let [hours, minutes] = time.split(":");
 
     if (hours === "12") {
       hours = "00";
     }
+
     if (modifier === "PM") {
       hours = parseInt(hours, 10) + 12;
     }
+
     return `${hours}:${minutes}`;
   };
+  const handleFromChange = (date: any) => {
+    const newDate = date ? date.substr(0, 10) : date;
+    setSelectedDate(newDate);
+    setApplicationsStatus([]);
+    combineDateAndHour(newDate, selectedHour);
+  };
+  const handleUpdatedFromChange = (date: any) => {
+    const newDate = date ? date.substr(0, 10) : date;
+    setSelectedDate(newDate);
+    setApplicationsStatus([]);
+    combineDateAndHour(newDate, selectedHour);
+  };
 
+  // use effect to get applications status
+  useEffect(() => {
+    getApplicationsStatus(from, rowsPerPage).then((res) => {
+      if (res) {
+        setApplicationsStatusBlock(res);
+        setApplicationsStatus([...applicationsStatus, ...res]);
+      }
+    });
+    setFrom(from);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // use effect to scroll to the bottom of the page
+  useEffect(() => {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: "smooth",
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [applicationsStatusBlock.length]);
+
+  // load more function
   const loadMore = () => {
     let newFrom = updatedFrom;
     if (applicationsStatusBlock.length === rowsPerPage) {
@@ -81,10 +112,9 @@ export default function ApplicationsStatus() {
     });
   };
 
-  // use effect to refresh applications status
+  //use effect to get state
 
-  // use effect to get applications status
-  React.useEffect(() => {
+  useEffect(() => {
     getApplicationsStatus(from, rowsPerPage).then((res) => {
       if (res) {
         setApplicationsStatusBlock(res);
@@ -92,11 +122,9 @@ export default function ApplicationsStatus() {
       }
     });
     setUpdatedFrom(from);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  React.useEffect(() => {
-    // Scroll to the bottom of the page
+  useEffect(() => {
     window.scrollTo({
       top: document.body.scrollHeight,
       behavior: "smooth",
@@ -106,10 +134,15 @@ export default function ApplicationsStatus() {
   return (
     <>
       {/* SEARCH BAR */}
-      <FromSearchBar
-        onDateChange={handleDateChange}
-        onHourChange={handleHourChange}
-        from={from}
+      <DatePick
+        selectedDate={selectedDate}
+        selectedHour={selectedHour}
+        setSelectedDate={function (date: Date | null): void {
+          throw new Error("Function not implemented.");
+        }}
+        setSelectedHour={function (hour: Date | null): void {
+          throw new Error("Function not implemented.");
+        }}
       />
       {/* RESULTS ROWS */}
       {applicationsStatus.map((appStatus, index) => {

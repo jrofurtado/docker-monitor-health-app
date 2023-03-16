@@ -8,16 +8,15 @@ export const StyledGrid = styled(Grid)(({ theme }) => ({
   color: "black",
   width: "100%",
   height: "100%",
-  rowGap: "1rem",
+  display: "flex",
   cursor: "pointer",
 }));
 
 export const ApplicationGrid = styled(Grid)(({ theme }) => ({
+  borderTop: "1px solid black",
   backgroundColor: "white",
-  borderRadius: "0.2rem",
-  padding: "0.5rem",
   color: "black",
   width: "100%",
   height: "100%",
-  rowSpacing: "1rem",
+  dispaly: "flex",
 }));
