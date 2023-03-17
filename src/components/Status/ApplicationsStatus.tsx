@@ -7,6 +7,7 @@ import DatePick from "../Search/DatePicker";
 import "../../styles/ApplicationsStatus.css";
 import { Grid, Button } from "@mui/material";
 import AppsStatusItem from "./AppsStatusItem";
+import { StyledGrid } from "../../JsxStyles/Styles";
 
 export default function ApplicationsStatus() {
   const rowsPerPage = 5;
@@ -19,61 +20,8 @@ export default function ApplicationsStatus() {
   const [from, setFrom] = useState<number>(moment().valueOf());
   // set state for updatedFrom
   const [updatedFrom, setUpdatedFrom] = useState<number>(moment().valueOf());
-  const [selectedDate, setSelectedDate] = useState<any | null>(
-    moment().format("YYYY-MM-DD")
-  );
-  const [selectedHour, setSelectedHour] = useState<any | null>(
-    moment().format("HH:mm")
-  );
-
-  //Sets the date to the one selected by the user.
-  const handleDateChange = (date: any) => {
-    const newDate = date ? date.substr(0, 10) : date;
-    setSelectedDate(newDate);
-    setApplicationsStatus([]);
-    combineDateAndHour(newDate, selectedHour);
-  };
-
-  //Sets the hour to the one selected by the user.
-  const handleHourChange = (hour: any) => {
-    const hour24 = convertTime12to24(hour);
-    setSelectedHour(hour24);
-    setApplicationsStatus([]);
-    combineDateAndHour(selectedDate, hour24);
-  };
-
-  const combineDateAndHour = (date: any, hour: any) => {
-    const from = moment(`${date} ${hour}`).valueOf();
-    setFrom(from);
-  };
-
-  //Converts 12h time to 24h time.
-  const convertTime12to24 = (time12h: any) => {
-    const [time, modifier] = time12h.split(" ");
-    let [hours, minutes] = time.split(":");
-
-    if (hours === "12") {
-      hours = "00";
-    }
-
-    if (modifier === "PM") {
-      hours = parseInt(hours, 10) + 12;
-    }
-
-    return `${hours}:${minutes}`;
-  };
-  const handleFromChange = (date: any) => {
-    const newDate = date ? date.substr(0, 10) : date;
-    setSelectedDate(newDate);
-    setApplicationsStatus([]);
-    combineDateAndHour(newDate, selectedHour);
-  };
-  const handleUpdatedFromChange = (date: any) => {
-    const newDate = date ? date.substr(0, 10) : date;
-    setSelectedDate(newDate);
-    setApplicationsStatus([]);
-    combineDateAndHour(newDate, selectedHour);
-  };
+  const [selectedDate, setSelectedDate] = useState<any | null>(null);
+  const [selectedHour, setSelectedHour] = useState<any | null>(null);
 
   // use effect to get applications status
   useEffect(() => {
@@ -122,6 +70,7 @@ export default function ApplicationsStatus() {
       }
     });
     setUpdatedFrom(from);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -133,18 +82,15 @@ export default function ApplicationsStatus() {
 
   return (
     <>
-      {/* SEARCH BAR */}
-      <DatePick
-        selectedDate={selectedDate}
-        selectedHour={selectedHour}
-        setSelectedDate={function (date: Date | null): void {
-          throw new Error("Function not implemented.");
-        }}
-        setSelectedHour={function (hour: Date | null): void {
-          throw new Error("Function not implemented.");
-        }}
-      />
-      {/* RESULTS ROWS */}
+      SEARCH BAR
+      <StyledGrid
+        justifyContent="space-evenly"
+        alignItems="center"
+        style={{ backgroundColor: "transparent" }}
+      >
+        <DatePick />
+      </StyledGrid>
+      RESULTS
       {applicationsStatus.map((appStatus, index) => {
         if (index === applicationsStatus.length - 1) {
           return null;

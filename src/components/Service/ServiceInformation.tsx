@@ -10,24 +10,17 @@ import { GetApp, FindInPage } from "@mui/icons-material";
 // import FindInPageIcon from "@mui/icons-material/FindInPage";
 //Interface
 import {
-  ServiceInterface,
   ContainerInterface,
+  ServiceInformationProps,
 } from "../../resources/interfaces";
 //Components
 import JsonHTML from "../../pages/JsonHTML";
 import ServiceContainerList from "./ServiceContainerList";
-import { Button } from "@mui/material";
-import { styled } from "@mui/system";
+import { StyledButton } from "../../JsxStyles/Styles";
 
-interface Props {
-  appName: string;
-  serviceName: string;
-  service: ServiceInterface;
-  handleHeaderTitle: (...args: string[]) => void;
-  handleCurrentComp: (currentComp: string) => void;
-}
-
-export default function ServiceInformation(props: Props): JSX.Element {
+export default function ServiceInformation(
+  props: ServiceInformationProps
+): JSX.Element {
   const {
     appName,
     serviceName,
@@ -62,21 +55,6 @@ export default function ServiceInformation(props: Props): JSX.Element {
       </div>
     );
   };
-
-  const StyledButton = styled(Button)(({ theme }) => ({
-    backgroundColor: "white",
-    borderRadius: "0.2rem",
-    padding: "0.5rem",
-    color: "blue",
-    marginBottom: ".2rem",
-
-    justifyContent: "space-between",
-
-    "&:hover": {
-      backgroundColor: "blue",
-      color: "white",
-    },
-  }));
 
   useEffect(() => {
     handleCurrentComp("ServiceInformation");

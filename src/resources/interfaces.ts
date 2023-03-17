@@ -69,3 +69,11 @@ export interface ServiceHistoryProps {
   handleHeaderTitle: (...args: string[]) => void;
   handleCurrentComp: (currentComp: string) => void;
 }
+
+export interface ServiceInformationProps {
+  appName: string;
+  serviceName: string;
+  service: ServiceInterface;
+  handleHeaderTitle: (...args: string[]) => void;
+  handleCurrentComp: (currentComp: string) => void;
+}

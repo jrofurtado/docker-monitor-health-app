@@ -1,4 +1,5 @@
 import { Grid } from "@mui/material";
+import { Button } from "@mui/material";
 import { styled } from "@mui/system";
 
 export const StyledGrid = styled(Grid)(({ theme }) => ({
@@ -9,7 +10,7 @@ export const StyledGrid = styled(Grid)(({ theme }) => ({
   width: "100%",
   height: "100%",
   display: "flex",
-  cursor: "pointer",
+  alignItems: "center",
 }));
 
 export const ApplicationGrid = styled(Grid)(({ theme }) => ({
@@ -19,4 +20,21 @@ export const ApplicationGrid = styled(Grid)(({ theme }) => ({
   width: "100%",
   height: "100%",
   dispaly: "flex",
+  cursor: "pointer",
+  alignItems: "center",
+}));
+
+export const StyledButton = styled(Button)(({ theme }) => ({
+  backgroundColor: "white",
+  borderRadius: "0.2rem",
+  padding: "0.5rem",
+  color: "blue",
+  marginBottom: ".2rem",
+
+  justifyContent: "space-between",
+
+  "&:hover": {
+    backgroundColor: "blue",
+    color: "white",
+  },
 }));
