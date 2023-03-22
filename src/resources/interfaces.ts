@@ -26,6 +26,7 @@ export interface ContainerInterface {
   Id: string;
   _Healthy: boolean;
   [key: string]: any;
+  style: {};
 }
 
 export interface ApplicationKeyInterface {
@@ -56,4 +57,23 @@ export interface ApplicationStatusInterface {
 export interface ApplicationsStatusInterface {
   timestamp: number;
   apps: ApplicationStatusInterface;
+}
+export interface NotificationProps {
+  applicationName: string;
+  notificationEnabled: boolean;
+}
+export interface ServiceHistoryProps {
+  appName: string;
+  serviceName: string;
+  handleMessageClick: (service: ServiceInterface) => void;
+  handleHeaderTitle: (...args: string[]) => void;
+  handleCurrentComp: (currentComp: string) => void;
+}
+
+export interface ServiceInformationProps {
+  appName: string;
+  serviceName: string;
+  service: ServiceInterface;
+  handleHeaderTitle: (...args: string[]) => void;
+  handleCurrentComp: (currentComp: string) => void;
 }

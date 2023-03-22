@@ -1,15 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 import { Provider } from "react-redux";
 import { applyMiddleware, createStore } from "redux";
 import thunk from "redux-thunk";
 import "./index.css";
-import * as serviceWorker from "./serviceWorker";
+import * as serviceWorker from "./serviceWorker.js";
 import * as Keycloak from "keycloak-js";
 import axios from "axios";
-import App from "./components/App/App";
-import rootReducer from "./redux/reducers";
+import App from "./App";
+import rootReducer from "./redux-store/New-apps-redux/reducers";
 
 const middleware = [thunk];
 const store = createStore(rootReducer, applyMiddleware(...middleware));
@@ -40,22 +40,22 @@ function getKeycloak() {
 
 export const kc = getKeycloak();
 
-kc.init({ promiseType: "native", onLoad: "login-required" },{loadUserInfo: true}).then(
-  (authenticated: boolean) => {
-    if (authenticated) {
-      store.getState().keycloak = kc;
-      ReactDOM.render(
-        <Provider store={store}>
-          <App kc={kc} />
-        </Provider>,
-        document.getElementById("root")
-      );
-    } else {
-      kc.login();
-    }
+kc.init(
+  { promiseType: "native", onLoad: "login-required" },
+  { loadUserInfo: true }
+).then((authenticated: boolean) => {
+  if (authenticated) {
+    store.getState().keycloak = kc;
+    ReactDOM.render(
+      <Provider store={store}>
+        <App kc={kc} />
+      </Provider>,
+      document.getElementById("root")
+    );
+  } else {
+    kc.login();
   }
-);
-
+});
 
 /* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["axiosConfig"] }] */
 axios.interceptors.request.use((axiosConfig) =>
@@ -67,7 +67,6 @@ axios.interceptors.request.use((axiosConfig) =>
     })
     .catch(kc.login)
 );
-
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

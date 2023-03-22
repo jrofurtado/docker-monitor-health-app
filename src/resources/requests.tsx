@@ -1,5 +1,4 @@
 import axios from "axios";
-import { kc } from "../index";
 // TypeScript
 import {
   ApplicationInterface,
@@ -9,7 +8,6 @@ import {
   NotificationStatusInterface,
   ApplicationsStatusInterface,
 } from "./interfaces";
-import moment from "moment";
 /* develblock:start */
 import allMocks from "../mocks/mockResponses";
 /* develblock:end */
@@ -159,8 +157,7 @@ export async function getApplicationsStatus(
 ): Promise<Array<ApplicationsStatusInterface> | void> {
   /* develblock:start */
   // Mock
-  console.log("process.env.NODE_ENV: ", process.env.NODE_ENV);
-  if (process.env.NODE_ENV === "production") {
+  if (process.env.NODE_ENV !== "production") {
     return await allMocks.getApplicationsStatus();
   }
   /* develblock:end */
@@ -196,3 +193,5 @@ export async function getNotificationInfo(): Promise<NotificationStatusInterface
       console.log("getNotificationInfo Error: ", error);
     });
 }
+
+export type { ApplicationsStatusInterface };

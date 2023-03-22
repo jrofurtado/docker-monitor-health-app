@@ -1,0 +1,33 @@
+.DatePicker fieldset.MuiOutlinedInput-notchedOutline {
+  border-color: white;
+}
+
+.DatePicker .Mui-focused fieldset.MuiOutlinedInput-notchedOutline {
+  color: white;
+  border-color: white;
+  border-width: 3px;
+}
+
+.DatePicker .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: white;
+}
+
+.DatePicker.MuiFormControl-root .Mui-focused {
+  color: white;
+}
+
+@media only screen and (max-width: 600px) {
+  .MuiContainer-root.MuiContainer-maxWidthMd.css-xdmu94-MuiContainer-root {
+    padding: 0;
+  }
+  .MuiGrid-root.css-vwqsel-MuiGrid-root {
+    padding: 0;
+  }
+  .date-picker {
+    padding: 0;
+  }
+
+  .DatePicker {
+    width: 100%;
+  }
+}
