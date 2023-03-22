@@ -114,7 +114,11 @@ export default function ServiceInformation(
           <div className="flex-container">
             <h5>Containers</h5>
             <div>
-              <StyledButton className="json-button" onClick={openAllInJson}>
+              <StyledButton
+                className="json-button"
+                onClick={openAllInJson}
+                style={{ backgroundColor: "green", color: "white" }}
+              >
                 {text}
                 <FindInPage fontSize="small" />
               </StyledButton>
@@ -126,7 +130,10 @@ export default function ServiceInformation(
                 )}
                 download={service.appName + "JSON.txt"}
               >
-                <StyledButton className="download-button">
+                <StyledButton
+                  className="download-button"
+                  style={{ backgroundColor: "grey", color: "white" }}
+                >
                   Download All
                   <GetApp fontSize="small" />
                 </StyledButton>

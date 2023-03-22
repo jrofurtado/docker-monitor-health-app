@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import moment from "moment";
 
+import "../../styles/ApplicationsStatus.css";
+
 import { ApplicationsStatusInterface } from "../../resources/requests";
 import { getApplicationsStatus } from "../../resources/requests";
 import DatePick from "../Search/DatePicker";
@@ -23,28 +25,44 @@ export default function ApplicationsStatus() {
   const [selectedDate, setSelectedDate] = useState<any | null>(null);
   const [selectedHour, setSelectedHour] = useState<any | null>(null);
 
-  // use effect to get applications status
-  useEffect(() => {
-    getApplicationsStatus(from, rowsPerPage).then((res) => {
-      if (res) {
-        setApplicationsStatusBlock(res);
-        setApplicationsStatus([...applicationsStatus, ...res]);
-      }
-    });
+  //Sets the date to the one selected by the user.
+  const handleDateChange = (date: any) => {
+    const newDate = date ? date.substr(0, 10) : date;
+    setSelectedDate(newDate);
+    setApplicationsStatus([]);
+    combineDateAndHour(newDate, selectedHour);
+  };
+
+  //Sets the hour to the one selected by the user.
+  const handleHourChange = (hour: any) => {
+    const hour24 = convertTime12to24(hour);
+    setSelectedHour(hour24);
+    setApplicationsStatus([]);
+    combineDateAndHour(selectedDate, hour24);
+  };
+
+  const combineDateAndHour = (date: any, hour: any) => {
+    const from = moment(`${date} ${hour}`).valueOf();
     setFrom(from);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  };
 
-  // use effect to scroll to the bottom of the page
-  useEffect(() => {
-    window.scrollTo({
-      top: document.body.scrollHeight,
-      behavior: "smooth",
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [applicationsStatusBlock.length]);
+  //Converts 12h time to 24h time.
+  const convertTime12to24 = (time12h: any | null) => {
+    if (!time12h) {
+      return null;
+    }
+    const [time, modifier] = time12h.split(" ");
+    let [hours, minutes] = time.split(":");
 
-  // load more function
+    if (hours === "12") {
+      hours = "00";
+    }
+    if (modifier === "PM") {
+      hours = parseInt(hours, 10) + 12;
+    }
+    return `${hours}:${minutes}`;
+  };
+
   const loadMore = () => {
     let newFrom = updatedFrom;
     if (applicationsStatusBlock.length === rowsPerPage) {
@@ -60,8 +78,9 @@ export default function ApplicationsStatus() {
     });
   };
 
-  //use effect to get state
+  // use effect to refresh applications status
 
+  // use effect to get applications status
   useEffect(() => {
     getApplicationsStatus(from, rowsPerPage).then((res) => {
       if (res) {
@@ -74,6 +93,7 @@ export default function ApplicationsStatus() {
   }, []);
 
   useEffect(() => {
+    // Scroll to the bottom of the page
     window.scrollTo({
       top: document.body.scrollHeight,
       behavior: "smooth",
@@ -82,15 +102,9 @@ export default function ApplicationsStatus() {
 
   return (
     <>
-      SEARCH BAR
-      <StyledGrid
-        justifyContent="space-evenly"
-        alignItems="center"
-        style={{ backgroundColor: "transparent" }}
-      >
-        <DatePick />
-      </StyledGrid>
-      RESULTS
+      {/* SEARCH BAR */}
+
+      {/* RESULTS ROWS */}
       {applicationsStatus.map((appStatus, index) => {
         if (index === applicationsStatus.length - 1) {
           return null;

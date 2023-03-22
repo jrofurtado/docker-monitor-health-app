@@ -6,7 +6,7 @@ import { getServiceHistory } from "../../resources/requests";
 
 // Components
 import ServiceItemRow from "./ServiceItemRow";
-
+import DateSearchBar from "../Search/DatePickFilter";
 import NoDataReceivedItemRow from "./NoDataReceivedItemRow";
 
 // Material-UI
@@ -61,45 +61,50 @@ export default function ServiceHistory(props: Props): JSX.Element {
       to = queriedTime.add(20, "minutes").valueOf();
     }
 
-    getServiceHistory(appName, serviceName, from, to).then((res) => {
-      if (res) {
-        for (let key in res) {
-          let localDate = new Date().toISOString();
-          let index = Object.keys(res).indexOf(key);
-          let index2 = index < res.length ? index + 1 : index;
+    getServiceHistory(appName, serviceName, from, to)
+      .then((res) => {
+        if (res) {
+          for (let key in res) {
+            let localDate = new Date().toISOString();
+            let index = Object.keys(res).indexOf(key);
+            let index2 = index < res.length ? index + 1 : index;
 
-          if (
-            Date.parse(res[0].expires) < Date.parse(localDate) &&
-            res[0].containers.length !== 0
-          ) {
-            let noDataReceived: ServiceInterface = {
-              serverName: res[0].serverName,
-              appName: res[0].appName,
-              created: res[0].created,
-              expires: res[0].expires,
-              containers: [],
-            };
-            res.splice(0, 0, noDataReceived);
-          }
+            if (
+              Date.parse(res[0].expires) < Date.parse(localDate) &&
+              res[0].containers.length !== 0
+            ) {
+              let noDataReceived: ServiceInterface = {
+                serverName: res[0].serverName,
+                appName: res[0].appName,
+                created: res[0].created,
+                expires: res[0].expires,
+                containers: [],
+              };
+              res.splice(0, 0, noDataReceived);
+            }
 
-          if (
-            Date.parse(res[index].expires) < Date.parse(res[index2].created) &&
-            res[index].containers.length !== 0
-          ) {
-            let noDataReceived: ServiceInterface = {
-              serverName: res[index].serverName,
-              appName: res[index].appName,
-              created: res[index].created,
-              expires: res[index].expires,
-              containers: [],
-            };
-            res.splice(index2, 0, noDataReceived);
+            if (
+              Date.parse(res[index].expires) <
+                Date.parse(res[index2].created) &&
+              res[index].containers.length !== 0
+            ) {
+              let noDataReceived: ServiceInterface = {
+                serverName: res[index].serverName,
+                appName: res[index].appName,
+                created: res[index].created,
+                expires: res[index].expires,
+                containers: [],
+              };
+              res.splice(index2, 0, noDataReceived);
+            }
           }
+          setService(res.reverse());
+          setLoading(false);
         }
-        setService(res);
-        setLoading(false);
-      }
-    });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     handleHeaderTitle(
       firstLetterToUpperCase(appName),
       firstLetterToUpperCase(serviceName),
@@ -188,6 +193,11 @@ export default function ServiceHistory(props: Props): JSX.Element {
   ) : (
     <>
       {/* SEARCH BAR */}
+      <DateSearchBar
+        onChange={handleSelect}
+        onDateChange={handleDateChange}
+        onHourChange={handleHourChange}
+      />
 
       {/* RESULTS ROWS */}
       {filteredMessages.map((service: ServiceInterface, index: number) => {

@@ -14,6 +14,7 @@ import * as React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
+import { StyledGrid } from "../../JsxStyles/Styles";
 
 interface Props {
   appStatus: ApplicationsStatusInterface;
@@ -107,19 +108,19 @@ export default function AppsStatusItem(props: Props): JSX.Element {
   };
 
   return (
-    <div key={appStatus.timestamp} className="container">
+    /* <div className="container" key={appStatus.timestamp}>
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMore />}
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography>
+          <StyledGrid>
             {formatTimestamp(appStatus.timestamp)}&nbsp; Apps:&nbsp;
             {getAppsCount(appStatus.apps)}&nbsp; Servers:&nbsp;
             {getServersCount(appStatus.apps)}&nbsp; Containers:&nbsp;
             {getContainersCount(appStatus.apps)}
-          </Typography>
+          </StyledGrid>
         </AccordionSummary>
         <AccordionDetails>
           <Box sx={{ width: "100%" }}>
@@ -160,6 +161,8 @@ export default function AppsStatusItem(props: Props): JSX.Element {
           </Box>
         </AccordionDetails>
       </Accordion>
-    </div>
+    </div> */
+
+    <></>
   );
 }

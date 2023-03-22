@@ -25,16 +25,8 @@ export const ApplicationGrid = styled(Grid)(({ theme }) => ({
 }));
 
 export const StyledButton = styled(Button)(({ theme }) => ({
-  backgroundColor: "white",
   borderRadius: "0.2rem",
   padding: "0.5rem",
-  color: "blue",
   marginBottom: ".2rem",
-
-  justifyContent: "space-between",
-
-  "&:hover": {
-    backgroundColor: "blue",
-    color: "white",
-  },
+  justifyContent: "center",
 }));
