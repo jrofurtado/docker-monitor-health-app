@@ -108,9 +108,10 @@ export default function AppsStatusItem(props: Props): JSX.Element {
   };
 
   return (
-    /* <div className="container" key={appStatus.timestamp}>
+    <div className="container" key={appStatus.timestamp}>
       <Accordion>
         <AccordionSummary
+          style={{ height: "68px" }}
           expandIcon={<ExpandMore />}
           aria-controls="panel1a-content"
           id="panel1a-header"
@@ -161,8 +162,6 @@ export default function AppsStatusItem(props: Props): JSX.Element {
           </Box>
         </AccordionDetails>
       </Accordion>
-    </div> */
-
-    <></>
+    </div>
   );
 }

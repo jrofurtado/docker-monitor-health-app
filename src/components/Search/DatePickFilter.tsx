@@ -5,12 +5,16 @@ import "../../styles/DateSearchBar.css";
 import "date-fns";
 
 import {
+  Box,
+  MenuItem,
+  Button,
   Grid,
   InputLabel,
   FormControl,
   Select,
   TextField,
 } from "@mui/material";
+import { SelectChangeEvent } from "@mui/material";
 import MomentUtils from "@date-io/moment";
 // import {
 //   MuiPickersUtilsProvider,
@@ -38,6 +42,7 @@ export default function DateAndTimePickers(props: Props): JSX.Element {
 
   const handleDateChange = (date: any | null) => {
     setSelectedDate(date);
+
     onDateChange(date ? date.format() : null);
   };
 
@@ -53,107 +58,55 @@ export default function DateAndTimePickers(props: Props): JSX.Element {
     onHourChange(null);
   };
 
+  const handleChange = (event: SelectChangeEvent) => {
+    onChange(event.target.value);
+  };
+
   return (
     <div className="date-picker-container">
       <LocalizationProvider dateAdapter={MomentUtils}>
-        <Grid container justifyContent="space-around">
-          <div className="date-picker">
+        <Grid container spacing={2} alignItems="center" justifyContent="center">
+          <Grid item xs={12} sm={6} md={4}>
             <DatePicker
-              label="Date picker"
-              inputFormat="YYYY-MM-DD"
+              label="Date"
               value={selectedDate}
               onChange={handleDateChange}
               renderInput={(params) => <TextField {...params} />}
             />
-          </div>
-
-          <div className="time-picker">
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
             <TimePicker
-              ampm={false}
-              label="Time picker"
+              label="Hour"
               value={selectedHour}
               onChange={handleHourChange}
               renderInput={(params) => <TextField {...params} />}
             />
-          </div>
-
-          <div className="status-container">
-            <FormControl>
-              <InputLabel htmlFor="status-native-simple">Status</InputLabel>
-              <Select
-                native
-                onChange={onChange}
-                inputProps={{
-                  name: "status",
-                  id: "status-native-simple",
-                }}
-                className="select-status"
-              >
-                <option value={"all"}>All</option>
-                <option value={"healthy"}>Healthy</option>
-                <option value={"unhealthy"}>Unhealthy</option>
-              </Select>
-            </FormControl>
-          </div>
-
-          <div className="button-container">
-            <button onClick={cleanFilter} className="clean-filter-button">
-              <Clear fontSize="small" />
-            </button>
-          </div>
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <Box sx={{ minWidth: 120 }}>
+              <FormControl fullWidth>
+                <InputLabel>Status</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value="All"
+                  label="Age"
+                  onChange={handleChange}
+                >
+                  <MenuItem value="all">All</MenuItem>
+                  <MenuItem value="Healthy">Healthy</MenuItem>
+                  <MenuItem value="UnHealthy">UnHealthy</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <Button>
+              <Clear onClick={cleanFilter} />
+            </Button>
+          </Grid>
         </Grid>
       </LocalizationProvider>
-
-      {/* <MuiPickersUtilsProvider utils={MomentUtils}>
-        <Grid container justify="space-around">
-          <MuiPickersUtilsProvider utils={MomentUtils} locale="fr">
-            <div className="date-picker">
-              <KeyboardDatePicker
-                label="Date picker"
-                format={"YYYY-MM-DD"}
-                value={selectedDate}
-                onChange={handleDateChange}
-                animateYearScrolling={false}
-              />
-            </div>
-          </MuiPickersUtilsProvider>
-          <div className="time-picker">
-            <KeyboardTimePicker
-              ampm={false}
-              id="time-picker"
-              label="Time picker"
-              value={selectedHour}
-              onChange={handleHourChange}
-              KeyboardButtonProps={{
-                "aria-label": "change time",
-              }}
-            />
-          </div>
-          <div className="status-container">
-            <FormControl>
-              <InputLabel htmlFor="status-native-simple">Status</InputLabel>
-              <Select
-                native
-                onChange={onChange}
-                inputProps={{
-                  name: "status",
-                  id: "status-native-simple",
-                }}
-                className="select-status"
-              >
-                <option value={"all"}>All</option>
-                <option value={"healthy"}>Healthy</option>
-                <option value={"unhealthy"}>Unhealthy</option>
-              </Select>
-            </FormControl>
-          </div>
-          <div className="button-container">
-            <button onClick={cleanFilter} className="clean-filter-button">
-              <Clear fontSize="small" />
-            </button>
-          </div>
-        </Grid>
-      </MuiPickersUtilsProvider> */}
     </div>
   );
 }

@@ -9,7 +9,6 @@ import DatePick from "../Search/DatePicker";
 import "../../styles/ApplicationsStatus.css";
 import { Grid, Button } from "@mui/material";
 import AppsStatusItem from "./AppsStatusItem";
-import { StyledGrid } from "../../JsxStyles/Styles";
 
 export default function ApplicationsStatus() {
   const rowsPerPage = 5;
@@ -19,6 +18,7 @@ export default function ApplicationsStatus() {
   const [applicationsStatusBlock, setApplicationsStatusBlock] = useState<
     ApplicationsStatusInterface[]
   >([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [from, setFrom] = useState<number>(moment().valueOf());
   // set state for updatedFrom
   const [updatedFrom, setUpdatedFrom] = useState<number>(moment().valueOf());
@@ -26,42 +26,8 @@ export default function ApplicationsStatus() {
   const [selectedHour, setSelectedHour] = useState<any | null>(null);
 
   //Sets the date to the one selected by the user.
-  const handleDateChange = (date: any) => {
-    const newDate = date ? date.substr(0, 10) : date;
-    setSelectedDate(newDate);
-    setApplicationsStatus([]);
-    combineDateAndHour(newDate, selectedHour);
-  };
-
-  //Sets the hour to the one selected by the user.
-  const handleHourChange = (hour: any) => {
-    const hour24 = convertTime12to24(hour);
-    setSelectedHour(hour24);
-    setApplicationsStatus([]);
-    combineDateAndHour(selectedDate, hour24);
-  };
-
-  const combineDateAndHour = (date: any, hour: any) => {
-    const from = moment(`${date} ${hour}`).valueOf();
-    setFrom(from);
-  };
 
   //Converts 12h time to 24h time.
-  const convertTime12to24 = (time12h: any | null) => {
-    if (!time12h) {
-      return null;
-    }
-    const [time, modifier] = time12h.split(" ");
-    let [hours, minutes] = time.split(":");
-
-    if (hours === "12") {
-      hours = "00";
-    }
-    if (modifier === "PM") {
-      hours = parseInt(hours, 10) + 12;
-    }
-    return `${hours}:${minutes}`;
-  };
 
   const loadMore = () => {
     let newFrom = updatedFrom;
@@ -90,7 +56,15 @@ export default function ApplicationsStatus() {
     });
     setUpdatedFrom(from);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [from]);
+
+  const handleDateChange = (date: any) => {
+    setSelectedDate(date ? date.substr(0, 10) : date);
+  };
+
+  const handleHourChange = (hour: any) => {
+    setSelectedHour(hour ? hour.substr(0, 5) : hour);
+  };
 
   useEffect(() => {
     // Scroll to the bottom of the page
@@ -102,8 +76,11 @@ export default function ApplicationsStatus() {
 
   return (
     <>
-      {/* SEARCH BAR */}
-
+      {<h3 style={{ marginTop: "3rem" }}>Status Changes</h3>}
+      <DatePick
+        onDateChange={handleDateChange}
+        onHourChange={handleHourChange}
+      />
       {/* RESULTS ROWS */}
       {applicationsStatus.map((appStatus, index) => {
         if (index === applicationsStatus.length - 1) {

@@ -16,18 +16,29 @@
   color: white;
 }
 
-@media only screen and (max-width: 600px) {
+.DatePicker.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-i4bv87-MuiSvgIcon-root {
+  font-size: 2rem;
+}
+
+/* @media only screen and (max-width: 700px) {
   .MuiContainer-root.MuiContainer-maxWidthMd.css-xdmu94-MuiContainer-root {
-    padding: 0;
+    padding: 0.4rem;
   }
   .MuiGrid-root.css-vwqsel-MuiGrid-root {
-    padding: 0;
+    padding: 0.4rem;
   }
   .date-picker {
-    padding: 0;
+    padding: 0.4rem;
   }
 
   .DatePicker {
-    width: 100%;
+    width: 75%;
+  }
+  .MuiFormControl-root.MuiTextField-root.DatePicker.css-132v8a4-MuiFormControl-root-MuiTextField-root {
+    margin-bottom: 1rem;
   }
 }
+
+@media only screen and (min-width: 431px) and (max-width: 700px) {
+}
+ */

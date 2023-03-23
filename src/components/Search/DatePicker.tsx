@@ -1,109 +1,131 @@
 import { useState } from "react";
 import DateFnsUtils from "@date-io/date-fns";
-import { StyledGrid, StyledButton } from "../../JsxStyles/Styles";
 import {
   DatePicker,
   LocalizationProvider,
   TimePicker,
 } from "@mui/x-date-pickers";
-import { TextField, TextFieldProps } from "@mui/material";
+import { Grid, TextField, TextFieldProps, Button } from "@mui/material";
 import "../../styles/DatePicker.css";
-import SearchIcon from "@mui/icons-material/Search";
-import ClearIcon from "@mui/icons-material/Clear";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
-export default function DatePick() {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
-  const [selectedHour, setSelectedHour] = useState<Number | null>(
+interface DateProps {
+  onDateChange: (event: any) => void;
+  onHourChange: (event: any) => void;
+}
+export default function DatePick(props: DateProps): JSX.Element {
+  const { onDateChange, onHourChange } = props;
+  const [selectedDate, setSelectedDate] = useState<any | null>(new Date());
+  const [selectedHour, setSelectedHour] = useState<any | null>(
     new Date().getTime()
   );
 
-  const handleClearFilter = () => {
-    setSelectedHour(null);
-    setSelectedDate(null);
+  const handleDateChange = (date: any | null) => {
+    setSelectedDate(date);
+    onDateChange(date ? date.format() : null);
+    console.log(onDateChange);
   };
 
-  const handleSearch = () => {};
+  const handleHourChange = (hour: any | null) => {
+    setSelectedHour(hour);
+    onHourChange(hour ? hour.format("LTS") : null);
+  };
+
+  const handleClearFilter = () => {
+    setSelectedDate(new Date());
+    setSelectedHour(new Date().getTime());
+  };
 
   return (
     <div className="date-picker">
       <LocalizationProvider dateAdapter={DateFnsUtils}>
-        <StyledGrid
+        <Grid
           className="date-picker-grid"
-          item
           container
+          md={12}
+          gap={4.5}
+          spacing={0}
+          /* columnSpacing={12} */
+          alignItems="center"
+          justifyContent="center"
           style={{
             backgroundColor: "transparent",
-            gap: "15",
-            marginTop: "2em",
+            marginTop: "0.5rem",
+            marginBottom: "2rem",
           }}
         >
-          <DatePicker
-            renderInput={(params: TextFieldProps) => (
-              <TextField
-                {...params}
-                style={{ marginRight: "2em" }}
-                id="text-field-date"
-                className="DatePicker"
-                sx={{
-                  svg: { color: "white" },
-                  input: { color: " white" },
-                  label: { color: "white" },
-                  borderColor: { color: "white" },
-                }}
-              />
-            )}
-            label="Data"
-            value={selectedDate}
-            onChange={(selectedDate) => setSelectedDate(selectedDate)}
-            inputFormat="dd/MM/yyyy"
-          />
-
-          <TimePicker
-            label="Hora"
-            ampm={false}
-            value={selectedHour}
-            onChange={(selectedHour) => setSelectedHour(selectedHour)}
-            renderInput={(params: TextFieldProps) => (
-              <TextField
-                {...params}
-                style={{ marginRight: "2em" }}
-                className="DatePicker"
-                sx={{
-                  svg: { color: "white" },
-                  input: { color: " white" },
-                  label: { color: "white" },
-                  borderColor: { color: "white" },
-                }}
-              />
-            )}
-          />
-          <StyledGrid
+          <Grid
             item
-            container
-            direction="row"
-            style={{
-              backgroundColor: "transparent",
-              marginTop: "2rem",
-              gap: "2em",
-            }}
+            xs={12}
+            sm={8}
+            md={4}
+            alignItems="center"
+            justifyContent="center"
           >
-            <StyledButton
-              style={{ backgroundColor: "white", color: "balck" }}
-              onClick={handleSearch}
-            >
-              {" "}
-              <SearchIcon />
-            </StyledButton>
+            <DatePicker
+              renderInput={(params: TextFieldProps) => (
+                <TextField
+                  {...params}
+                  style={{ display: "flex" }}
+                  id="text-field-date"
+                  className="DatePicker"
+                  sx={{
+                    svg: { color: "white" },
+                    input: { color: " white" },
+                    label: { color: "white" },
+                    borderColor: { color: "white" },
+                  }}
+                />
+              )}
+              label="Data"
+              value={selectedDate}
+              onChange={handleDateChange}
+              inputFormat="dd/MM/yyyy"
+            />
+          </Grid>
 
-            <StyledButton
-              style={{ backgroundColor: "red", color: "white" }}
+          <Grid
+            item
+            xs={12}
+            sm={8}
+            md={4}
+            alignItems="center"
+            justifyContent="center"
+          >
+            <TimePicker
+              label="Hora"
+              ampm={false}
+              value={selectedHour}
+              onChange={handleHourChange}
+              renderInput={(params: TextFieldProps) => (
+                <TextField
+                  {...params}
+                  style={{ display: "flex" }}
+                  className="DatePicker"
+                  sx={{
+                    svg: { color: "white" },
+                    input: { color: " white" },
+                    label: { color: "white" },
+                    borderColor: { color: "white" },
+                  }}
+                />
+              )}
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={8} md={1}>
+            <Button
               onClick={handleClearFilter}
+              style={{
+                backgroundColor: "white",
+                color: "#475F7D",
+              }}
             >
               {" "}
-              <ClearIcon />
-            </StyledButton>
-          </StyledGrid>
-        </StyledGrid>
+              <RestartAltIcon sx={{ fontSize: "2rem" }} />
+            </Button>
+          </Grid>
+        </Grid>
       </LocalizationProvider>
     </div>
   );
