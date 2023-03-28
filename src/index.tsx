@@ -10,6 +10,7 @@ import * as Keycloak from "keycloak-js";
 import axios from "axios";
 import App from "./App";
 import rootReducer from "./redux-store/New-apps-redux/reducers";
+import { BrowserRouter } from "react-router-dom";
 
 const middleware = [thunk];
 const store = createStore(rootReducer, applyMiddleware(...middleware));
@@ -47,9 +48,11 @@ kc.init(
   if (authenticated) {
     store.getState().keycloak = kc;
     ReactDOM.render(
-      <Provider store={store}>
-        <App kc={kc} />
-      </Provider>,
+      <BrowserRouter>
+        <Provider store={store}>
+          <App kc={kc} />
+        </Provider>
+      </BrowserRouter>,
       document.getElementById("root")
     );
   } else {
