@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 // import "bootstrap/dist/css/bootstrap.min.css";
 import { Provider } from "react-redux";
 import { applyMiddleware, createStore } from "redux";
@@ -10,11 +10,12 @@ import * as Keycloak from "keycloak-js";
 import axios from "axios";
 import App from "./App";
 import rootReducer from "./redux-store/New-apps-redux/reducers";
-import { BrowserRouter } from "react-router-dom";
 
 const middleware = [thunk];
 const store = createStore(rootReducer, applyMiddleware(...middleware));
-
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
 /*eslint-disable*/
 function getKeycloak() {
   if (process.env.NODE_ENV === "production") {
@@ -47,31 +48,30 @@ kc.init(
 ).then((authenticated: boolean) => {
   if (authenticated) {
     store.getState().keycloak = kc;
-    ReactDOM.render(
-      <BrowserRouter>
-        <Provider store={store}>
+    root.render(
+      <Provider store={store}>
+        <React.StrictMode>
           <App kc={kc} />
-        </Provider>
-      </BrowserRouter>,
-      document.getElementById("root")
+        </React.StrictMode>
+      </Provider>
     );
   } else {
     kc.login();
   }
+
+  /* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["axiosConfig"] }] */
+  axios.interceptors.request.use((axiosConfig) =>
+    kc
+      .updateToken(5)
+      .then(() => {
+        axiosConfig.headers.Authorization = `Bearer ${kc.token}`;
+        return Promise.resolve(axiosConfig);
+      })
+      .catch(kc.login)
+  );
+
+  // If you want your app to work offline and load faster, you can change
+  // unregister() to register() below. Note this comes with some pitfalls.
+  // Learn more about service workers: https://bit.ly/CRA-PWA
+  serviceWorker.unregister();
 });
-
-/* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["axiosConfig"] }] */
-axios.interceptors.request.use((axiosConfig) =>
-  kc
-    .updateToken(5)
-    .then(() => {
-      axiosConfig.headers.Authorization = `Bearer ${kc.token}`;
-      return Promise.resolve(axiosConfig);
-    })
-    .catch(kc.login)
-);
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();

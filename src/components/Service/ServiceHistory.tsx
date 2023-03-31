@@ -17,6 +17,7 @@ import {
 } from "../../resources/interfaces";
 import { firstLetterToUpperCase } from "../../resources/scripts";
 import moment from "moment";
+import { useSearchParams } from "react-router-dom";
 
 interface Props {
   appName: string;

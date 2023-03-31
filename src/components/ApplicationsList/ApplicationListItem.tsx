@@ -13,6 +13,7 @@ import ApplicationItemRow from "./ApplicationItemRow";
 import { ExpandMore } from "@mui/icons-material";
 
 import ServerList from "./ServerList";
+import { Link } from "react-router-dom";
 
 interface Props {
   application: ApplicationInterface;
@@ -59,7 +60,10 @@ export default function ApplicationListItem(props: Props): JSX.Element {
                 alignContent="center"
                 item
                 key={`${server.name}`}
-                onClick={() => handleRowClick(server.name)}
+                onClick={() => {
+                  handleRowClick(server.name);
+                  <Link to={server.name} />;
+                }}
               >
                 <ServerList
                   name={server.name}
