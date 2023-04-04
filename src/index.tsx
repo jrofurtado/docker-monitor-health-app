@@ -10,6 +10,10 @@ import * as Keycloak from "keycloak-js";
 import axios from "axios";
 import App from "./App";
 import rootReducer from "./redux-store/New-apps-redux/reducers";
+import { BrowserRouter } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 const middleware = [thunk];
 const store = createStore(rootReducer, applyMiddleware(...middleware));
@@ -51,7 +55,9 @@ kc.init(
     root.render(
       <Provider store={store}>
         <React.StrictMode>
-          <App kc={kc} />
+          <QueryClientProvider client={queryClient}>
+            <App kc={kc} />
+          </QueryClientProvider>
         </React.StrictMode>
       </Provider>
     );

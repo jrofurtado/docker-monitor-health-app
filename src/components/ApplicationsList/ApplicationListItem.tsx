@@ -6,11 +6,16 @@ import {
   ServerInterface,
 } from "../../resources/interfaces";
 // Material-UI
-import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
-import { ApplicationGrid, StyledGrid } from "../../JsxStyles/Styles";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Grid,
+} from "@mui/material";
+import { StyledGrid } from "../../JsxStyles/Styles";
 // Components
 import ApplicationItemRow from "./ApplicationItemRow";
-import { ExpandMore } from "@mui/icons-material";
+import { BorderTop, ExpandMore } from "@mui/icons-material";
 
 import ServerList from "./ServerList";
 import { Link } from "react-router-dom";
@@ -34,8 +39,6 @@ export default function ApplicationListItem(props: Props): JSX.Element {
   const handleRowClick = (name: string): void => {
     if (name === application.name) {
       handleApplicationClick(application.name);
-    } else {
-      handleServiceClick(application.name, name);
     }
   };
 
@@ -56,20 +59,26 @@ export default function ApplicationListItem(props: Props): JSX.Element {
         <AccordionDetails>
           <StyledGrid container spacing={1} alignContent="center">
             {application.servers.map((server: ServerInterface) => (
-              <ApplicationGrid
+              <Grid
+                style={{
+                  width: "100%",
+                  textDecoration: "none",
+                  borderTop: "1px 75% black solid",
+                }}
+                component={Link}
+                to={`${application.name}/${server.name}`}
                 alignContent="center"
                 item
                 key={`${server.name}`}
                 onClick={() => {
                   handleRowClick(server.name);
-                  <Link to={server.name} />;
                 }}
               >
                 <ServerList
                   name={server.name}
                   healthy={server.status.healthy}
                 />
-              </ApplicationGrid>
+              </Grid>
             ))}
           </StyledGrid>
         </AccordionDetails>

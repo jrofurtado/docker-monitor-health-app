@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../../styles/ApplicationsList.css";
+
 // Material-UI
 
 // Components

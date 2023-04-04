@@ -4,7 +4,7 @@ import { SnackbarProvider } from "notistack";
 import "./styles/App.css";
 // Components
 
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Route, Routes, BrowserRouter, Link } from "react-router-dom";
 import Applications from "./pages/Applications";
 import { ServiceInterface } from "./resources/interfaces";
 import ApplicationsStatus from "./components/Status/ApplicationsStatus";
@@ -38,9 +38,7 @@ function App(props: Props): JSX.Element {
     setService({ appName: app, serviceName: serviceName });
     setView(true);
 
-    const newUrl = "/" + app + "/" + serviceName;
-
-    window.location.href = newUrl;
+    // Redirect to Service
   };
 
   const handleHeaderTitle = (...args: string[]): void => {
@@ -69,8 +67,6 @@ function App(props: Props): JSX.Element {
   const handleBackButtonClick = () => {
     if (currentComp !== "ServiceHistory") {
       return controllView();
-    } else {
-      window.location.href = "/";
     }
   };
 
@@ -79,8 +75,8 @@ function App(props: Props): JSX.Element {
   //keycloak.logout();
 
   return (
-    <Router>
-      <SnackbarProvider maxSnack={3}>
+    <SnackbarProvider maxSnack={3}>
+      <BrowserRouter>
         <Header
           kc={kc}
           title={headerTitle}
@@ -107,25 +103,26 @@ function App(props: Props): JSX.Element {
               </>
             }
           />
-        </Routes>
-        <Routes>
+
           <Route
             path="/:appName/:serviceName"
             element={
-              <Service
-                appName={service.appName}
-                serviceName={service.serviceName}
-                handleHeaderTitle={handleHeaderTitle}
-                handleCurrentComp={handleCurrentComp}
-                handleMessageClick={handleMessageClick}
-                view={view}
-                service={serv}
-              />
+              <>
+                <Service
+                  appName={service.appName}
+                  serviceName={service.serviceName}
+                  handleHeaderTitle={handleHeaderTitle}
+                  handleCurrentComp={handleCurrentComp}
+                  handleMessageClick={handleMessageClick}
+                  view={view}
+                  service={serv}
+                />
+              </>
             }
           />
         </Routes>
-      </SnackbarProvider>
-    </Router>
+      </BrowserRouter>
+    </SnackbarProvider>
   );
 }
 

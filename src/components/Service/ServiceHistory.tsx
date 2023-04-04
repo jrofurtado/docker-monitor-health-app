@@ -17,7 +17,7 @@ import {
 } from "../../resources/interfaces";
 import { firstLetterToUpperCase } from "../../resources/scripts";
 import moment from "moment";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 
 interface Props {
   appName: string;
@@ -193,6 +193,7 @@ export default function ServiceHistory(props: Props): JSX.Element {
     <p>Not loaded</p>
   ) : (
     <>
+      <Link to="/"> home</Link>
       {/* SEARCH BAR */}
       <DateSearchBar
         onChange={handleSelect}
