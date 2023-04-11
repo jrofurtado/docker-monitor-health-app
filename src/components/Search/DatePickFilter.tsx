@@ -35,7 +35,7 @@ const status = [
     label: "Healthy",
   },
   {
-    value: "Unhealthy",
+    value: "unhealthy",
     label: "Unhealthy",
   },
 ];

@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SnackbarProvider } from "notistack";
 //import { useSelector } from "react-redux";
 import "./styles/App.css";
 // Components
 
-import { Route, Routes, BrowserRouter, Link } from "react-router-dom";
+import { Route, Routes, BrowserRouter } from "react-router-dom";
+
 import Applications from "./pages/Applications";
 import { ServiceInterface } from "./resources/interfaces";
 import ApplicationsStatus from "./components/Status/ApplicationsStatus";
@@ -31,6 +32,18 @@ function App(props: Props): JSX.Element {
   const [currentComp, setCurrentComp] = useState("Applications");
   const [view, setView] = useState(false);
 
+  useEffect(() => {
+    if (currentComp === "Applications") {
+      setHeaderTitle("");
+    }
+    if (currentComp === "ServiceHistory") {
+      setHeaderTitle("Service History");
+    }
+    if (currentComp === "ServiceInformation") {
+      setHeaderTitle("Service Information");
+    }
+  }, [currentComp]);
+
   const handleServiceClick = (
     app: string = "",
     serviceName: string = ""
@@ -42,19 +55,24 @@ function App(props: Props): JSX.Element {
   };
 
   const handleHeaderTitle = (...args: string[]): void => {
-    let title: string = "";
-    if (args.length === 0) {
-      title = "Applications";
-    } else {
-      title = args.join(" ");
+    if (currentComp === "Applications") {
+      setHeaderTitle("");
     }
-    setHeaderTitle(title);
+    if (currentComp === "ServiceHistory") {
+      setHeaderTitle("Service History");
+    }
+    if (currentComp === "ServiceInformation") {
+      setHeaderTitle("Service Information");
+    }
   };
 
   const handleCurrentComp = (currentComp: string) => {
     setCurrentComp(currentComp);
+    console.log("now" + currentComp);
   };
-
+  /* const homeNavigate = () => {
+    setCurrentComp("Applications");
+  }; */
   const handleMessageClick = (service: ServiceInterface): void => {
     setServ(service);
     setView(true);
@@ -65,8 +83,30 @@ function App(props: Props): JSX.Element {
   };
 
   const handleBackButtonClick = () => {
-    if (currentComp !== "ServiceHistory") {
-      return controllView();
+    console.log("currentComp: " + currentComp);
+
+    if (currentComp === "ServiceHistory") {
+      controllView();
+    }
+
+    if (currentComp === "ServiceInformation") {
+      controllView();
+    }
+
+    if (currentComp === "Applications") {
+      controllView();
+      setHeaderTitle("");
+    }
+
+    let backButtonVisible = false;
+    if (currentComp === "ServiceHistory") {
+      backButtonVisible = true;
+    }
+    if (currentComp === "ServiceInformation") {
+      backButtonVisible = true;
+    }
+    if (currentComp === "Applications") {
+      backButtonVisible = false;
     }
   };
 
@@ -89,16 +129,20 @@ function App(props: Props): JSX.Element {
             element={
               <>
                 <Grid container spacing={2}>
-                  <Grid item xs={12}>
+                  <Grid item xs={12}></Grid>
+                  <Grid item xs={1}></Grid>
+                  <Grid item xs={10}>
                     <Applications
                       handleServiceClick={handleServiceClick}
-                      handleHeaderTitle={handleHeaderTitle}
                       handleCurrentComp={handleCurrentComp}
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs={1}></Grid>
+                  <Grid item xs={1}></Grid>
+                  <Grid item xs={10}>
                     <ApplicationsStatus />
                   </Grid>
+                  <Grid item xs={1}></Grid>
                 </Grid>
               </>
             }
@@ -108,15 +152,22 @@ function App(props: Props): JSX.Element {
             path="/:appName/:serviceName"
             element={
               <>
-                <Service
-                  appName={service.appName}
-                  serviceName={service.serviceName}
-                  handleHeaderTitle={handleHeaderTitle}
-                  handleCurrentComp={handleCurrentComp}
-                  handleMessageClick={handleMessageClick}
-                  view={view}
-                  service={serv}
-                />
+                <Grid container spacing={2}>
+                  <Grid item xs={12}></Grid>
+                  <Grid item xs={1}></Grid>
+                  <Grid item xs={10}>
+                    <Service
+                      appName={service.appName}
+                      serviceName={service.serviceName}
+                      handleHeaderTitle={handleHeaderTitle}
+                      handleCurrentComp={handleCurrentComp}
+                      handleMessageClick={handleMessageClick}
+                      view={view}
+                      service={serv}
+                    />
+                  </Grid>
+                  <Grid item xs={1}></Grid>
+                </Grid>
               </>
             }
           />

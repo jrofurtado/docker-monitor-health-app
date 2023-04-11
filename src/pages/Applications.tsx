@@ -19,7 +19,7 @@ import {
 
 interface Props {
   handleServiceClick: () => void;
-  handleHeaderTitle: () => void;
+  handleHeaderTitle?: () => void;
   handleCurrentComp: (currentComp: string) => void;
 }
 

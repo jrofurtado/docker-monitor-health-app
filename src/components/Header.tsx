@@ -8,22 +8,24 @@ import { NotificationStatusInterface } from "../resources/interfaces";
 // Redux
 import allActions from "../redux-store/New-apps-redux/actions";
 // Material-UI
-import { Grid, MenuItem, Menu } from "@mui/material";
-import NavigationBar from "./NavigationBar";
+import { Grid, MenuItem, Menu, Button } from "@mui/material";
+
 import {
+  ArrowBack,
   ExitToApp,
   NotificationsActive,
   NotificationsOff,
 } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 
-interface Props {
+interface headerProps {
   kc: any;
   title: string;
   currentComp: string;
   handleBackButtonClick: () => void;
 }
 
-export default function Header(props: Props): JSX.Element {
+export default function Header(props: headerProps) {
   const { kc, title, currentComp, handleBackButtonClick } = props;
   const [anchorEl, setAnchorEl] = useState<(EventTarget & Element) | null>(
     null
@@ -54,84 +56,91 @@ export default function Header(props: Props): JSX.Element {
     );
   };
 
+  // Logout
+  const logout = (): void => {
+    kc.logout();
+  };
+
   return (
-    <div className="header">
-      <Grid
-        container
-        direction="row"
-        justifyContent="flex-start"
-        alignItems="center"
-      >
-        <Grid item xs={8}>
-          <Grid
-            container
-            direction="row"
-            justifyContent="flex-start"
-            alignItems="center"
-          >
-            {currentComp !== "Applications" ? (
-              <Grid item xs={1}>
-                <NavigationBar handleBackButtonClick={handleBackButtonClick} />
-              </Grid>
+    <Grid container className="header">
+      <Grid item xs={12} className="header__container">
+        <Grid container className="header__container__content">
+          <Grid item xs={2} className="header__container__content__left">
+            {/* rever maneira mais rapida*/}
+            {currentComp === "ServiceHistory" ? (
+              <Link to="/">
+                <Button className="header__container__content__left__backButton">
+                  <ArrowBack />
+                </Button>
+              </Link>
             ) : (
-              <></>
-            )}
-            <Grid item xs={11}>
-              <h3 className="app-name">{title}</h3>
-            </Grid>
-          </Grid>
-        </Grid>
-        <Grid item xs={4}>
-          <Grid container justifyContent="flex-end">
-            <Grid item>
-              <Gravatar
-                email={kc.tokenParsed.preferred_username}
-                default="monsterid"
-                size={40}
-                className="photo"
-                onClick={handleClick}
-              />
-              <Menu
-                id="simple-menu"
-                anchorEl={anchorEl}
-                keepMounted
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
+              <Button
+                className="header__container__content__left__backButton"
+                onClick={handleBackButtonClick}
               >
-                <MenuItem
-                  className="user-menu-item global-button"
-                  onClick={() =>
-                    setNotificationStatus({
-                      global: !notificationStatus.global,
-                      apps: notificationStatus.apps,
-                    })
-                  }
+                {currentComp === "Applications" ? null : <ArrowBack />}
+              </Button>
+            )}
+          </Grid>
+          <Grid item xs={8} className="header__container__content__center">
+            <h1 className="header__container__content__center__title">
+              {title}
+            </h1>
+          </Grid>
+          <Grid item xs={2} className="header__container__content__right">
+            <Grid container justifyContent="flex-end">
+              <Grid item>
+                <Gravatar
+                  email={kc.tokenParsed.preferred_username}
+                  default="monsterid"
+                  size={40}
+                  className="photo"
+                  onClick={handleClick}
+                />
+                <Menu
+                  id="simple-menu"
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
                 >
-                  {notificationStatus.global ? (
-                    <NotificationsActive className="active" />
-                  ) : (
-                    <NotificationsOff />
-                  )}
-                  <button>Subscrição Global</button>
-                </MenuItem>
-                <MenuItem
-                  className="user-menu-item logout-button"
-                  onClick={kc.logout}
-                >
-                  <ExitToApp />
-                  <button>Logout</button>
-                </MenuItem>
-              </Menu>
-            </Grid>
-            <Grid item>
-              <h6 id="username">
-                {firstLetterToUpperCase(kc.tokenParsed.preferred_username)}
-              </h6>
-              <p>{firstLetterToUpperCase(kc.tokenParsed.preferred_username)}</p>
+                  <MenuItem
+                    className="user-menu-item global-button"
+                    onClick={() =>
+                      setNotificationStatus({
+                        global: !notificationStatus.global,
+                        apps: notificationStatus.apps,
+                      })
+                    }
+                  >
+                    {notificationStatus.global ? (
+                      <NotificationsActive className="active" />
+                    ) : (
+                      <NotificationsOff />
+                    )}
+                    <button>Subscrição Global</button>
+                  </MenuItem>
+                  <MenuItem
+                    className="user-menu-item logout-button"
+                    onClick={kc.logout}
+                  >
+                    <ExitToApp />
+                    <button>Logout</button>
+                  </MenuItem>
+                </Menu>
+              </Grid>
+              <Grid item>
+                <h6 id="username">
+                  {firstLetterToUpperCase(kc.tokenParsed.preferred_username)}
+                </h6>
+                <p>
+                  {firstLetterToUpperCase(kc.tokenParsed.preferred_username)}
+                </p>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
       </Grid>
-    </div>
+    </Grid>
   );
 }
