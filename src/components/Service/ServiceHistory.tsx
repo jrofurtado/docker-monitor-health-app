@@ -17,7 +17,7 @@ import {
 } from "../../resources/interfaces";
 import { firstLetterToUpperCase } from "../../resources/scripts";
 import moment from "moment";
-import { useSearchParams, Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 interface Props {
   appName: string;
@@ -28,7 +28,6 @@ interface Props {
 }
 
 export default function ServiceHistory(props: Props): JSX.Element {
-  // State
   const {
     handleMessageClick,
     appName,
@@ -157,6 +156,24 @@ export default function ServiceHistory(props: Props): JSX.Element {
     return `${hours}:${minutes}`;
   };
 
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const datequery = new URLSearchParams(location.search).get(
+      `?date=${handleDateChange.toString}&& hour=${handleHourChange.toString}`
+    );
+
+    console.log(datequery);
+
+    navigate({
+      pathname: location.pathname,
+      search: `?${datequery}`,
+    });
+  }, [location, navigate, handleDateChange, handleHourChange]);
+
+  //Sets the page to the one selected by the user.
+
   //Checks if the message is healthy or unhealthy and returns the message created date.
   const checkMessageStatus = (message: any) => {
     for (var i = 0; i < message.containers.length; i++) {
@@ -193,7 +210,6 @@ export default function ServiceHistory(props: Props): JSX.Element {
     <p>Not loaded</p>
   ) : (
     <>
-      <Link to="/"> home</Link>
       {/* SEARCH BAR */}
       <DateSearchBar
         onChange={handleSelect}

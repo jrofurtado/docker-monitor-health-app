@@ -7,6 +7,8 @@ import {
 } from "@mui/x-date-pickers";
 import { Grid, TextField, TextFieldProps, Button } from "@mui/material";
 import "../../styles/DatePicker.css";
+
+import { useSearchParams } from "react-router-dom";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
 interface DateProps {
@@ -20,15 +22,39 @@ export default function DatePick(props: DateProps): JSX.Element {
     new Date().getTime()
   );
 
-  const handleDateChange = (date: any | null) => {
+  const defaultDate = new Date().toISOString();
+  const defaultHour = new Date().getTime().toString();
+
+  /*  const [searchParams, setSearchParams] = useSearchParams({
+    date: searchParams.get("date") || defaultDate,
+    hour: searchParams.get("hour") || defaultHour,
+  });
+
+  const date = searchParams.get("date");
+  const hour = searchParams.get("hour") */ const handleDateChange = (
+    date: any | null
+  ) => {
     setSelectedDate(date);
+
+    const params = {
+      date: date ? date.format("YYYY-MM-DD") : null,
+    };
+
+    /*   setSearchParams(params); */
+
     onDateChange(date ? date.format() : null);
-    console.log(onDateChange);
   };
 
   const handleHourChange = (hour: any | null) => {
     setSelectedHour(hour);
-    onHourChange(hour ? hour.format("LTS") : null);
+
+    const params = {
+      hour: hour ? hour.format("HH:mm:ss") : null,
+    };
+
+    /* setSearchParams(params);
+     */
+    onHourChange(hour ? hour.format("HH:mm:ss") : null);
   };
 
   const handleClearFilter = () => {
@@ -65,6 +91,7 @@ export default function DatePick(props: DateProps): JSX.Element {
             <DatePicker
               renderInput={(params: TextFieldProps) => (
                 <TextField
+                  /* value={date} */
                   {...params}
                   style={{ display: "flex" }}
                   id="text-field-date"
@@ -99,6 +126,7 @@ export default function DatePick(props: DateProps): JSX.Element {
               onChange={handleHourChange}
               renderInput={(params: TextFieldProps) => (
                 <TextField
+                  /* value={hour} */
                   {...params}
                   style={{ display: "flex" }}
                   className="DatePicker"

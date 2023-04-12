@@ -12,6 +12,7 @@ import ApplicationsStatus from "./components/Status/ApplicationsStatus";
 import Service from "./pages/Service";
 import { Grid } from "@mui/material";
 import Header from "./components/Header";
+import NotFound from "./NotFound";
 
 interface Props {
   kc: any;
@@ -57,6 +58,7 @@ function App(props: Props): JSX.Element {
   const handleHeaderTitle = (...args: string[]): void => {
     if (currentComp === "Applications") {
       setHeaderTitle("");
+      handleBackButtonClick();
     }
     if (currentComp === "ServiceHistory") {
       setHeaderTitle("Service History");
@@ -96,17 +98,6 @@ function App(props: Props): JSX.Element {
     if (currentComp === "Applications") {
       controllView();
       setHeaderTitle("");
-    }
-
-    let backButtonVisible = false;
-    if (currentComp === "ServiceHistory") {
-      backButtonVisible = true;
-    }
-    if (currentComp === "ServiceInformation") {
-      backButtonVisible = true;
-    }
-    if (currentComp === "Applications") {
-      backButtonVisible = false;
     }
   };
 
@@ -171,6 +162,7 @@ function App(props: Props): JSX.Element {
               </>
             }
           />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </SnackbarProvider>

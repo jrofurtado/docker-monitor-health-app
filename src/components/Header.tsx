@@ -56,27 +56,52 @@ export default function Header(props: headerProps) {
     );
   };
 
-  // Logout
-  const logout = (): void => {
-    kc.logout();
-  };
-
   return (
-    <Grid container className="header">
+    <Grid
+      container
+      justifyContent="center"
+      alignItems="center"
+      className="header"
+    >
       <Grid item xs={12} className="header__container">
-        <Grid container className="header__container__content">
-          <Grid item xs={2} className="header__container__content__left">
+        <Grid
+          container
+          alignItems="center"
+          justifyContent="center"
+          className="header__container__content"
+        >
+          <Grid
+            item
+            xs={2}
+            alignItems="center"
+            justifyContent="center"
+            className="header__container__content__left"
+          >
             {/* rever maneira mais rapida*/}
             {currentComp === "ServiceHistory" ? (
               <Link to="/">
-                <Button className="header__container__content__left__backButton">
+                <Button
+                  className="header__container__content__left__backButton"
+                  style={{
+                    backgroundColor: "transparent",
+                    color: "white",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
                   <ArrowBack />
                 </Button>
               </Link>
             ) : (
               <Button
+                color="inherit"
                 className="header__container__content__left__backButton"
                 onClick={handleBackButtonClick}
+                style={{
+                  boxShadow: "none",
+
+                  backgroundColor: "transparent",
+                }}
               >
                 {currentComp === "Applications" ? null : <ArrowBack />}
               </Button>
