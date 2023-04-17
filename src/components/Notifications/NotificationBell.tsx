@@ -1,4 +1,4 @@
-import { MouseEvent, useState, useEffect } from "react";
+import React, { MouseEvent, useState, useEffect } from "react";
 import { NotificationProps } from "../../resources/interfaces";
 import "../../styles/NotificationBell.css";
 // Material-UI

@@ -36,10 +36,19 @@ export default function ApplicationListItem(props: Props): JSX.Element {
     handleServiceClick,
   } = props;
 
-  const handleRowClick = (name: string): void => {
-    if (name === application.name) {
+  const handleRowClick = (name: string, server: string): void => {
+    /*  if (name === application.name) {
       handleApplicationClick(application.name);
-    }
+    } */
+
+    handleApplicationClick(name);
+    handleServiceClick(name, server);
+    console.log("name" + name);
+    /* console.log("appliocation" + application); */
+    console.log("Chaves das Applications");
+    console.log(Object.keys(application));
+    console.log("Valores das Applications");
+    console.log(Object.values(application));
   };
 
   return (
@@ -71,7 +80,7 @@ export default function ApplicationListItem(props: Props): JSX.Element {
                 item
                 key={`${server.name}`}
                 onClick={() => {
-                  handleRowClick(server.name);
+                  handleRowClick(application.name, server.name);
                 }}
               >
                 <ServerList

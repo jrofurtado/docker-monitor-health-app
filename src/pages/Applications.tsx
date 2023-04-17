@@ -33,6 +33,7 @@ export default function Applications(props: Props): JSX.Element {
     (state: { application: { list: Array<ApplicationInterface> } }) =>
       state.application.list
   );
+  console.log(applications);
   const notificationStatus = useSelector(
     (state: {
       application: { notificationStatus: NotificationStatusInterface };

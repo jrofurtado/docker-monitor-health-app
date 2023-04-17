@@ -25,7 +25,7 @@ function App(props: Props): JSX.Element {
   const { kc } = props;
 
   const [headerTitle, setHeaderTitle] = useState("");
-  const [service, setService] = useState<ServInterface>({
+  const [service, setService] = useState<ServInterface | any>({
     appName: "",
     serviceName: "",
   });
@@ -52,6 +52,8 @@ function App(props: Props): JSX.Element {
     setService({ appName: app, serviceName: serviceName });
     setView(true);
 
+    console.log("app" + app);
+    console.log("serviceName" + serviceName);
     // Redirect to Service
   };
 
@@ -76,7 +78,7 @@ function App(props: Props): JSX.Element {
     setCurrentComp("Applications");
   }; */
   const handleMessageClick = (service: ServiceInterface): void => {
-    setServ(service);
+    setService(service);
     setView(true);
   };
 
@@ -89,6 +91,7 @@ function App(props: Props): JSX.Element {
 
     if (currentComp === "ServiceHistory") {
       controllView();
+      handleServiceClick();
     }
 
     if (currentComp === "ServiceInformation") {
@@ -143,6 +146,7 @@ function App(props: Props): JSX.Element {
             path="/:appName/:serviceName"
             element={
               <>
+                {/*  <h3> Qualquer coisa aqui </h3> */}
                 <Grid container spacing={2}>
                   <Grid item xs={12}></Grid>
                   <Grid item xs={1}></Grid>
@@ -154,7 +158,7 @@ function App(props: Props): JSX.Element {
                       handleCurrentComp={handleCurrentComp}
                       handleMessageClick={handleMessageClick}
                       view={view}
-                      service={serv}
+                      service={service}
                     />
                   </Grid>
                   <Grid item xs={1}></Grid>

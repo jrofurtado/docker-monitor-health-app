@@ -32,7 +32,14 @@ export default function ServiceInformation(
   const [title, setTitle] = useState("Containers");
   const [text, setText] = useState("View all in JSON");
   const [isJson, setIsJson] = useState(false);
+  /* 
+  console.log("serviço");
+  console.log(serviceName);
+  console.log("app");
+  console.log(appName); */
 
+  /* console.log("info props");
+  console.log(props) */
   let date: string =
     service.created.substr(0, 10) + " " + service.created.substr(11, 8);
   let serviceCreatedDate = new Date(date).toLocaleString();

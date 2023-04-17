@@ -1,3 +1,4 @@
+import React from "react";
 import axios from "axios";
 // TypeScript
 import {
@@ -147,7 +148,7 @@ export async function getServiceHistory(
       return serviceHistory;
     })
     .catch((error) => {
-      console.log("getApplicationNamesList Error: ", error);
+      console.log("getServiceHistory Error: ", error);
     });
 }
 

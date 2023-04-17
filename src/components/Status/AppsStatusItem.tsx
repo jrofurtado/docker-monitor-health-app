@@ -1,3 +1,4 @@
+import React from "react";
 import { ExpandMore } from "@mui/icons-material";
 import "../../styles/AppsStatusItem.css";
 import ReactDiffViewer, { DiffMethod } from "react-diff-viewer-continued";
@@ -10,7 +11,7 @@ import {
 } from "@mui/material";
 import moment from "moment";
 import { ApplicationsStatusInterface } from "../../resources/interfaces";
-import * as React from "react";
+
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";

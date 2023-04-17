@@ -61,6 +61,13 @@ export default function ServiceHistory(props: Props): JSX.Element {
       to = queriedTime.add(20, "minutes").valueOf();
     }
 
+    // ERRO PODE ESTAR NESTA FUNÇÂO!
+    // appName e serviceName estão a vir vazios
+    console.log("nome da aplicação");
+    console.log(appName);
+    console.log("nome do serviço");
+    console.log(serviceName);
+
     getServiceHistory(appName, serviceName, from, to)
       .then((res) => {
         if (res) {
@@ -159,7 +166,7 @@ export default function ServiceHistory(props: Props): JSX.Element {
   const location = useLocation();
   const navigate = useNavigate();
 
-  useEffect(() => {
+  /* seEffect(() => {
     const datequery = new URLSearchParams(location.search).get(
       `?date=${handleDateChange.toString}&& hour=${handleHourChange.toString}`
     );
@@ -170,7 +177,7 @@ export default function ServiceHistory(props: Props): JSX.Element {
       pathname: location.pathname,
       search: `?${datequery}`,
     });
-  }, [location, navigate, handleDateChange, handleHourChange]);
+  }, [location, navigate, handleDateChange, handleHourChange]); */
 
   //Sets the page to the one selected by the user.
 
@@ -206,18 +213,14 @@ export default function ServiceHistory(props: Props): JSX.Element {
     return true;
   };
 
-  return loading ? (
-    <p>Not loaded</p>
-  ) : (
+  return (
     <>
-      {/* SEARCH BAR */}
       <DateSearchBar
         onChange={handleSelect}
         onDateChange={handleDateChange}
         onHourChange={handleHourChange}
       />
 
-      {/* RESULTS ROWS */}
       {filteredMessages.map((service: ServiceInterface, index: number) => {
         let date: string =
           service.created.substr(0, 10) + " " + service.created.substr(11, 8);
@@ -250,7 +253,6 @@ export default function ServiceHistory(props: Props): JSX.Element {
         );
       })}
 
-      {/* PAGINATIONS */}
       {!selectedDate && !selectedHour && (
         <div className="pagination-div">
           <Button
