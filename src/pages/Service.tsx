@@ -29,11 +29,6 @@ export default function Service(props: Props): JSX.Element {
     handleMessageClick,
   } = props;
 
-  console.log("service-be", serviceName);
-  console.log("app-be", appName);
-  //console.log("props");
-  //console.log(props);
-
   return (
     <>
       {/*  <ServiceInformation

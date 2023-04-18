@@ -11,23 +11,60 @@ import { Grid, Button } from "@mui/material";
 import AppsStatusItem from "./AppsStatusItem";
 
 export default function ApplicationsStatus() {
-  const rowsPerPage = 5;
+  const rowsPerPage = 10;
   const [applicationsStatus, setApplicationsStatus] = useState<
     ApplicationsStatusInterface[]
   >([]);
-  const [applicationsStatusBlock, setApplicationsStatusBlock] = useState<
+  const [applicationsStatusBlock, setApplicationsStatusBlock] = React.useState<
     ApplicationsStatusInterface[]
   >([]);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [from, setFrom] = useState<number>(moment().valueOf());
+  const [from, setFrom] = React.useState<number>(moment().valueOf());
   // set state for updatedFrom
   const [updatedFrom, setUpdatedFrom] = useState<number>(moment().valueOf());
-  const [selectedDate, setSelectedDate] = useState<any | null>(null);
-  const [selectedHour, setSelectedHour] = useState<any | null>(null);
+  const [selectedDate, setSelectedDate] = useState<any | null>(
+    moment().format("YYYY-MM-DD")
+  );
+  const [selectedHour, setSelectedHour] = useState<any | null>(
+    moment().format("HH:mm")
+  );
 
   //Sets the date to the one selected by the user.
+  const handleDateChange = (date: any) => {
+    const newDate = date ? date.substr(0, 10) : date;
+    setSelectedDate(newDate);
+    setApplicationsStatus([]);
+    combineDateAndHour(newDate, selectedHour);
+  };
+
+  //Sets the hour to the one selected by the user.
+  const handleHourChange = (hour: any) => {
+    const hour24 = convertTime12to24(hour);
+    setSelectedHour(hour24);
+    setApplicationsStatus([]);
+    combineDateAndHour(selectedDate, hour24);
+  };
+
+  const combineDateAndHour = (date: any, hour: any) => {
+    const from = moment(`${date} ${hour}`).valueOf();
+    setFrom(from);
+  };
 
   //Converts 12h time to 24h time.
+  const convertTime12to24 = (time12h: any | null) => {
+    if (!time12h) {
+      return null;
+    }
+    const [time, modifier] = time12h.split(" ");
+    let [hours, minutes] = time.split(":");
+
+    if (hours === "12") {
+      hours = "00";
+    }
+    if (modifier === "PM") {
+      hours = parseInt(hours, 10) + 12;
+    }
+    return `${hours}:${minutes}`;
+  };
 
   const loadMore = () => {
     let newFrom = updatedFrom;
@@ -55,16 +92,7 @@ export default function ApplicationsStatus() {
       }
     });
     setUpdatedFrom(from);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [from]);
-
-  const handleDateChange = (date: any) => {
-    setSelectedDate(date ? date.substr(0, 10) : date);
-  };
-
-  const handleHourChange = (hour: any) => {
-    setSelectedHour(hour ? hour.substr(0, 5) : hour);
-  };
 
   useEffect(() => {
     // Scroll to the bottom of the page
@@ -76,10 +104,11 @@ export default function ApplicationsStatus() {
 
   return (
     <>
-      {<h3 style={{ marginTop: "3rem" }}>Status Changes</h3>}
+      {/* SEARCH BAR */}
       <DatePick
         onDateChange={handleDateChange}
         onHourChange={handleHourChange}
+        from={from}
       />
       {/* RESULTS ROWS */}
       {applicationsStatus.map((appStatus, index) => {

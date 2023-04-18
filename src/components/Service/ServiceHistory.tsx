@@ -58,60 +58,58 @@ export default function ServiceHistory(props: Props): JSX.Element {
         "YYYY-MM-DD HH:mm"
       );
       from = queriedTime.subtract(10, "minutes").valueOf();
-      to = queriedTime.add(20, "minutes").valueOf();
+      to = queriedTime.valueOf();
     }
 
-    // ERRO PODE ESTAR NESTA FUNÇÂO!
-    // appName e serviceName estão a vir vazios
-    console.log("nome da aplicação");
-    console.log(appName);
-    console.log("nome do serviço");
-    console.log(serviceName);
+    console.log(
+      "appname: ",
+      appName,
+      "serviceName: ",
+      serviceName,
+      "from: ",
+      from,
+      "to: ",
+      to
+    );
+    getServiceHistory(appName, serviceName, from, to).then((res) => {
+      if (res) {
+        for (let key in res) {
+          let localDate = new Date().toISOString();
+          let index = Object.keys(res).indexOf(key);
+          let index2 = index < res.length ? index + 1 : index;
 
-    getServiceHistory(appName, serviceName, from, to)
-      .then((res) => {
-        if (res) {
-          for (let key in res) {
-            let localDate = new Date().toISOString();
-            let index = Object.keys(res).indexOf(key);
-            let index2 = index < res.length ? index + 1 : index;
-
-            if (
-              Date.parse(res[0].expires) < Date.parse(localDate) &&
-              res[0].containers.length !== 0
-            ) {
-              let noDataReceived: ServiceInterface = {
-                serverName: res[0].serverName,
-                appName: res[0].appName,
-                created: res[0].created,
-                expires: res[0].expires,
-                containers: [],
-              };
-              res.splice(0, 0, noDataReceived);
-            }
-
-            if (
-              Date.parse(res[index].expires) <
-                Date.parse(res[index2].created) &&
-              res[index].containers.length !== 0
-            ) {
-              let noDataReceived: ServiceInterface = {
-                serverName: res[index].serverName,
-                appName: res[index].appName,
-                created: res[index].created,
-                expires: res[index].expires,
-                containers: [],
-              };
-              res.splice(index2, 0, noDataReceived);
-            }
+          if (
+            Date.parse(res[0].expires) < Date.parse(localDate) &&
+            res[0].containers.length !== 0
+          ) {
+            let noDataReceived: ServiceInterface = {
+              serverName: res[0].serverName,
+              appName: res[0].appName,
+              created: res[0].created,
+              expires: res[0].expires,
+              containers: [],
+            };
+            res.splice(0, 0, noDataReceived);
           }
-          setService(res.reverse());
-          setLoading(false);
+
+          if (
+            Date.parse(res[index].expires) < Date.parse(res[index2].created) &&
+            res[index].containers.length !== 0
+          ) {
+            let noDataReceived: ServiceInterface = {
+              serverName: res[index].serverName,
+              appName: res[index].appName,
+              created: res[index].created,
+              expires: res[index].expires,
+              containers: [],
+            };
+            res.splice(index2, 0, noDataReceived);
+          }
         }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+        setService(res.reverse());
+        setLoading(false);
+      }
+    });
     handleHeaderTitle(
       firstLetterToUpperCase(appName),
       firstLetterToUpperCase(serviceName),
@@ -163,24 +161,6 @@ export default function ServiceHistory(props: Props): JSX.Element {
     return `${hours}:${minutes}`;
   };
 
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  /* seEffect(() => {
-    const datequery = new URLSearchParams(location.search).get(
-      `?date=${handleDateChange.toString}&& hour=${handleHourChange.toString}`
-    );
-
-    console.log(datequery);
-
-    navigate({
-      pathname: location.pathname,
-      search: `?${datequery}`,
-    });
-  }, [location, navigate, handleDateChange, handleHourChange]); */
-
-  //Sets the page to the one selected by the user.
-
   //Checks if the message is healthy or unhealthy and returns the message created date.
   const checkMessageStatus = (message: any) => {
     for (var i = 0; i < message.containers.length; i++) {
@@ -230,9 +210,9 @@ export default function ServiceHistory(props: Props): JSX.Element {
         let expiresDate = new Date(date1);
         return service.containers.length === 0 ? (
           <Grid container key={index} className="message">
-            <NoDataReceivedItemRow
+            {/*   <NoDataReceivedItemRow
               name={`${expiresDate.toLocaleString()} | No data received`}
-            />
+            /> */}
           </Grid>
         ) : (
           <Grid

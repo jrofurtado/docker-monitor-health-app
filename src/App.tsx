@@ -143,7 +143,7 @@ function App(props: Props): JSX.Element {
           />
 
           <Route
-            path="/:appName/:serviceName"
+            path="logs/:appName/:serviceName"
             element={
               <>
                 {/*  <h3> Qualquer coisa aqui </h3> */}

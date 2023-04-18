@@ -72,10 +72,10 @@ export default function ApplicationListItem(props: Props): JSX.Element {
                 style={{
                   width: "100%",
                   textDecoration: "none",
-                  borderTop: "1px 75% black solid",
+                  borderTop: "1px  black solid",
                 }}
                 component={Link}
-                to={`${application.name}/${server.name}`}
+                to={`logs/${application.name}/${server.name}`}
                 alignContent="center"
                 item
                 key={`${server.name}`}

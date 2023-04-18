@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   DatePicker,
@@ -10,17 +10,17 @@ import "../../styles/DatePicker.css";
 
 import { useSearchParams } from "react-router-dom";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import moment from "moment";
 
 interface DateProps {
   onDateChange: (event: any) => void;
   onHourChange: (event: any) => void;
+  from: number;
 }
 export default function DatePick(props: DateProps): JSX.Element {
-  const { onDateChange, onHourChange } = props;
-  const [selectedDate, setSelectedDate] = useState<any | null>(new Date());
-  const [selectedHour, setSelectedHour] = useState<any | null>(
-    new Date().getTime()
-  );
+  const { onDateChange, onHourChange, from } = props;
+  const [selectedDate, setSelectedDate] = useState<any | null>();
+  const [selectedHour, setSelectedHour] = useState<any | null>();
 
   const defaultDate = new Date().toISOString();
   const defaultHour = new Date().getTime().toString();
@@ -61,6 +61,13 @@ export default function DatePick(props: DateProps): JSX.Element {
     setSelectedDate(new Date());
     setSelectedHour(new Date().getTime());
   };
+  useEffect(() => {
+    if (from) {
+      const date = moment(from);
+      setSelectedDate(date);
+      setSelectedHour(date);
+    }
+  }, [from]);
 
   return (
     <div className="date-picker">

@@ -18,6 +18,7 @@ import {
   LocalizationProvider,
 } from "@mui/x-date-pickers";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import moment from "moment";
 
 interface Props {
   onChange: (event: any) => void;
@@ -51,17 +52,19 @@ export default function DateAndTimePickers(props: Props): JSX.Element {
   const handleDateChange = (date: any | null) => {
     setSelectedDate(date);
 
-    onDateChange(date ? date.format() : null);
+    onDateChange(date ? moment(date).format("YYYY-MM-DD") : null);
   };
 
   const handleHourChange = (hour: any | null) => {
     setSelectedHour(hour);
-    onHourChange(hour ? hour.format("LTS") : null);
+    onHourChange(hour ? moment(hour).format("HH:mm:ss") : null);
   };
 
   const clearFilter = () => {
     setSelectedDate(new Date());
     setSelectedHour(new Date().getTime());
+    onDateChange(null);
+    onHourChange(null);
   };
 
   return (
