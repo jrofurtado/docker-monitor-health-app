@@ -4,15 +4,24 @@ import { SnackbarProvider } from "notistack";
 import "./styles/App.css";
 // Components
 
-import { Route, Routes, BrowserRouter } from "react-router-dom";
+import {
+  Route,
+  Routes,
+  BrowserRouter,
+  useNavigate,
+  Navigate,
+  Link,
+} from "react-router-dom";
 
 import Applications from "./pages/Applications";
 import { ServiceInterface } from "./resources/interfaces";
 import ApplicationsStatus from "./components/Status/ApplicationsStatus";
-import Service from "./pages/Service";
+
 import { Grid } from "@mui/material";
 import Header from "./components/Header";
 import NotFound from "./NotFound";
+import ServiceHistory from "./components/Service/ServiceHistory";
+import ServiceInformation from "./components/Service/ServiceInformation";
 
 interface Props {
   kc: any;
@@ -89,10 +98,24 @@ function App(props: Props): JSX.Element {
   const handleBackButtonClick = () => {
     console.log("currentComp: " + currentComp);
 
+    if (currentComp === "Applications") {
+      return null;
+    }
+    if (currentComp === "ServiceInformation") {
+      <Link to=".." />;
+      return controllView();
+    }
+
     if (currentComp === "ServiceHistory") {
+      <Link to={`/`} />;
+    }
+
+    return handleServiceClick();
+    /* if (currentComp === "ServiceHistory") {
       controllView();
       handleServiceClick();
     }
+    
 
     if (currentComp === "ServiceInformation") {
       controllView();
@@ -101,7 +124,7 @@ function App(props: Props): JSX.Element {
     if (currentComp === "Applications") {
       controllView();
       setHeaderTitle("");
-    }
+    } */
   };
 
   // Redux
@@ -143,7 +166,7 @@ function App(props: Props): JSX.Element {
           />
 
           <Route
-            path="logs/:appName/:serviceName"
+            path="logs/:appName/:serviceName/:date"
             element={
               <>
                 {/*  <h3> Qualquer coisa aqui </h3> */}
@@ -151,14 +174,12 @@ function App(props: Props): JSX.Element {
                   <Grid item xs={12}></Grid>
                   <Grid item xs={1}></Grid>
                   <Grid item xs={10}>
-                    <Service
+                    <ServiceHistory
                       appName={service.appName}
                       serviceName={service.serviceName}
                       handleHeaderTitle={handleHeaderTitle}
                       handleCurrentComp={handleCurrentComp}
                       handleMessageClick={handleMessageClick}
-                      view={view}
-                      service={service}
                     />
                   </Grid>
                   <Grid item xs={1}></Grid>
@@ -166,6 +187,28 @@ function App(props: Props): JSX.Element {
               </>
             }
           />
+          <Route
+            path="logs/:appName/:serviceName/info/:logID"
+            element={
+              <>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}></Grid>
+                  <Grid item xs={1}></Grid>
+                  <Grid item xs={10}>
+                    <ServiceInformation
+                      application={service.appName}
+                      server={service.serviceName}
+                      service={service}
+                      handleHeaderTitle={handleHeaderTitle}
+                      handleCurrentComp={handleCurrentComp}
+                    />
+                  </Grid>
+                  <Grid item xs={1}></Grid>
+                </Grid>
+              </>
+            }
+          />
+
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

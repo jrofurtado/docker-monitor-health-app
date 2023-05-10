@@ -115,6 +115,9 @@ export async function getServiceHistory(
   if (process.env.NODE_ENV !== "production") {
     return allMocks.getServiceHistory(appName, serverName);
   }
+  if (!appName || !serverName) {
+    return;
+  }
   /* develblock:end */
 
   // Fetch

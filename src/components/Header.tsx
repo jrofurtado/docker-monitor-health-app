@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent } from "react";
+import React, { useState, MouseEvent, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "../styles/Header.css";
 import Gravatar from "react-gravatar";
@@ -16,17 +16,49 @@ import {
   NotificationsActive,
   NotificationsOff,
 } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 interface headerProps {
   kc: any;
   title: string;
   currentComp: string;
   handleBackButtonClick: () => void;
+  appName?: string;
+  serviceName?: string;
 }
 
 export default function Header(props: headerProps) {
-  const { kc, title, currentComp, handleBackButtonClick } = props;
+  const {
+    kc,
+    title,
+    currentComp,
+    handleBackButtonClick,
+    appName,
+    serviceName,
+  } = props;
+
+  let location = useLocation();
+
+  const [serv, setServ] = useState<string>(
+    serviceName ?? location.pathname.split("/")[3]
+  );
+  const [app, setApp] = useState<string>(
+    appName ?? location.pathname.split("/")[2]
+  );
+
+  useEffect(() => {
+    console.log("serv");
+    console.log(serv);
+    console.log("app");
+    console.log(app);
+
+    if (!appName || !serviceName) {
+      setApp(location.pathname.split("/")[2]);
+      setServ(location.pathname.split("/")[3]);
+      console.log(`path ${location.pathname}`);
+    }
+  }, []);
+
   const [anchorEl, setAnchorEl] = useState<(EventTarget & Element) | null>(
     null
   );
@@ -56,6 +88,11 @@ export default function Header(props: headerProps) {
     );
   };
 
+  console.log("location");
+  console.log(location);
+
+  let date = new Date().getTime();
+
   return (
     <Grid
       container
@@ -78,33 +115,20 @@ export default function Header(props: headerProps) {
             className="header__container__content__left"
           >
             {/* rever maneira mais rapida*/}
-            {currentComp === "ServiceHistory" ? (
-              <Link to="/">
-                <Button
-                  className="header__container__content__left__backButton"
-                  style={{
-                    backgroundColor: "transparent",
-                    color: "white",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <ArrowBack />
-                </Button>
+            {currentComp === "ServiceInformation" ? (
+              <Link to={`/logs/${app}/${serv}/${date}`}>
+                <ArrowBack
+                  className="back-button"
+                  onClick={handleBackButtonClick}
+                />
               </Link>
             ) : (
-              <Button
-                color="inherit"
-                className="header__container__content__left__backButton"
-                onClick={handleBackButtonClick}
-                style={{
-                  boxShadow: "none",
-
-                  backgroundColor: "transparent",
-                }}
-              >
-                {currentComp === "Applications" ? null : <ArrowBack />}
-              </Button>
+              <Link to="/">
+                <ArrowBack
+                  className="back-button"
+                  onClick={handleBackButtonClick}
+                />
+              </Link>
             )}
           </Grid>
           <Grid item xs={8} className="header__container__content__center">

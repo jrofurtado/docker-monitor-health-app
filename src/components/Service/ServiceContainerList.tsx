@@ -1,7 +1,8 @@
 import React from "react";
 //Script
-import { firstLetterToUpperCase } from "../../resources/scripts";
+
 // Material-UI
+import { Grid } from "@mui/material";
 
 //Interface
 import {
@@ -10,7 +11,6 @@ import {
 } from "../../resources/interfaces";
 //Components
 import ServiceItemRow from "./ServiceItemRow";
-import { StyledGrid } from "../../JsxStyles/Styles";
 
 interface Props {
   service: ServiceInterface;
@@ -19,43 +19,31 @@ interface Props {
 
 export default function ServiceContainerList(props: Props) {
   const { service, handleContainerClick } = props;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   return (
-    <StyledGrid direction="column">
-      <>
-        {service.containers.map(
-          (container: ContainerInterface, index: number) => {
-            return (
-              <StyledGrid
-                style={{
-                  cursor: "pointer",
-                  marginTop: "10px",
-                  marginBottom: "10px",
-                  gap: "10px",
-                  border: "1px solid #e0e0e0",
-                }}
-                container
-                key={index}
-                onClick={() =>
-                  handleContainerClick(
-                    container,
-                    firstLetterToUpperCase(
-                      container.names.toString().substring(1, 50)
-                    )
-                  )
-                }
-              >
-                <ServiceItemRow
-                  name={firstLetterToUpperCase(
-                    container.names.toString().substring(1, 50)
-                  )}
-                  healthy={container.healthy}
-                />
-              </StyledGrid>
-            );
-          }
-        )}
-      </>
-    </StyledGrid>
+    <>
+      {service.containers?.map(
+        (container: ContainerInterface, index: number) => {
+          return (
+            <Grid
+              container
+              key={index}
+              onClick={() =>
+                handleContainerClick(
+                  container,
+
+                  container.names.toString().substring(1, 50)
+                )
+              }
+            >
+              <ServiceItemRow
+                name={container.names.toString().substring(1, 50)}
+                healthy={container.healthy}
+              />
+            </Grid>
+          );
+        }
+      )}
+    </>
   );
 }

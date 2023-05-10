@@ -15,12 +15,13 @@ export default function ApplicationItemRow(props: Props): JSX.Element {
   const { name, healthy } = props;
   return (
     <StyledGrid container direction="row" alignItems="center">
-      {firstLetterToUpperCase(name)}
       {healthy ? (
-        <Check style={{ color: "green", marginLeft: "auto" }} />
+        <Check style={{ color: "green", margin: "0.5rem" }} />
       ) : (
-        <PriorityHigh style={{ color: "red", marginLeft: "auto" }} />
+        <PriorityHigh style={{ color: "red", margin: "0.5rem" }} />
       )}
+
+      {firstLetterToUpperCase(name)}
     </StyledGrid>
   );
 }

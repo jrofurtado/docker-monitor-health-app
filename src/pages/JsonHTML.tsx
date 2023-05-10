@@ -109,7 +109,6 @@ export default function JsonHTML(props: Props) {
       const getObjectElement = (): Array<JSX.Element> => {
         let element: Array<JSX.Element> = [];
         for (let [key, value] of Object.entries(object)) {
-          console.log(`${key}: ${value} -> ${typeof value}`);
           if (["string", "number"].includes(typeof value)) {
             element.push(handleText(value, key, true));
           } else if (Array.isArray(value)) {

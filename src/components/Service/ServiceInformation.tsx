@@ -17,31 +17,37 @@ import {
 import JsonHTML from "../../pages/JsonHTML";
 import ServiceContainerList from "./ServiceContainerList";
 import { StyledButton } from "../../JsxStyles/Styles";
+import { useLocation } from "react-router-dom";
+import { getServiceHistory } from "../../resources/requests";
 
 export default function ServiceInformation(
   props: ServiceInformationProps
 ): JSX.Element {
-  const {
-    appName,
-    serviceName,
-    service,
-    handleHeaderTitle,
-    handleCurrentComp,
-  } = props;
+  const { application, server, service, handleHeaderTitle, handleCurrentComp } =
+    props;
+  let location = useLocation();
   const [containerView, setOpenContainerView] = useState(false);
   const [title, setTitle] = useState("Containers");
   const [text, setText] = useState("View all in JSON");
   const [isJson, setIsJson] = useState(false);
-  /* 
-  console.log("serviço");
-  console.log(serviceName);
-  console.log("app");
-  console.log(appName); */
+  const [serv, setServ] = useState<string>(
+    server ?? location.pathname.split("/")[3]
+  );
+  const [app, setApp] = useState<string>(
+    application ?? location.pathname.split("/")[2]
+  );
 
-  /* console.log("info props");
-  console.log(props) */
+  useEffect(() => {
+    if (!application || !server) {
+      setApp(location.pathname.split("/")[2]);
+      setServ(location.pathname.split("/")[3]);
+      console.log(`path ${location.pathname}`);
+    }
+  }, []);
+
   let date: string =
-    service.created.substr(0, 10) + " " + service.created.substr(11, 8);
+    service.created === undefined ? "" : service.created.toString();
+
   let serviceCreatedDate = new Date(date).toLocaleString();
 
   const openAllInJson = () => {
@@ -65,18 +71,8 @@ export default function ServiceInformation(
 
   useEffect(() => {
     handleCurrentComp("ServiceInformation");
-    handleHeaderTitle(
-      firstLetterToUpperCase(appName),
-      firstLetterToUpperCase(serviceName),
-      serviceCreatedDate
-    );
-  }, [
-    appName,
-    serviceName,
-    serviceCreatedDate,
-    handleHeaderTitle,
-    handleCurrentComp,
-  ]);
+    handleHeaderTitle(app, serv, serviceCreatedDate);
+  }, [app, serv, serviceCreatedDate, handleHeaderTitle, handleCurrentComp]);
 
   // Container State
   const [openContainer, setOpenContainer] = useState<ContainerInterface | null>(
@@ -103,24 +99,11 @@ export default function ServiceInformation(
 
   return (
     <>
-      <JsonHTML
-        json={serviceInfoJSON}
-        title="Service Information"
-        showButtons={false}
-      />
-
-      {openContainer && containerView ? (
-        <JsonHTML
-          title={title}
-          json={openContainer}
-          closeView={setContainerView}
-          showButtons={true}
-        />
-      ) : (
-        <>
-          <div className="flex-container">
-            <h5>Containers</h5>
-            <div>
+      <div className="service-info-container">
+        <div className="service-info">
+          <div className="service-info-header">
+            <h3>{serv}</h3>
+            <div className="service-info-header-buttons">
               <StyledButton
                 className="json-button"
                 onClick={openAllInJson}
@@ -131,7 +114,7 @@ export default function ServiceInformation(
               </StyledButton>
               <a
                 href={URL.createObjectURL(
-                  new Blob([JSON.stringify(service.containers, null, 2)], {
+                  new Blob([JSON.stringify(service, null, 2)], {
                     type: "text/plain",
                   })
                 )}
@@ -147,16 +130,34 @@ export default function ServiceInformation(
               </a>
             </div>
           </div>
-          {isJson ? (
-            viewAllInJson()
-          ) : (
-            <ServiceContainerList
-              service={service}
-              handleContainerClick={handleContainerClick}
-            />
-          )}
-        </>
-      )}
+          <div className="service-info-body">
+            {isJson ? (
+              viewAllInJson()
+            ) : (
+              <ServiceContainerList
+                service={service}
+                handleContainerClick={handleContainerClick}
+              />
+            )}
+          </div>
+        </div>
+        <div className="service-info-json">
+          <JsonHTML
+            json={serviceInfoJSON}
+            title="Service Information"
+            showButtons={false}
+          />
+        </div>
+      </div>
+
+      {openContainer && containerView ? (
+        <JsonHTML
+          title={title}
+          json={openContainer}
+          closeView={setContainerView}
+          showButtons={true}
+        />
+      ) : null}
     </>
   );
 }

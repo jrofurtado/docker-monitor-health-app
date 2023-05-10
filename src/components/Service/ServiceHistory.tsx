@@ -17,7 +17,15 @@ import {
 } from "../../resources/interfaces";
 import { firstLetterToUpperCase } from "../../resources/scripts";
 import moment from "moment";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  Navigate,
+  redirect,
+} from "react-router-dom";
+import ServiceInformation from "./ServiceInformation";
+import { useQuery } from "@tanstack/react-query";
 
 interface Props {
   appName: string;
@@ -31,6 +39,7 @@ export default function ServiceHistory(props: Props): JSX.Element {
   const {
     handleMessageClick,
     appName,
+
     serviceName,
     handleHeaderTitle,
     handleCurrentComp,
@@ -41,8 +50,20 @@ export default function ServiceHistory(props: Props): JSX.Element {
   const [selectedHour, setSelectedHour] = useState<any | null>();
   const [selectedDate, setSelectedDate] = useState<any | null>();
   const [currentPage, setCurrentPage] = useState<number>(0);
+  let location = useLocation();
+  const [server, setServer] = useState<string>(
+    serviceName ?? location.pathname.split("/")[3]
+  );
+  const [application, setApplication] = useState<string>(
+    appName ?? location.pathname.split("/")[2]
+  );
 
   useEffect(() => {
+    if (!appName || !serviceName) {
+      setApplication(location.pathname.split("/")[2]);
+      setServer(location.pathname.split("/")[3]);
+      console.log(`path ${location.pathname}`);
+    }
     handleCurrentComp("ServiceHistory");
 
     let from = moment()
@@ -61,17 +82,9 @@ export default function ServiceHistory(props: Props): JSX.Element {
       to = queriedTime.valueOf();
     }
 
-    console.log(
-      "appname: ",
-      appName,
-      "serviceName: ",
-      serviceName,
-      "from: ",
-      from,
-      "to: ",
-      to
-    );
-    getServiceHistory(appName, serviceName, from, to).then((res) => {
+    getServiceHistory(application, server, from, to).then((res) => {
+      console.log("res");
+      console.log(res);
       if (res) {
         for (let key in res) {
           let localDate = new Date().toISOString();
@@ -105,24 +118,23 @@ export default function ServiceHistory(props: Props): JSX.Element {
             };
             res.splice(index2, 0, noDataReceived);
           }
+          console.log("res2");
+          console.log(res);
         }
         setService(res.reverse());
         setLoading(false);
       }
     });
-    handleHeaderTitle(
-      firstLetterToUpperCase(appName),
-      firstLetterToUpperCase(serviceName),
-      "Messages"
-    );
   }, [
-    handleHeaderTitle,
     appName,
-    serviceName,
+    application,
+    currentPage,
     handleCurrentComp,
+    location.pathname,
     selectedDate,
     selectedHour,
-    currentPage,
+    server,
+    serviceName,
   ]);
 
   const response = JSON.stringify(service, undefined, 2);
@@ -166,21 +178,20 @@ export default function ServiceHistory(props: Props): JSX.Element {
     for (var i = 0; i < message.containers.length; i++) {
       if (!message.containers[i].healthy) {
         return message.created;
+      } else {
+        return "unhealthy";
       }
     }
   };
 
   //Filters the messages according to the status and date choosen by the user.
   let filteredMessages = messages.filter(function (message: ServiceInterface) {
-    let messageCreatedDate = message.created.substr(0, 10);
-    let messageCreatedHour = message.created.substr(11, 5);
-    switch (status) {
-      case "unhealthy":
-        return message.created === checkMessageStatus(message);
-      case "healthy":
-        return message.created !== checkMessageStatus(message);
-      default:
-        return message;
+    if (status === "healthy") {
+      return checkMessageStatus(message) === "unhealthy";
+    } else if (status === "unhealthy") {
+      return checkMessageStatus(message) !== "unhealthy";
+    } else {
+      return message;
     }
   });
 
@@ -191,6 +202,17 @@ export default function ServiceHistory(props: Props): JSX.Element {
       }
     }
     return true;
+  };
+  const loadMore = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
+  const handleMessages = (message: ServiceInterface) => {
+    handleMessageClick(service);
+  };
+
+  const handleContainerId = (container: ContainerInterface) => {
+    return container.Id;
   };
 
   return (
@@ -210,16 +232,21 @@ export default function ServiceHistory(props: Props): JSX.Element {
         let expiresDate = new Date(date1);
         return service.containers.length === 0 ? (
           <Grid container key={index} className="message">
-            {/*   <NoDataReceivedItemRow
+            <NoDataReceivedItemRow
               name={`${expiresDate.toLocaleString()} | No data received`}
-            /> */}
+            />
           </Grid>
         ) : (
           <Grid
+            component={Link}
+            to={`/logs/${application}/${server}/info/${handleContainerId(
+              service.containers[0]
+            )}`}
             container
+            style={{ textDecoration: "none" }}
             key={index}
             className="message"
-            onClick={() => handleMessageClick(service)}
+            onClick={() => handleMessages(service)}
           >
             <ServiceItemRow
               name={
@@ -240,7 +267,7 @@ export default function ServiceHistory(props: Props): JSX.Element {
             variant="contained"
             color="primary"
             onClick={() => {
-              setCurrentPage(currentPage + 1);
+              loadMore();
             }}
           >
             Ver mais

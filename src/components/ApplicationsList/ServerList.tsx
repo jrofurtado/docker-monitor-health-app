@@ -16,20 +16,18 @@ export default function ServerList(props: ServerProps): JSX.Element {
 
   return (
     <StyledGrid container alignItems="center">
-      {firstLetterToUpperCase(name)}
-
       {healthy ? (
         <Check
           style={{
             color: "green",
-            marginLeft: "auto",
           }}
         />
       ) : (
-        <PriorityHigh style={{ color: "red", marginLeft: "auto" }} />
+        <PriorityHigh style={{ color: "red" }} />
       )}
 
-      <ArrowForwardIcon />
+      {firstLetterToUpperCase(name)}
+      <ArrowForwardIcon style={{ marginLeft: "auto" }} />
     </StyledGrid>
   );
 }
