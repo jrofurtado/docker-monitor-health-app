@@ -116,7 +116,7 @@ export default function Header(props: headerProps) {
           >
             {/* rever maneira mais rapida*/}
             {currentComp === "ServiceInformation" ? (
-              <Link to={`/logs/${app}/${serv}/${date}`}>
+              <Link to={`/logs/${app}/${serv}/`}>
                 <ArrowBack
                   className="back-button"
                   onClick={handleBackButtonClick}

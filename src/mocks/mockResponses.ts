@@ -51,6 +51,7 @@ export async function getServiceStatus(
   const response = require("./responses/serviceState.json").data;
   const service = {
     serverName: serverName,
+    key: response.key,
     appName: appName,
     created: response.created,
     expires: response.expires,
@@ -82,6 +83,7 @@ export async function getServiceHistory(
       appName: appName,
       created: service.created,
       expires: service.expires,
+      key: service.key,
       containers: service.containers.map((container: ContainerInterface) => {
         return {
           id: container.Id,
@@ -110,8 +112,7 @@ export async function getApplicationsStatus(): Promise<
 > {
   console.log("getApplicationsStatus");
   // Get the data from the Mock Response
-  const data: Array<ApplicationsStatusInterface> =
-    require("./responses/applicationsStatus.json");
+  const data: Array<ApplicationsStatusInterface> = require("./responses/applicationsStatus.json");
   console.log("data:", data);
   return data;
 }

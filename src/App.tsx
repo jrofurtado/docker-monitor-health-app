@@ -166,7 +166,7 @@ function App(props: Props): JSX.Element {
           />
 
           <Route
-            path="logs/:appName/:serviceName/:date"
+            path="logs/:appName/:serviceName/"
             element={
               <>
                 {/*  <h3> Qualquer coisa aqui </h3> */}
@@ -188,7 +188,7 @@ function App(props: Props): JSX.Element {
             }
           />
           <Route
-            path="logs/:appName/:serviceName/info/:logID"
+            path="logs/:appName/:serviceName/:time/info/:key/:timeStamp"
             element={
               <>
                 <Grid container spacing={2}>
@@ -196,6 +196,7 @@ function App(props: Props): JSX.Element {
                   <Grid item xs={1}></Grid>
                   <Grid item xs={10}>
                     <ServiceInformation
+                      timeStamp={service.timeStamp}
                       application={service.appName}
                       server={service.serviceName}
                       service={service}

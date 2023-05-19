@@ -4,27 +4,43 @@ import "../../styles/ServiceInformation.css";
 import { firstLetterToUpperCase } from "../../resources/scripts";
 // Material-UI
 
-import { GetApp, FindInPage } from "@mui/icons-material";
+import { GetApp, FindInPage, Close, ExpandMore } from "@mui/icons-material";
 
-// import GetAppIcon from "@mui/icons-material/GetApp";
+// import GetAppIcon from '@mui/icons-material/GetApp';
 // import FindInPageIcon from "@mui/icons-material/FindInPage";
 //Interface
 import {
   ContainerInterface,
   ServiceInformationProps,
+  ServiceInterface,
 } from "../../resources/interfaces";
 //Components
 import JsonHTML from "../../pages/JsonHTML";
 import ServiceContainerList from "./ServiceContainerList";
 import { StyledButton } from "../../JsxStyles/Styles";
 import { useLocation } from "react-router-dom";
-import { getServiceHistory } from "../../resources/requests";
+import { getServiceHistory, getServiceInfo } from "../../resources/requests";
+import moment from "moment";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Grid,
+} from "@mui/material";
+import { da } from "date-fns/locale";
+import { json } from "stream/consumers";
 
 export default function ServiceInformation(
   props: ServiceInformationProps
 ): JSX.Element {
-  const { application, server, service, handleHeaderTitle, handleCurrentComp } =
-    props;
+  const {
+    application,
+    server,
+    service,
+    handleHeaderTitle,
+    handleCurrentComp,
+    timeStamp,
+  } = props;
   let location = useLocation();
   const [containerView, setOpenContainerView] = useState(false);
   const [title, setTitle] = useState("Containers");
@@ -36,14 +52,11 @@ export default function ServiceInformation(
   const [app, setApp] = useState<string>(
     application ?? location.pathname.split("/")[2]
   );
-
-  useEffect(() => {
-    if (!application || !server) {
-      setApp(location.pathname.split("/")[2]);
-      setServ(location.pathname.split("/")[3]);
-      console.log(`path ${location.pathname}`);
-    }
-  }, []);
+  const [timestamp, setTimestamp] = useState<string>(
+    timeStamp ?? location.pathname.split("/")[5]
+  );
+  const [response, setResponse] = useState<ServiceInterface | any>({});
+  const [containers, setContainers] = useState<Array<ContainerInterface>>([]);
 
   let date: string =
     service.created === undefined ? "" : service.created.toString();
@@ -70,9 +83,56 @@ export default function ServiceInformation(
   };
 
   useEffect(() => {
-    handleCurrentComp("ServiceInformation");
-    handleHeaderTitle(app, serv, serviceCreatedDate);
-  }, [app, serv, serviceCreatedDate, handleHeaderTitle, handleCurrentComp]);
+    handleHeaderTitle("Service Information");
+    handleCurrentComp("Service Information");
+
+    const path = location.pathname;
+    const appParam = path.split("/")[2];
+    const servParam = path.split("/")[3];
+    const timeStampParam = path.split("/")[5];
+
+    if (!application || !server || !timeStamp) {
+      setApp(appParam);
+      setServ(servParam);
+      setTimestamp(timeStampParam);
+      console.log(`path ${path}`);
+    }
+
+    getServiceInfo(appParam, servParam)
+      .then((res) => {
+        const { created, expires, key, containers } = JSON.parse(
+          JSON.stringify(res)
+        );
+
+        console.log("containers");
+        console.log(containers);
+
+        const serviceInfo: ServiceInterface = {
+          appName: appParam,
+          serverName: servParam,
+          created,
+          expires,
+          key,
+          containers: containers.length,
+        };
+        setResponse(serviceInfo);
+        setContainers(containers);
+        console.log("containers");
+        console.log(containers);
+      })
+      .catch((error) => {
+        console.error("Error occurred while fetching service info:", error);
+      });
+  }, [
+    app,
+    application,
+    handleCurrentComp,
+    handleHeaderTitle,
+    location.pathname,
+    serv,
+    server,
+    timeStamp,
+  ]);
 
   // Container State
   const [openContainer, setOpenContainer] = useState<ContainerInterface | null>(
@@ -99,65 +159,88 @@ export default function ServiceInformation(
 
   return (
     <>
-      <div className="service-info-container">
-        <div className="service-info">
-          <div className="service-info-header">
-            <h3>{serv}</h3>
-            <div className="service-info-header-buttons">
+      <div className="service-information">
+        <Grid container spacing={2} style={{ backgroundColor: "white" }}>
+          <Grid item xs={12} sm={6} style={{ color: "black" }}>
+            <div className="service-information__container">
+              <div className="service-information__container__body">
+                <div className="service-information__container__body__item">
+                  <h4>Service Name: {response.appName}</h4>
+                </div>
+                <div className="service-information__container__body__item">
+                  <h4>Server : {response.serverName} </h4>
+                </div>
+                <div className="service-information__container__body__item">
+                  <h4>Service Created : {response.created}</h4>
+                </div>
+                <div className="service-information__container__body__item">
+                  <h4>Service Expires : {response.expires}</h4>
+                </div>
+                <div className="service-information__container__body__item">
+                  <h4>Key : {response.key} </h4>
+                </div>
+                <div className="service-information__container__body__item">
+                  <h4>Containers: {response.containers}</h4>
+                </div>
+              </div>
+            </div>
+          </Grid>
+        </Grid>
+
+        <div className="service-information__container">
+          <div className="service-information__container__header">
+            <h3>Containers</h3>
+            <div className="service-information__container__header__buttons">
               <StyledButton
-                className="json-button"
+                variant="contained"
+                color="primary"
+                startIcon={<GetApp />}
                 onClick={openAllInJson}
-                style={{ backgroundColor: "green", color: "white" }}
               >
-                {text}
-                <FindInPage fontSize="small" />
+                Download
               </StyledButton>
-              <a
-                href={URL.createObjectURL(
-                  new Blob([JSON.stringify(service, null, 2)], {
-                    type: "text/plain",
-                  })
-                )}
-                download={service.appName + "JSON.txt"}
+              <StyledButton
+                variant="contained"
+                color="primary"
+                startIcon={<FindInPage />}
+                onClick={() => handleContainerClick(response, "Containers")}
               >
-                <StyledButton
-                  className="download-button"
-                  style={{ backgroundColor: "grey", color: "white" }}
-                >
-                  Download All
-                  <GetApp fontSize="small" />
-                </StyledButton>
-              </a>
+                View All in JSON
+              </StyledButton>
+
+              <StyledButton
+                variant="contained"
+                color="primary"
+                startIcon={<FindInPage />}
+                onClick={() => handleContainerClick(response, "Containers")}
+              >
+                DownLoad in CSV
+              </StyledButton>
             </div>
           </div>
-          <div className="service-info-body">
-            {isJson ? (
-              viewAllInJson()
-            ) : (
-              <ServiceContainerList
-                service={service}
-                handleContainerClick={handleContainerClick}
-              />
-            )}
-          </div>
-        </div>
-        <div className="service-info-json">
-          <JsonHTML
-            json={serviceInfoJSON}
-            title="Service Information"
-            showButtons={false}
-          />
+          <Grid container spacing={2} style={{ backgroundColor: "white" }}>
+            <Grid item xs={12} sm={6} style={{ color: "black" }}>
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMore />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                  style={{ backgroundColor: "#3f51b5", color: "white" }}
+                >
+                  {containers?.map((container: ContainerInterface) => (
+                    <div className="service-information__container__body">
+                      <div className="service-information__container__body__item">
+                        <h4>Container Name: {container.name}</h4>
+                      </div>
+                    </div>
+                  ))}
+                </AccordionSummary>
+                <AccordionDetails></AccordionDetails>
+              </Accordion>
+            </Grid>
+          </Grid>
         </div>
       </div>
-
-      {openContainer && containerView ? (
-        <JsonHTML
-          title={title}
-          json={openContainer}
-          closeView={setContainerView}
-          showButtons={true}
-        />
-      ) : null}
     </>
   );
 }

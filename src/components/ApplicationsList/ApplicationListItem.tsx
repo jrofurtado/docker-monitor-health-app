@@ -51,8 +51,6 @@ export default function ApplicationListItem(props: Props): JSX.Element {
     console.log(Object.values(application));
   };
 
-  let date = new Date().getTime();
-
   return (
     <div className="container">
       <Accordion style={{ margin: "0.5rem 0" }}>
@@ -77,7 +75,7 @@ export default function ApplicationListItem(props: Props): JSX.Element {
                   borderTop: "1px  black solid",
                 }}
                 component={Link}
-                to={`/logs/${application.name}/${server.name}/${date}`}
+                to={`/logs/${application.name}/${server.name}/`}
                 alignContent="center"
                 item
                 key={`${server.name}`}

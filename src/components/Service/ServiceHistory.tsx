@@ -15,17 +15,9 @@ import {
   ServiceInterface,
   ContainerInterface,
 } from "../../resources/interfaces";
-import { firstLetterToUpperCase } from "../../resources/scripts";
+
 import moment from "moment";
-import {
-  Link,
-  useLocation,
-  useNavigate,
-  Navigate,
-  redirect,
-} from "react-router-dom";
-import ServiceInformation from "./ServiceInformation";
-import { useQuery } from "@tanstack/react-query";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 
 interface Props {
   appName: string;
@@ -58,6 +50,8 @@ export default function ServiceHistory(props: Props): JSX.Element {
     appName ?? location.pathname.split("/")[2]
   );
 
+  let [searchParams, setSearchParams] = useSearchParams({});
+
   useEffect(() => {
     if (!appName || !serviceName) {
       setApplication(location.pathname.split("/")[2]);
@@ -65,6 +59,11 @@ export default function ServiceHistory(props: Props): JSX.Element {
       console.log(`path ${location.pathname}`);
     }
     handleCurrentComp("ServiceHistory");
+
+    if (!selectedDate && !selectedHour) {
+      setSelectedDate(location.search.split("=")[1]);
+      setSelectedHour(location.search.split("=")[2]);
+    }
 
     let from = moment()
       .subtract(15 + 10 * currentPage, "minutes")
@@ -82,9 +81,10 @@ export default function ServiceHistory(props: Props): JSX.Element {
       to = queriedTime.valueOf();
     }
 
+    searchParams.set("from", to.toString());
+    setSearchParams(searchParams);
+
     getServiceHistory(application, server, from, to).then((res) => {
-      console.log("res");
-      console.log(res);
       if (res) {
         for (let key in res) {
           let localDate = new Date().toISOString();
@@ -101,6 +101,7 @@ export default function ServiceHistory(props: Props): JSX.Element {
               created: res[0].created,
               expires: res[0].expires,
               containers: [],
+              key: res[0].key,
             };
             res.splice(0, 0, noDataReceived);
           }
@@ -115,11 +116,10 @@ export default function ServiceHistory(props: Props): JSX.Element {
               created: res[index].created,
               expires: res[index].expires,
               containers: [],
+              key: res[index].key,
             };
             res.splice(index2, 0, noDataReceived);
           }
-          console.log("res2");
-          console.log(res);
         }
         setService(res.reverse());
         setLoading(false);
@@ -131,6 +131,7 @@ export default function ServiceHistory(props: Props): JSX.Element {
     currentPage,
     handleCurrentComp,
     location.pathname,
+
     selectedDate,
     selectedHour,
     server,
@@ -142,20 +143,22 @@ export default function ServiceHistory(props: Props): JSX.Element {
   let messages = JSON.parse(response);
 
   //Sets the status to the one chosen by the user.
-  const handleSelect = (event: any) => {
-    setStatus(event.target.value);
-  };
 
   //Sets the date to the one selected by the user.
   const handleDateChange = (date: any) => {
     setSelectedDate(date ? date.substr(0, 10) : date);
+    return date;
   };
 
   //Sets the hour to the one selected by the user.
   const handleHourChange = (hour: any) => {
     setSelectedHour(convertTime12to24(hour));
+    return hour;
   };
 
+  const handleSelect = (event: any) => {
+    setStatus(event.target.value);
+  };
   //Converts 12h time to 24h time.
   const convertTime12to24 = (time12h: any | null) => {
     if (!time12h) {
@@ -211,9 +214,13 @@ export default function ServiceHistory(props: Props): JSX.Element {
     handleMessageClick(service);
   };
 
-  const handleContainerId = (container: ContainerInterface) => {
-    return container.Id;
-  };
+  /*  const handleResKey = (res:) => {
+    let json = JSON.parse(response);
+    let key = Object.keys(json)[0];
+
+    return key;
+
+  }; */
 
   return (
     <>
@@ -239,9 +246,9 @@ export default function ServiceHistory(props: Props): JSX.Element {
         ) : (
           <Grid
             component={Link}
-            to={`/logs/${application}/${server}/info/${handleContainerId(
-              service.containers[0]
-            )}`}
+            to={`/logs/${application}/${server}/${Date.parse(
+              selectedDate + selectedHour
+            )}/info/${service.key}/${Date.parse(service.created)}`}
             container
             style={{ textDecoration: "none" }}
             key={index}

@@ -11,6 +11,8 @@ import {
 } from "./interfaces";
 /* develblock:start */
 import allMocks from "../mocks/mockResponses";
+import { Key } from "@mui/icons-material";
+import { timeStamp } from "console";
 /* develblock:end */
 
 export async function getApplicationNamesList(): Promise<Array<ApplicationInterface> | void> {
@@ -68,7 +70,7 @@ export async function getApplicationNamesList(): Promise<Array<ApplicationInterf
 export async function getServiceInfo(
   appName: string,
   serverName: string
-): Promise<ServiceInterface | void> {
+): Promise<ServiceInterface | any> {
   /* develblock:start */
   // Mock
   if (process.env.NODE_ENV !== "production") {
@@ -84,6 +86,7 @@ export async function getServiceInfo(
         appName: response.data.appName,
         created: response.data.created,
         expires: response.data.expires,
+        key: response.data.key,
         containers: response.data.containers.map(
           (container: ContainerInterface) => {
             return {
@@ -133,6 +136,7 @@ export async function getServiceHistory(
           appName: service.appName,
           created: service.created,
           expires: service.expires,
+          key: service.key,
           containers: service.containers.map(
             (container: ContainerInterface) => {
               return {
@@ -142,6 +146,7 @@ export async function getServiceHistory(
                 ImageID: container.ImageID,
                 createdTimestamp: container.Created,
                 healthy: container._Healthy,
+                key: container._Key,
               };
             }
           ),

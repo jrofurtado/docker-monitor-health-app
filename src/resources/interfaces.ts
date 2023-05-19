@@ -20,6 +20,7 @@ export interface ServiceInterface {
   created: string;
   expires: string;
   containers: Array<ContainerInterface>;
+  key: string;
 }
 
 export interface ContainerInterface {
@@ -73,6 +74,7 @@ export interface ServiceHistoryProps {
 export interface ServiceInformationProps {
   application: string;
   server: string;
+  timeStamp: string;
   service: ServiceInterface;
   handleHeaderTitle: (...args: string[]) => void;
   handleCurrentComp: (currentComp: string) => void;
