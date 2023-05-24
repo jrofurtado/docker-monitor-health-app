@@ -79,3 +79,19 @@ export interface ServiceInformationProps {
   handleHeaderTitle: (...args: string[]) => void;
   handleCurrentComp: (currentComp: string) => void;
 }
+export interface ServInterface {
+  serviceName: string;
+  appName: string;
+}
+
+export interface KcProps {
+  kc: any;
+}
+export interface headerProps {
+  kc: any;
+  title: string;
+  currentComp: string;
+
+  appName?: string;
+  serviceName?: string;
+}

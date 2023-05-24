@@ -15,7 +15,9 @@ import Header from "./components/Header";
 import NotFound from "./NotFound";
 import ServiceHistory from "./components/Service/ServiceHistory";
 import ServiceInformation from "./components/Service/ServiceInformation";
-import { kc } from "./index";
+import Home from "./components/Page/Home";
+import History from "./components/Page/History";
+import Information from "./components/Page/Information";
 
 interface Props {
   kc: any;
@@ -130,80 +132,14 @@ function App(props: Props): JSX.Element {
   return (
     <SnackbarProvider maxSnack={3}>
       <BrowserRouter>
-        <Header
-          kc={kc}
-          title={headerTitle}
-          currentComp={currentComp}
-          handleBackButtonClick={handleBackButtonClick}
-        />
+        <Header kc={kc} title={headerTitle} currentComp={currentComp} />
         <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <Grid container spacing={2}>
-                  <Grid item xs={12}></Grid>
-                  <Grid item xs={1}></Grid>
-                  <Grid item xs={10}>
-                    <Applications
-                      handleServiceClick={handleServiceClick}
-                      handleCurrentComp={handleCurrentComp}
-                    />
-                  </Grid>
-                  <Grid item xs={1}></Grid>
-                  <Grid item xs={1}></Grid>
-                  <Grid item xs={10}>
-                    <ApplicationsStatus />
-                  </Grid>
-                  <Grid item xs={1}></Grid>
-                </Grid>
-              </>
-            }
-          />
+          <Route path="/" element={<Home />} />
 
-          <Route
-            path="logs/:appName/:serviceName/"
-            element={
-              <>
-                {/*  <h3> Qualquer coisa aqui </h3> */}
-                <Grid container spacing={2}>
-                  <Grid item xs={12}></Grid>
-                  <Grid item xs={1}></Grid>
-                  <Grid item xs={10}>
-                    <ServiceHistory
-                      appName={service.appName}
-                      serviceName={service.serviceName}
-                      handleHeaderTitle={handleHeaderTitle}
-                      handleCurrentComp={handleCurrentComp}
-                      handleMessageClick={handleMessageClick}
-                    />
-                  </Grid>
-                  <Grid item xs={1}></Grid>
-                </Grid>
-              </>
-            }
-          />
+          <Route path="logs/:appName/:serviceName/" element={<History />} />
           <Route
             path="logs/:appName/:serviceName/:time/info/:key/:timeStamp"
-            element={
-              <>
-                <Grid container spacing={2}>
-                  <Grid item xs={12}></Grid>
-                  <Grid item xs={1}></Grid>
-                  <Grid item xs={10}>
-                    <ServiceInformation
-                      timeStamp={service.timeStamp}
-                      application={service.appName}
-                      server={service.serviceName}
-                      service={service}
-                      handleHeaderTitle={handleHeaderTitle}
-                      handleCurrentComp={handleCurrentComp}
-                    />
-                  </Grid>
-                  <Grid item xs={1}></Grid>
-                </Grid>
-              </>
-            }
+            element={<Information />}
           />
 
           <Route path="*" element={<NotFound />} />

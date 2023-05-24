@@ -4,7 +4,10 @@ import "../styles/Header.css";
 import Gravatar from "react-gravatar";
 import { firstLetterToUpperCase } from "../resources/scripts";
 // Interfaces
-import { NotificationStatusInterface } from "../resources/interfaces";
+import {
+  NotificationStatusInterface,
+  headerProps,
+} from "../resources/interfaces";
 // Redux
 import allActions from "../redux-store/New-apps-redux/actions";
 // Material-UI
@@ -18,21 +21,12 @@ import {
 } from "@mui/icons-material";
 import { Link, useLocation } from "react-router-dom";
 
-interface headerProps {
-  kc: any;
-  title: string;
-  currentComp: string;
-  handleBackButtonClick: () => void;
-  appName?: string;
-  serviceName?: string;
-}
-
 export default function Header(props: headerProps) {
   const {
     kc,
     title,
     currentComp,
-    handleBackButtonClick,
+
     appName,
     serviceName,
   } = props;
