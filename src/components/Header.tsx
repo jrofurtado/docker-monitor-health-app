@@ -57,7 +57,7 @@ export default function Header(props: headerProps) {
       setServ(location.pathname.split("/")[3]);
       console.log(`path ${location.pathname}`);
     }
-  }, []);
+  }, [app, appName, location.pathname, serv, serviceName]);
 
   const [anchorEl, setAnchorEl] = useState<(EventTarget & Element) | null>(
     null
@@ -91,8 +91,6 @@ export default function Header(props: headerProps) {
   console.log("location");
   console.log(location);
 
-  let date = new Date().getTime();
-
   return (
     <Grid
       container
@@ -115,7 +113,25 @@ export default function Header(props: headerProps) {
             className="header__container__content__left"
           >
             {/* rever maneira mais rapida*/}
-            {currentComp === "ServiceInformation" ? (
+
+            <Link
+              to={
+                currentComp === "ServiceInformation"
+                  ? `/logs/${app}/${serv}/`
+                  : "/"
+              }
+            >
+              <ArrowBack
+                className={
+                  currentComp !== "Applications"
+                    ? "back-button"
+                    : "back-button hide"
+                }
+                /* onClick={handleBackButtonClick} */
+              />
+            </Link>
+
+            {/*  {currentComp === "ServiceInformation" ? (
               <Link to={`/logs/${app}/${serv}/`}>
                 <ArrowBack
                   className="back-button"
@@ -125,11 +141,11 @@ export default function Header(props: headerProps) {
             ) : (
               <Link to="/">
                 <ArrowBack
-                  className="back-button"
+                  className="back-button "
                   onClick={handleBackButtonClick}
                 />
               </Link>
-            )}
+            )} */}
           </Grid>
           <Grid item xs={8} className="header__container__content__center">
             <h1 className="header__container__content__center__title">

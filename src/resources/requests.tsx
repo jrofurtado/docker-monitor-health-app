@@ -1,4 +1,3 @@
-import React from "react";
 import axios from "axios";
 // TypeScript
 import {
@@ -11,8 +10,7 @@ import {
 } from "./interfaces";
 /* develblock:start */
 import allMocks from "../mocks/mockResponses";
-import { Key } from "@mui/icons-material";
-import { timeStamp } from "console";
+
 /* develblock:end */
 
 export async function getApplicationNamesList(): Promise<Array<ApplicationInterface> | void> {

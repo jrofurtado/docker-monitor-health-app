@@ -1,17 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { SnackbarProvider } from "notistack";
-//import { useSelector } from "react-redux";
+
 import "./styles/App.css";
 // Components
 
-import {
-  Route,
-  Routes,
-  BrowserRouter,
-  useNavigate,
-  Navigate,
-  Link,
-} from "react-router-dom";
+import { Route, Routes, BrowserRouter, Link } from "react-router-dom";
 
 import Applications from "./pages/Applications";
 import { ServiceInterface } from "./resources/interfaces";
@@ -22,6 +15,7 @@ import Header from "./components/Header";
 import NotFound from "./NotFound";
 import ServiceHistory from "./components/Service/ServiceHistory";
 import ServiceInformation from "./components/Service/ServiceInformation";
+import { kc } from "./index";
 
 interface Props {
   kc: any;
@@ -38,8 +32,10 @@ function App(props: Props): JSX.Element {
     appName: "",
     serviceName: "",
   });
-  const [serv, setServ] = useState<ServiceInterface | any>();
+
   const [currentComp, setCurrentComp] = useState("Applications");
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [view, setView] = useState(false);
 
   useEffect(() => {

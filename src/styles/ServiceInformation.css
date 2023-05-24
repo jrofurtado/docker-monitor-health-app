@@ -1,5 +1,5 @@
-.flex-container{
-    display: flex;
-    justify-content: space-between;
-    margin: 3rem 0 1rem 0;
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 3rem 0 1rem 0;
 }

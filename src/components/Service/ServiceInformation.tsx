@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/ServiceInformation.css";
 //Script
-import { firstLetterToUpperCase } from "../../resources/scripts";
+
 // Material-UI
 
-import { GetApp, FindInPage, Close, ExpandMore } from "@mui/icons-material";
+import { ExpandMore, Check, PriorityHigh } from "@mui/icons-material";
 
 // import GetAppIcon from '@mui/icons-material/GetApp';
 // import FindInPageIcon from "@mui/icons-material/FindInPage";
@@ -15,20 +15,17 @@ import {
   ServiceInterface,
 } from "../../resources/interfaces";
 //Components
-import JsonHTML from "../../pages/JsonHTML";
-import ServiceContainerList from "./ServiceContainerList";
-import { StyledButton } from "../../JsxStyles/Styles";
+
 import { useLocation } from "react-router-dom";
-import { getServiceHistory, getServiceInfo } from "../../resources/requests";
-import moment from "moment";
+import { getServiceInfo } from "../../resources/requests";
+
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Grid,
+  Typography,
 } from "@mui/material";
-import { da } from "date-fns/locale";
-import { json } from "stream/consumers";
 
 export default function ServiceInformation(
   props: ServiceInformationProps
@@ -36,55 +33,29 @@ export default function ServiceInformation(
   const {
     application,
     server,
-    service,
+
     handleHeaderTitle,
     handleCurrentComp,
     timeStamp,
   } = props;
   let location = useLocation();
-  const [containerView, setOpenContainerView] = useState(false);
-  const [title, setTitle] = useState("Containers");
-  const [text, setText] = useState("View all in JSON");
-  const [isJson, setIsJson] = useState(false);
+
   const [serv, setServ] = useState<string>(
     server ?? location.pathname.split("/")[3]
   );
   const [app, setApp] = useState<string>(
     application ?? location.pathname.split("/")[2]
   );
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [timestamp, setTimestamp] = useState<string>(
     timeStamp ?? location.pathname.split("/")[5]
   );
   const [response, setResponse] = useState<ServiceInterface | any>({});
-  const [containers, setContainers] = useState<Array<ContainerInterface>>([]);
-
-  let date: string =
-    service.created === undefined ? "" : service.created.toString();
-
-  let serviceCreatedDate = new Date(date).toLocaleString();
-
-  const openAllInJson = () => {
-    setIsJson(!isJson);
-    setText(
-      text === "View all in JSON" ? "View Individually" : "View all in JSON"
-    );
-  };
-
-  const viewAllInJson = () => {
-    let jsonObject = JSON.stringify(service.containers);
-    let formattedJson = jsonObject.split(",").join("\n").split("}").join("\n");
-    return (
-      <div className="container-div">
-        <ul className="json-container">
-          <li>{formattedJson}</li>
-        </ul>
-      </div>
-    );
-  };
+  const [info, setInfo] = useState<Array<ContainerInterface>>([]);
 
   useEffect(() => {
-    handleHeaderTitle("Service Information");
-    handleCurrentComp("Service Information");
+    handleCurrentComp("ServiceInformation");
+    handleHeaderTitle("ServiceInformation");
 
     const path = location.pathname;
     const appParam = path.split("/")[2];
@@ -104,9 +75,6 @@ export default function ServiceInformation(
           JSON.stringify(res)
         );
 
-        console.log("containers");
-        console.log(containers);
-
         const serviceInfo: ServiceInterface = {
           appName: appParam,
           serverName: servParam,
@@ -115,10 +83,26 @@ export default function ServiceInformation(
           key,
           containers: containers.length,
         };
+
+        const containersInfo: Array<ContainerInterface> = containers.map(
+          (container: {
+            id: any;
+            names: any;
+            image: any;
+            ImageID: any;
+            createdTimestamp: any;
+            healthy: any;
+          }) => ({
+            id: container.id,
+            names: container.names,
+            image: container.image,
+            ImageID: container.ImageID,
+            createdTimestamp: container.createdTimestamp,
+            healthy: container.healthy,
+          })
+        );
         setResponse(serviceInfo);
-        setContainers(containers);
-        console.log("containers");
-        console.log(containers);
+        setInfo(containersInfo);
       })
       .catch((error) => {
         console.error("Error occurred while fetching service info:", error);
@@ -133,114 +117,137 @@ export default function ServiceInformation(
     server,
     timeStamp,
   ]);
-
+  console.log("info");
+  console.log(info);
   // Container State
-  const [openContainer, setOpenContainer] = useState<ContainerInterface | null>(
-    null
-  );
-
-  const handleContainerClick = (
-    container: ContainerInterface,
-    title: string
-  ): void => {
-    setOpenContainer(container);
-    setOpenContainerView(true);
-    setTitle(title);
-  };
-
-  const setContainerView = () => {
-    setOpenContainerView(false);
-    setTitle("Containers");
-  };
-
-  const serviceInfoJSON = { ...service };
-  serviceInfoJSON.containers = [];
-  // delete serviceInfoJSON["containers"];
 
   return (
     <>
-      <div className="service-information">
-        <Grid container spacing={2} style={{ backgroundColor: "white" }}>
-          <Grid item xs={12} sm={6} style={{ color: "black" }}>
-            <div className="service-information__container">
-              <div className="service-information__container__body">
-                <div className="service-information__container__body__item">
-                  <h4>Service Name: {response.appName}</h4>
-                </div>
-                <div className="service-information__container__body__item">
-                  <h4>Server : {response.serverName} </h4>
-                </div>
-                <div className="service-information__container__body__item">
-                  <h4>Service Created : {response.created}</h4>
-                </div>
-                <div className="service-information__container__body__item">
-                  <h4>Service Expires : {response.expires}</h4>
-                </div>
-                <div className="service-information__container__body__item">
-                  <h4>Key : {response.key} </h4>
-                </div>
-                <div className="service-information__container__body__item">
-                  <h4>Containers: {response.containers}</h4>
-                </div>
-              </div>
-            </div>
-          </Grid>
+      <Grid container spacing={2}>
+        <Grid item xs={12}></Grid>
+        <Grid item xs={1}></Grid>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          xl={12}
+          style={{
+            color: "black",
+            backgroundColor: "white",
+            padding: "auto",
+            marginLeft: "1rem",
+            paddingBottom: "2rem",
+            borderRadius: "4px",
+          }}
+        >
+          <h4>Service Name:</h4>
+          <span>{response.appName}</span>
+          <h4>Server:</h4>
+          <span>{response.serverName}</span>
+          <h4>Service Created:</h4>
+          <span>{response.created}</span>
+          <h4>Service Expires:</h4>
+          <span>{response.expires}</span>
+          <h4>Key:</h4>
+          <span>{response.key}</span>
+          <h4>Containers:</h4>
+          <span>{response.containers}</span>
         </Grid>
+        <Grid item xs={12}></Grid>
 
-        <div className="service-information__container">
-          <div className="service-information__container__header">
-            <h3>Containers</h3>
-            <div className="service-information__container__header__buttons">
-              <StyledButton
-                variant="contained"
-                color="primary"
-                startIcon={<GetApp />}
-                onClick={openAllInJson}
-              >
-                Download
-              </StyledButton>
-              <StyledButton
-                variant="contained"
-                color="primary"
-                startIcon={<FindInPage />}
-                onClick={() => handleContainerClick(response, "Containers")}
-              >
-                View All in JSON
-              </StyledButton>
+        <Grid item xs={12} sm={12} xl={12}>
+          <h2>Containers</h2>
+        </Grid>
+        <Grid item xs={12}></Grid>
 
-              <StyledButton
-                variant="contained"
-                color="primary"
-                startIcon={<FindInPage />}
-                onClick={() => handleContainerClick(response, "Containers")}
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          xl={12}
+          style={{ width: "100%" }}
+          alignItems="center"
+          justifyContent="center"
+        >
+          {info.map((container) => (
+            <Accordion style={{ backgroundColor: "white" }} key={container.id}>
+              <AccordionSummary
+                expandIcon={<ExpandMore />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
               >
-                DownLoad in CSV
-              </StyledButton>
-            </div>
-          </div>
-          <Grid container spacing={2} style={{ backgroundColor: "white" }}>
-            <Grid item xs={12} sm={6} style={{ color: "black" }}>
-              <Accordion>
-                <AccordionSummary
-                  expandIcon={<ExpandMore />}
-                  aria-controls="panel1a-content"
-                  id="panel1a-header"
-                  style={{ backgroundColor: "#3f51b5", color: "white" }}
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
                 >
-                  {containers?.map((container: ContainerInterface) => (
-                    <div className="service-information__container__body">
-                      <div className="service-information__container__body__item">
-                        <h4>Container Name: {container.name}</h4>
-                      </div>
+                  {container.healthy ? (
+                    <Check style={{ color: "green" }} />
+                  ) : (
+                    <PriorityHigh style={{ color: "red" }} />
+                  )}
+                  <Typography style={{ marginLeft: "1rem" }}>
+                    {container.names}
+                  </Typography>
+                </div>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={12} xl={12}>
+                    <div
+                      style={{
+                        overflow: "hidden",
+                        wordWrap: "break-word",
+                      }}
+                    >
+                      <h4>Container ID</h4>
+                      <p>{container.id}</p>
                     </div>
-                  ))}
-                </AccordionSummary>
-                <AccordionDetails></AccordionDetails>
-              </Accordion>
-            </Grid>
-          </Grid>
-        </div>
-      </div>
+                    <div
+                      style={{
+                        overflow: "hidden",
+                        wordWrap: "break-word",
+                      }}
+                    >
+                      <h4>Image</h4>
+                      <p>{container.image}</p>
+                    </div>
+                    <div
+                      style={{
+                        overflow: "hidden",
+                        wordWrap: "break-word",
+                      }}
+                    >
+                      <h4>Image ID</h4>
+                      <p>{container.ImageID}</p>
+                    </div>
+                    <div
+                      style={{
+                        overflow: "hidden",
+                        wordWrap: "break-word",
+                      }}
+                    >
+                      <h4>Created</h4>
+                      <p>{container.createdTimestamp}</p>
+                    </div>
+                    <div
+                      style={{
+                        overflow: "hidden",
+                        wordWrap: "break-word",
+                      }}
+                    >
+                      <h4>Healthy</h4>
+                      <p>{container.healthy.toString()}</p>
+                    </div>
+                  </Grid>
+                </Grid>
+              </AccordionDetails>
+            </Accordion>
+          ))}
+        </Grid>
+      </Grid>
     </>
   );
 }

@@ -33,10 +33,10 @@ export default function ServiceHistory(props: Props): JSX.Element {
     appName,
 
     serviceName,
-    handleHeaderTitle,
     handleCurrentComp,
   } = props;
   const [service, setService] = useState<Array<ServiceInterface> | any>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState("");
   const [selectedHour, setSelectedHour] = useState<any | null>();
@@ -125,6 +125,7 @@ export default function ServiceHistory(props: Props): JSX.Element {
         setLoading(false);
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     appName,
     application,
@@ -214,14 +215,6 @@ export default function ServiceHistory(props: Props): JSX.Element {
     handleMessageClick(service);
   };
 
-  /*  const handleResKey = (res:) => {
-    let json = JSON.parse(response);
-    let key = Object.keys(json)[0];
-
-    return key;
-
-  }; */
-
   return (
     <>
       <DateSearchBar
@@ -246,9 +239,9 @@ export default function ServiceHistory(props: Props): JSX.Element {
         ) : (
           <Grid
             component={Link}
-            to={`/logs/${application}/${server}/${Date.parse(
-              selectedDate + selectedHour
-            )}/info/${service.key}/${Date.parse(service.created)}`}
+            to={`/logs/${application}/${server}/${selectedDate}/info/${
+              service.key
+            }/${Date.parse(service.created)}`}
             container
             style={{ textDecoration: "none" }}
             key={index}

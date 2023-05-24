@@ -43,3 +43,10 @@ p {
 .global-button svg {
   color: rgb(104, 104, 104);
 }
+.back-button {
+  display: block;
+  color: white;
+}
+.back-button.hide {
+  display: none;
+}
