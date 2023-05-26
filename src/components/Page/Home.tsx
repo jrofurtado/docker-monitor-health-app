@@ -1,29 +1,25 @@
 import { Grid } from "@mui/material";
-import Applications from "../../pages/Applications";
+import Applications from "../ApplicationsList/Applications";
 import ApplicationsStatus from "../Status/ApplicationsStatus";
-import { useState } from "react";
-import { ServInterface } from "../../resources/interfaces";
+import { useDispatch } from "react-redux"; // Import useSelector and useDispatch
 
 export default function Home() {
-  const [service, setService] = useState<ServInterface | any>({
-    appName: "",
-    serviceName: "",
-  });
-  const [view, setView] = useState(false);
-  const [currentComp, setCurrentComp] = useState("Applications");
-  const handleServiceClick = (
-    app: string = "",
-    serviceName: string = ""
-  ): void => {
-    setService({ appName: app, serviceName: serviceName });
-    setView(true);
+  const dispatch = useDispatch();
+
+  const handleServiceClick = (app: string = "", serviceName: string = "") => {
+    dispatch({
+      type: "application/setService",
+      payload: { appName: app, serviceName: serviceName },
+    });
+    dispatch({ type: "application/setView", payload: true });
 
     console.log("app" + app);
     console.log("serviceName" + serviceName);
     // Redirect to Service
   };
+
   const handleCurrentComp = (currentComp: string) => {
-    setCurrentComp(currentComp);
+    dispatch({ type: "application/setCurrentComp", payload: currentComp });
     console.log("now" + currentComp);
   };
 

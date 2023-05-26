@@ -2,23 +2,19 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 // import "bootstrap/dist/css/bootstrap.min.css";
 import { Provider } from "react-redux";
-import { applyMiddleware, createStore } from "redux";
-import thunk from "redux-thunk";
+
 import "./index.css";
 import * as serviceWorker from "./serviceWorker.js";
 import * as Keycloak from "keycloak-js";
 import axios from "axios";
 import App from "./App";
-import rootReducer from "./redux-store/New-apps-redux/reducers";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-const queryClient = new QueryClient();
+import store from "./redux-store/props-redux/store";
 
-const middleware = [thunk];
-const store = createStore(rootReducer, applyMiddleware(...middleware));
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
 /*eslint-disable*/
 function getKeycloak() {
   if (process.env.NODE_ENV === "production") {
@@ -50,13 +46,10 @@ kc.init(
   { loadUserInfo: true }
 ).then((authenticated: boolean) => {
   if (authenticated) {
-    store.getState().keycloak = kc;
     root.render(
       <Provider store={store}>
         <React.StrictMode>
-          <QueryClientProvider client={queryClient}>
-            <App kc={kc} />
-          </QueryClientProvider>
+          <App kc={kc} />
         </React.StrictMode>
       </Provider>
     );

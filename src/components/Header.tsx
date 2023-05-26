@@ -9,7 +9,7 @@ import {
   headerProps,
 } from "../resources/interfaces";
 // Redux
-import allActions from "../redux-store/New-apps-redux/actions";
+
 // Material-UI
 import { Grid, MenuItem, Menu, Button } from "@mui/material";
 
@@ -20,38 +20,20 @@ import {
   NotificationsOff,
 } from "@mui/icons-material";
 import { Link, useLocation } from "react-router-dom";
+import { RootState } from "../redux-store/props-redux/store";
+import {
+  setAppName,
+  setServiceName,
+} from "../redux-store/props-redux/reducers/propsReducers";
 
 export default function Header(props: headerProps) {
-  const {
-    kc,
-    title,
-    currentComp,
-
-    appName,
-    serviceName,
-  } = props;
+  const { kc } = props;
 
   let location = useLocation();
 
-  const [serv, setServ] = useState<string>(
-    serviceName ?? location.pathname.split("/")[3]
+  const { headerTitle, appName, serviceName, timeStamp } = useSelector(
+    (state: RootState) => state.application
   );
-  const [app, setApp] = useState<string>(
-    appName ?? location.pathname.split("/")[2]
-  );
-
-  useEffect(() => {
-    console.log("serv");
-    console.log(serv);
-    console.log("app");
-    console.log(app);
-
-    if (!appName || !serviceName) {
-      setApp(location.pathname.split("/")[2]);
-      setServ(location.pathname.split("/")[3]);
-      console.log(`path ${location.pathname}`);
-    }
-  }, [app, appName, location.pathname, serv, serviceName]);
 
   const [anchorEl, setAnchorEl] = useState<(EventTarget & Element) | null>(
     null
@@ -65,26 +47,28 @@ export default function Header(props: headerProps) {
     setAnchorEl(null);
   };
 
-  // Redux
-  const notificationStatus = useSelector(
-    (state: {
-      application: { notificationStatus: NotificationStatusInterface };
-    }) => state.application.notificationStatus
-  );
   const dispatch = useDispatch();
 
-  // Set Notification Status
-  const setNotificationStatus = (
-    notificationStatus: NotificationStatusInterface
-  ): void => {
-    dispatch(
-      allActions.applicationActions.addNotificationStatus(notificationStatus)
-    );
+  useEffect(() => {
+    if (appName === "") {
+      const path = location.pathname;
+      const appLocation = path.split("/")[2];
+      const serviceLocation = path.split("/")[3];
+      dispatch(setAppName(appLocation));
+      dispatch(setServiceName(serviceLocation));
+    }
+  }, []);
+
+  const setUrl = (title: string) => {
+    return title === "Service Information"
+      ? `/logs/${appName}/${serviceName}?from=${timeStamp}`
+      : "/";
   };
 
   console.log("location");
   console.log(location);
-
+  const url = setUrl(headerTitle);
+  console.log(headerTitle);
   return (
     <Grid
       container
@@ -106,44 +90,17 @@ export default function Header(props: headerProps) {
             justifyContent="center"
             className="header__container__content__left"
           >
-            {/* rever maneira mais rapida*/}
-
-            <Link
-              to={
-                currentComp === "ServiceInformation"
-                  ? `/logs/${app}/${serv}/`
-                  : "/"
-              }
-            >
-              <ArrowBack
-                className={
-                  currentComp !== "Applications"
-                    ? "back-button"
-                    : "back-button hide"
-                }
-                /* onClick={handleBackButtonClick} */
-              />
-            </Link>
-
-            {/*  {currentComp === "ServiceInformation" ? (
-              <Link to={`/logs/${app}/${serv}/`}>
-                <ArrowBack
-                  className="back-button"
-                  onClick={handleBackButtonClick}
-                />
+            {headerTitle !== "" && (
+              <Link to={url}>
+                <Button>
+                  <ArrowBack />
+                </Button>
               </Link>
-            ) : (
-              <Link to="/">
-                <ArrowBack
-                  className="back-button "
-                  onClick={handleBackButtonClick}
-                />
-              </Link>
-            )} */}
+            )}
           </Grid>
           <Grid item xs={8} className="header__container__content__center">
             <h1 className="header__container__content__center__title">
-              {title}
+              {headerTitle}
             </h1>
           </Grid>
           <Grid item xs={2} className="header__container__content__right">
@@ -163,7 +120,7 @@ export default function Header(props: headerProps) {
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
                 >
-                  <MenuItem
+                  {/* <MenuItem
                     className="user-menu-item global-button"
                     onClick={() =>
                       setNotificationStatus({
@@ -178,7 +135,7 @@ export default function Header(props: headerProps) {
                       <NotificationsOff />
                     )}
                     <button>Subscrição Global</button>
-                  </MenuItem>
+                  </MenuItem> */}
                   <MenuItem
                     className="user-menu-item logout-button"
                     onClick={kc.logout}

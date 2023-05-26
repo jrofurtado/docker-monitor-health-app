@@ -105,6 +105,8 @@ export default function ApplicationsStatus() {
   return (
     <>
       {/* SEARCH BAR */}
+      <Grid item xs={1}></Grid>
+      <Grid item xs={1}></Grid>
       <DatePick
         onDateChange={handleDateChange}
         onHourChange={handleHourChange}

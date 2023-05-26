@@ -19,22 +19,21 @@ import {
 import moment from "moment";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 
+import { useDispatch } from "react-redux";
+import {
+  setAppName,
+  setServiceName,
+} from "../../redux-store/props-redux/reducers/propsReducers";
+
 interface Props {
-  appName: string;
-  serviceName: string;
   handleMessageClick: (service: ServiceInterface) => void;
-  handleHeaderTitle: (...args: string[]) => void;
-  handleCurrentComp: (currentComp: string) => void;
 }
 
 export default function ServiceHistory(props: Props): JSX.Element {
-  const {
-    handleMessageClick,
-    appName,
-
-    serviceName,
-    handleCurrentComp,
-  } = props;
+  const { handleMessageClick } = props;
+  let location = useLocation();
+  const appParam = location.pathname.split("/")[2];
+  const servParam = location.pathname.split("/")[3];
   const [service, setService] = useState<Array<ServiceInterface> | any>([]);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loading, setLoading] = useState(true);
@@ -42,23 +41,18 @@ export default function ServiceHistory(props: Props): JSX.Element {
   const [selectedHour, setSelectedHour] = useState<any | null>();
   const [selectedDate, setSelectedDate] = useState<any | null>();
   const [currentPage, setCurrentPage] = useState<number>(0);
-  let location = useLocation();
-  const [server, setServer] = useState<string>(
-    serviceName ?? location.pathname.split("/")[3]
-  );
-  const [application, setApplication] = useState<string>(
-    appName ?? location.pathname.split("/")[2]
-  );
+  const [server, setServer] = useState<string>(appParam);
+  const [application, setApplication] = useState<string>(servParam);
 
   let [searchParams, setSearchParams] = useSearchParams({});
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    if (!appName || !serviceName) {
-      setApplication(location.pathname.split("/")[2]);
-      setServer(location.pathname.split("/")[3]);
-      console.log(`path ${location.pathname}`);
-    }
-    handleCurrentComp("ServiceHistory");
+    setApplication(appParam);
+    setServer(servParam);
+    dispatch(setServiceName(servParam));
+    dispatch(setAppName(appParam));
 
     if (!selectedDate && !selectedHour) {
       setSelectedDate(location.search.split("=")[1]);
@@ -84,7 +78,7 @@ export default function ServiceHistory(props: Props): JSX.Element {
     searchParams.set("from", to.toString());
     setSearchParams(searchParams);
 
-    getServiceHistory(application, server, from, to).then((res) => {
+    getServiceHistory(appParam, servParam, from, to).then((res) => {
       if (res) {
         for (let key in res) {
           let localDate = new Date().toISOString();
@@ -125,18 +119,17 @@ export default function ServiceHistory(props: Props): JSX.Element {
         setLoading(false);
       }
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    appName,
+    appParam,
     application,
     currentPage,
-    handleCurrentComp,
+
     location.pathname,
 
     selectedDate,
     selectedHour,
     server,
-    serviceName,
+    servParam,
   ]);
 
   const response = JSON.stringify(service, undefined, 2);

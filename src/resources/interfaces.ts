@@ -71,14 +71,12 @@ export interface ServiceHistoryProps {
   handleCurrentComp: (currentComp: string) => void;
 }
 
-export interface ServiceInformationProps {
+/* export interface ServiceInformationProps {
   application: string;
   server: string;
   timeStamp: string;
   service: ServiceInterface;
-  handleHeaderTitle: (...args: string[]) => void;
-  handleCurrentComp: (currentComp: string) => void;
-}
+} */
 export interface ServInterface {
   serviceName: string;
   appName: string;
@@ -89,8 +87,6 @@ export interface KcProps {
 }
 export interface headerProps {
   kc: any;
-  title: string;
-  currentComp: string;
 
   appName?: string;
   serviceName?: string;

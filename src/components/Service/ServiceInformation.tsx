@@ -11,7 +11,6 @@ import { ExpandMore, Check, PriorityHigh } from "@mui/icons-material";
 //Interface
 import {
   ContainerInterface,
-  ServiceInformationProps,
   ServiceInterface,
 } from "../../resources/interfaces";
 //Components
@@ -27,47 +26,33 @@ import {
   Typography,
 } from "@mui/material";
 
-export default function ServiceInformation(
-  props: ServiceInformationProps
-): JSX.Element {
-  const {
-    application,
-    server,
+import { setTimeStamp } from "../../redux-store/props-redux/reducers/propsReducers";
 
-    handleHeaderTitle,
-    handleCurrentComp,
-    timeStamp,
-  } = props;
+import { useDispatch } from "react-redux";
+
+export default function ServiceInformation(): JSX.Element {
   let location = useLocation();
 
-  const [serv, setServ] = useState<string>(
-    server ?? location.pathname.split("/")[3]
-  );
-  const [app, setApp] = useState<string>(
-    application ?? location.pathname.split("/")[2]
-  );
+  //const st = useSelector((state: RootState) => state.application);
+  const path = location.pathname;
+  const appParam = path.split("/")[2];
+  const servParam = path.split("/")[3];
+  const timeStampParam = path.split("/")[5];
+
+  const [serv, setServ] = useState<string>(servParam);
+  const [app, setApp] = useState<string>(appParam);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [timestamp, setTimestamp] = useState<string>(
-    timeStamp ?? location.pathname.split("/")[5]
-  );
+  const [time, setTime] = useState<string>(timeStampParam);
   const [response, setResponse] = useState<ServiceInterface | any>({});
   const [info, setInfo] = useState<Array<ContainerInterface>>([]);
-
+  const dispatach = useDispatch();
   useEffect(() => {
-    handleCurrentComp("ServiceInformation");
-    handleHeaderTitle("ServiceInformation");
+    dispatach(setTimeStamp(timeStampParam));
 
-    const path = location.pathname;
-    const appParam = path.split("/")[2];
-    const servParam = path.split("/")[3];
-    const timeStampParam = path.split("/")[5];
-
-    if (!application || !server || !timeStamp) {
-      setApp(appParam);
-      setServ(servParam);
-      setTimestamp(timeStampParam);
-      console.log(`path ${path}`);
-    }
+    /*   setApp(appParam);
+    setServ(servParam);
+    setTime(timeStampParam); */
+    console.log(`path ${path}`);
 
     getServiceInfo(appParam, servParam)
       .then((res) => {
@@ -107,16 +92,7 @@ export default function ServiceInformation(
       .catch((error) => {
         console.error("Error occurred while fetching service info:", error);
       });
-  }, [
-    app,
-    application,
-    handleCurrentComp,
-    handleHeaderTitle,
-    location.pathname,
-    serv,
-    server,
-    timeStamp,
-  ]);
+  }, [app, appParam, location.pathname, path, serv, servParam, timeStampParam]);
   console.log("info");
   console.log(info);
   // Container State

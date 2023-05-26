@@ -5,6 +5,7 @@ import "../../styles/NotificationBell.css";
 import { NotificationsActive, NotificationsOff } from "@mui/icons-material";
 // Snackbar
 import { useSnackbar } from "notistack";
+import WebNotifications from "../WebNotifications/webnotifications";
 
 function NotificationBell(props: NotificationProps): JSX.Element {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -12,6 +13,7 @@ function NotificationBell(props: NotificationProps): JSX.Element {
   const { enqueueSnackbar } = useSnackbar();
   const [isActive, setISActive] = useState(false);
   const [isFirstRender, setIsFirstRender] = useState(true);
+  const [title, setTitle] = useState<string>("");
 
   useEffect(() => {
     let message = isActive
@@ -28,8 +30,14 @@ function NotificationBell(props: NotificationProps): JSX.Element {
         autoHideDuration: 3000,
       });
     }
+    setTitle(applicationName);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isActive]);
+
+  const handleWebNotification = (event: Event) => {
+    console.log("Web Notification Closed");
+    setTitle(applicationName);
+  };
 
   return (
     <div className="notification-bell">
