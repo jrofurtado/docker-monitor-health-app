@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../../styles/ServiceInformation.css";
+import "./ServiceInformation.css";
 //Script
 
 // Material-UI

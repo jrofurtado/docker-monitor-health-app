@@ -3,7 +3,7 @@ import { firstLetterToUpperCase } from "../../resources/scripts";
 // Components
 import NotificationBell from "../Notifications/NotificationBell";
 // Material-UI
-import { StyledGrid } from "../../JsxStyles/Styles";
+import { StyledGrid } from "../../resources/Styles";
 import { Check, PriorityHigh } from "@mui/icons-material";
 
 interface Props {

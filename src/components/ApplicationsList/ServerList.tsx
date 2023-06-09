@@ -1,5 +1,5 @@
 import React from "react";
-import { StyledGrid } from "../../JsxStyles/Styles";
+import { StyledGrid } from "../../resources/Styles";
 
 import { Check, PriorityHigh } from "@mui/icons-material";
 import { Button } from "@mui/material";

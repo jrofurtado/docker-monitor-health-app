@@ -2,7 +2,7 @@ import { Grid } from "@mui/material";
 import ServiceInformation from "../Service/ServiceInformation";
 import { useEffect, useState } from "react";
 import { ServInterface } from "../../resources/interfaces";
-import Header from "../Header";
+import Header from "../Header/Header";
 import { useDispatch } from "react-redux";
 import { setHeaderTitle } from "../../redux-store/props-redux/reducers/propsReducers";
 

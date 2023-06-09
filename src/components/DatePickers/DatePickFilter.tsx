@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../styles/DateSearchBar.css";
+import "./DateSearchBar.css";
 
 //Material-UI
 import "date-fns";

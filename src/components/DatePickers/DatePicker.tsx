@@ -6,7 +6,7 @@ import {
   TimePicker,
 } from "@mui/x-date-pickers";
 import { Grid, TextField, TextFieldProps, Button } from "@mui/material";
-import "../../styles/DatePicker.css";
+import "./DatePicker.css";
 
 import { useSearchParams } from "react-router-dom";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";

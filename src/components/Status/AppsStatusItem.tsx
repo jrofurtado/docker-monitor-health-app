@@ -1,6 +1,6 @@
 import React from "react";
 import { ExpandMore } from "@mui/icons-material";
-import "../../styles/AppsStatusItem.css";
+import "./AppsStatusItem.css";
 import ReactDiffViewer, { DiffMethod } from "react-diff-viewer-continued";
 
 import {
@@ -15,7 +15,7 @@ import { ApplicationsStatusInterface } from "../../resources/interfaces";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import { StyledGrid } from "../../JsxStyles/Styles";
+import { StyledGrid } from "../../resources/Styles";
 
 interface Props {
   appStatus: ApplicationsStatusInterface;

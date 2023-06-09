@@ -7,7 +7,7 @@ import "./index.css";
 import * as serviceWorker from "./serviceWorker.js";
 import * as Keycloak from "keycloak-js";
 import axios from "axios";
-import App from "./App";
+import App from "./components/App/App";
 
 import store from "./redux-store/props-redux/store";
 

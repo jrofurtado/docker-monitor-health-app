@@ -1,10 +1,10 @@
 import React from "react";
-import "../../styles/ServiceItemRow.css";
+import "./ServiceItemRow.css";
 import { firstLetterToUpperCase } from "../../resources/scripts";
 // Material-UI
 
 import { Check, PriorityHigh } from "@mui/icons-material";
-import { StyledGrid } from "../../JsxStyles/Styles";
+import { StyledGrid } from "../../resources/Styles";
 
 interface Props {
   name: string;

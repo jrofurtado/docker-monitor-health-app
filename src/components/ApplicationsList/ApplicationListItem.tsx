@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../styles/ApplicationListItem.css";
+import "./ApplicationListItem.css";
 // Interfaces
 import {
   ApplicationInterface,
@@ -12,7 +12,7 @@ import {
   AccordionSummary,
   Grid,
 } from "@mui/material";
-import { StyledGrid } from "../../JsxStyles/Styles";
+import { StyledGrid } from "../../resources/Styles";
 // Components
 import ApplicationItemRow from "./ApplicationItemRow";
 import { BorderTop, ExpandMore } from "@mui/icons-material";

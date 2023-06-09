@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../styles/ApplicationsList.css";
+import "./ApplicationsList.css";
 
 // Material-UI
 

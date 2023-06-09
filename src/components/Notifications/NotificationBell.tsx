@@ -1,6 +1,6 @@
 import React, { MouseEvent, useState, useEffect } from "react";
 import { NotificationProps } from "../../resources/interfaces";
-import "../../styles/NotificationBell.css";
+import "./NotificationBell.css";
 // Material-UI
 import { NotificationsActive, NotificationsOff } from "@mui/icons-material";
 // Snackbar

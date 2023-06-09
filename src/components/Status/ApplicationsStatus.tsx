@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 
-import "../../styles/ApplicationsStatus.css";
+import "./ApplicationsStatus.css";
 
 import { ApplicationsStatusInterface } from "../../resources/requests";
 import { getApplicationsStatus } from "../../resources/requests";
-import DatePick from "../Search/DatePicker";
-import "../../styles/ApplicationsStatus.css";
+import DatePick from "../DatePickers/DatePicker";
+import "./ApplicationsStatus.css";
 import { Grid, Button } from "@mui/material";
 import AppsStatusItem from "./AppsStatusItem";
 

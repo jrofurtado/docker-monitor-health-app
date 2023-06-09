@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import "../../styles/ServiceHistory.css";
+import "./ServiceHistory.css";
 
 // Request
 import { getServiceHistory } from "../../resources/requests";
 
 // Components
 import ServiceItemRow from "./ServiceItemRow";
-import DateSearchBar from "../Search/DatePickFilter";
+import DateSearchBar from "../DatePickers/DatePickFilter";
 import NoDataReceivedItemRow from "./NoDataReceivedItemRow";
 
 // Material-UI

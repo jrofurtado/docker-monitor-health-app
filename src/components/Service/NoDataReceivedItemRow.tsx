@@ -1,9 +1,9 @@
-import "../../styles/NoDataReceivedItemRow.css";
+import "./NoDataReceivedItemRow.css";
 import { firstLetterToUpperCase } from "../../resources/scripts";
 // Material-UI
 import { Grid } from "@mui/material";
 import { Warning } from "@mui/icons-material";
-import { StyledGrid } from "../../JsxStyles/Styles";
+import { StyledGrid } from "../../resources/Styles";
 
 interface Props {
   name: string;

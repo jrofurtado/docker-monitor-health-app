@@ -1,17 +1,17 @@
 import React from "react";
 import { SnackbarProvider } from "notistack";
 
-import "./styles/App.css";
+import "./App.css";
 // Components
 
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 
-import Header from "./components/Header";
-import NotFound from "./components/Page/NotFound";
+import Header from "../Header/Header";
+import NotFound from "../Page/NotFound";
 
-import Home from "./components/Page/Home";
-import History from "./components/Page/History";
-import Information from "./components/Page/Information";
+import Home from "../Page/Home";
+import History from "../Page/History";
+import Information from "../Page/Information";
 
 interface Props {
   kc: any;

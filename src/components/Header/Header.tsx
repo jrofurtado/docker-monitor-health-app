@@ -1,10 +1,10 @@
 import React, { useState, MouseEvent, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import "../styles/Header.css";
+import "./Header.css";
 import Gravatar from "react-gravatar";
-import { firstLetterToUpperCase } from "../resources/scripts";
+import { firstLetterToUpperCase } from "../../resources/scripts";
 // Interfaces
-import { headerProps } from "../resources/interfaces";
+import { headerProps } from "../../resources/interfaces";
 // Redux
 
 // Material-UI
@@ -12,12 +12,12 @@ import { Grid, MenuItem, Menu, Button } from "@mui/material";
 
 import { ArrowBack, ExitToApp } from "@mui/icons-material";
 import { Link, useLocation } from "react-router-dom";
-import { RootState } from "../redux-store/props-redux/store";
+import { RootState } from "../../redux-store/props-redux/store";
 import {
   setAppName,
   setServiceName,
   setSearchTimeStamp,
-} from "../redux-store/props-redux/reducers/propsReducers";
+} from "../../redux-store/props-redux/reducers/propsReducers";
 
 export default function Header(props: headerProps) {
   const { kc } = props;
