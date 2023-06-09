@@ -4,26 +4,19 @@ import "../styles/Header.css";
 import Gravatar from "react-gravatar";
 import { firstLetterToUpperCase } from "../resources/scripts";
 // Interfaces
-import {
-  NotificationStatusInterface,
-  headerProps,
-} from "../resources/interfaces";
+import { headerProps } from "../resources/interfaces";
 // Redux
 
 // Material-UI
 import { Grid, MenuItem, Menu, Button } from "@mui/material";
 
-import {
-  ArrowBack,
-  ExitToApp,
-  NotificationsActive,
-  NotificationsOff,
-} from "@mui/icons-material";
+import { ArrowBack, ExitToApp } from "@mui/icons-material";
 import { Link, useLocation } from "react-router-dom";
 import { RootState } from "../redux-store/props-redux/store";
 import {
   setAppName,
   setServiceName,
+  setSearchTimeStamp,
 } from "../redux-store/props-redux/reducers/propsReducers";
 
 export default function Header(props: headerProps) {
@@ -49,16 +42,20 @@ export default function Header(props: headerProps) {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (appName === "") {
-      const path = location.pathname;
-      const appLocation = path.split("/")[2];
-      const serviceLocation = path.split("/")[3];
-      dispatch(setAppName(appLocation));
-      dispatch(setServiceName(serviceLocation));
-    }
-  }, []);
+  if (appName === "") {
+    const path = location.pathname;
+    const appLocation = path.split("/")[2];
+    const serviceLocation = path.split("/")[3];
+    dispatch(setAppName(appLocation));
+    dispatch(setServiceName(serviceLocation));
+    dispatch(setSearchTimeStamp(timeStamp));
+  }
 
+  const convertToString = (time: number) => {
+    return time.toString();
+  };
+  console.log(`timeStamp: ${timeStamp}`);
+  console.log(`converted: ${convertToString(timeStamp)}`);
   const setUrl = (title: string) => {
     return title === "Service Information"
       ? `/logs/${appName}/${serviceName}?from=${timeStamp}`
@@ -120,22 +117,6 @@ export default function Header(props: headerProps) {
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
                 >
-                  {/* <MenuItem
-                    className="user-menu-item global-button"
-                    onClick={() =>
-                      setNotificationStatus({
-                        global: !notificationStatus.global,
-                        apps: notificationStatus.apps,
-                      })
-                    }
-                  >
-                    {notificationStatus.global ? (
-                      <NotificationsActive className="active" />
-                    ) : (
-                      <NotificationsOff />
-                    )}
-                    <button>Subscrição Global</button>
-                  </MenuItem> */}
                   <MenuItem
                     className="user-menu-item logout-button"
                     onClick={kc.logout}

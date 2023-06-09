@@ -44,7 +44,9 @@ const status = [
 export default function DateAndTimePickers(props: Props): JSX.Element {
   const { onChange, onDateChange, onHourChange } = props;
 
-  const [selectedDate, setSelectedDate] = useState<any | null>(new Date());
+  const [selectedDate, setSelectedDate] = useState<any | null>(
+    new Date().getTime()
+  );
   const [selectedHour, setSelectedHour] = useState<any | null>(
     new Date().getTime()
   );

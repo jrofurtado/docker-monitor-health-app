@@ -9,6 +9,7 @@ export const propSlice = createSlice({
     newApplications: [],
     newNotificationStatus: { global: false, apps: [] },
     timeStamp: 0,
+    searchTimeStamp: 0,
   },
   reducers: {
     setAppName: (state, action) => {
@@ -29,6 +30,9 @@ export const propSlice = createSlice({
     setTimeStamp: (state, action) => {
       state.timeStamp = action.payload;
     },
+    setSearchTimeStamp: (state, action) => {
+      state.searchTimeStamp = action.payload;
+    },
   },
 });
 
@@ -39,5 +43,6 @@ export const {
   setNewApplications,
   setNewNotificationStatus,
   setTimeStamp,
+  setSearchTimeStamp,
 } = propSlice.actions;
 export default propSlice.reducer;

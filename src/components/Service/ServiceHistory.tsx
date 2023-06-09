@@ -22,8 +22,10 @@ import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {
   setAppName,
+  setSearchTimeStamp,
   setServiceName,
 } from "../../redux-store/props-redux/reducers/propsReducers";
+import { set } from "date-fns";
 
 interface Props {
   handleMessageClick: (service: ServiceInterface) => void;
@@ -34,6 +36,7 @@ export default function ServiceHistory(props: Props): JSX.Element {
   let location = useLocation();
   const appParam = location.pathname.split("/")[2];
   const servParam = location.pathname.split("/")[3];
+
   const [service, setService] = useState<Array<ServiceInterface> | any>([]);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loading, setLoading] = useState(true);
@@ -47,17 +50,16 @@ export default function ServiceHistory(props: Props): JSX.Element {
   let [searchParams, setSearchParams] = useSearchParams({});
 
   const dispatch = useDispatch();
+  console.log("location");
+  console.log(location.search.split("=")[1]);
+  console.log('location.search.split("=")[2]');
+  console.log(location.search.split("=")[2]);
 
   useEffect(() => {
     setApplication(appParam);
     setServer(servParam);
     dispatch(setServiceName(servParam));
     dispatch(setAppName(appParam));
-
-    if (!selectedDate && !selectedHour) {
-      setSelectedDate(location.search.split("=")[1]);
-      setSelectedHour(location.search.split("=")[2]);
-    }
 
     let from = moment()
       .subtract(15 + 10 * currentPage, "minutes")
@@ -67,15 +69,20 @@ export default function ServiceHistory(props: Props): JSX.Element {
       .valueOf();
 
     if (selectedDate && selectedHour) {
-      const queriedTime = moment(
+      const testTime = moment(
         selectedDate + " " + selectedHour,
         "YYYY-MM-DD HH:mm"
       );
-      from = queriedTime.subtract(10, "minutes").valueOf();
-      to = queriedTime.valueOf();
+      from = testTime.subtract(10, "minutes").valueOf();
+      to = testTime.valueOf();
+      console.log("testTime", testTime);
+    } else if (parseInt(location.search.split("=")[1])) {
+      const newTime = moment(parseInt(location.search.split("=")[1]));
+      from = newTime.subtract(10, "minutes").valueOf();
+      to = newTime.valueOf();
+      console.log("newTime", newTime);
     }
-
-    searchParams.set("from", to.toString());
+    searchParams.set("from", from.toString());
     setSearchParams(searchParams);
 
     getServiceHistory(appParam, servParam, from, to).then((res) => {
@@ -119,18 +126,7 @@ export default function ServiceHistory(props: Props): JSX.Element {
         setLoading(false);
       }
     });
-  }, [
-    appParam,
-    application,
-    currentPage,
-
-    location.pathname,
-
-    selectedDate,
-    selectedHour,
-    server,
-    servParam,
-  ]);
+  }, []);
 
   const response = JSON.stringify(service, undefined, 2);
 
@@ -232,9 +228,9 @@ export default function ServiceHistory(props: Props): JSX.Element {
         ) : (
           <Grid
             component={Link}
-            to={`/logs/${application}/${server}/${selectedDate}/info/${
-              service.key
-            }/${Date.parse(service.created)}`}
+            to={`/logs/${application}/${server}/${searchParams.get(
+              "from"
+            )}/info/${service.key}/${Date.parse(service.created)}`}
             container
             style={{ textDecoration: "none" }}
             key={index}
