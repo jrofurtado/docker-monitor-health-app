@@ -37,7 +37,7 @@ export default function ServiceInformation(): JSX.Element {
   const path = location.pathname;
   const appParam = path.split("/")[2];
   const servParam = path.split("/")[3];
-  const timeStampParam = path.split("/")[5];
+  const timeStampParam = path.split("/")[4];
 
   const [serv, setServ] = useState<string>(servParam);
   const [app, setApp] = useState<string>(appParam);
@@ -45,9 +45,9 @@ export default function ServiceInformation(): JSX.Element {
   const [time, setTime] = useState<string>(timeStampParam);
   const [response, setResponse] = useState<ServiceInterface | any>({});
   const [info, setInfo] = useState<Array<ContainerInterface>>([]);
-  const dispatach = useDispatch();
+  const dispatch = useDispatch();
   useEffect(() => {
-    dispatach(setTimeStamp(timeStampParam));
+    dispatch(setTimeStamp(timeStampParam));
 
     /*   setApp(appParam);
     setServ(servParam);

@@ -44,12 +44,8 @@ const status = [
 export default function DateAndTimePickers(props: Props): JSX.Element {
   const { onChange, onDateChange, onHourChange } = props;
 
-  const [selectedDate, setSelectedDate] = useState<any | null>(
-    new Date().getTime()
-  );
-  const [selectedHour, setSelectedHour] = useState<any | null>(
-    new Date().getTime()
-  );
+  const [selectedDate, setSelectedDate] = useState<any | null>();
+  const [selectedHour, setSelectedHour] = useState<any | null>();
 
   const handleDateChange = (date: any | null) => {
     setSelectedDate(date);
@@ -62,11 +58,9 @@ export default function DateAndTimePickers(props: Props): JSX.Element {
     onHourChange(hour ? moment(hour).format("HH:mm:ss") : null);
   };
 
-  const clearFilter = () => {
+  const handleReset = () => {
     setSelectedDate(new Date());
     setSelectedHour(new Date().getTime());
-    onDateChange(null);
-    onHourChange(null);
   };
 
   return (
@@ -171,7 +165,7 @@ export default function DateAndTimePickers(props: Props): JSX.Element {
         </Grid>
         <Grid item xs={12} sm={12} md={1} style={{ marginTop: "7px" }}>
           <Button
-            onClick={clearFilter}
+            onClick={handleReset}
             style={{
               backgroundColor: "white",
               color: "#475F7D",

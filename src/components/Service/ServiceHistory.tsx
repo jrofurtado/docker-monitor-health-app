@@ -126,7 +126,7 @@ export default function ServiceHistory(props: Props): JSX.Element {
         setLoading(false);
       }
     });
-  }, []);
+  }, [selectedDate, selectedHour, currentPage, appParam, servParam]);
 
   const response = JSON.stringify(service, undefined, 2);
 
