@@ -10,6 +10,8 @@ import {
 } from "./interfaces";
 /* develblock:start */
 import allMocks from "../mocks/mockResponses";
+import { sub } from "date-fns";
+import * as Keycloak from "keycloak-js";
 
 /* develblock:end */
 
@@ -187,13 +189,25 @@ export async function getNotificationInfo(): Promise<NotificationStatusInterface
   }
   /* develblock:end */
   // Fetch
-  return await axios
-    .get("/api/notifications/getStatus")
+  return axios
+    .post("/api/notifications/subscribe", {
+      subscription: {
+        endpoint: "http://172.17.0.1/",
+        keys: {
+          p256h:
+            "BClE8PGSB-1tCRfeEzwEDxUYOLiGnTNTyENMWVHtqUWx26apiC4suVMKVsRJn-B6H7E5J1b1UTLhy_CvimdNljk",
+          auth: "eb ca 0f 6d 75 6b e0 2d 1b 7d e9 09 62 fa 1f 33",
+        },
+      },
+    })
     .then((response) => {
       const data = {
         global: response.data.global,
         apps: response.data.apps,
       };
+
+      console.log("getNotificationInfo: ", response);
+
       return data;
     })
     .catch((error) => {

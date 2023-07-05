@@ -22,10 +22,8 @@ import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {
   setAppName,
-  setSearchTimeStamp,
   setServiceName,
 } from "../../redux-store/props-redux/reducers/propsReducers";
-import { set } from "date-fns";
 
 interface Props {
   handleMessageClick: (service: ServiceInterface) => void;
@@ -126,7 +124,7 @@ export default function ServiceHistory(props: Props): JSX.Element {
         setLoading(false);
       }
     });
-  }, [selectedDate, selectedHour, currentPage, appParam, servParam]);
+  }, [selectedDate, selectedHour, appParam, servParam, , currentPage]);
 
   const response = JSON.stringify(service, undefined, 2);
 

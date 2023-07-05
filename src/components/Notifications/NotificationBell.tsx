@@ -5,6 +5,7 @@ import "./NotificationBell.css";
 import { NotificationsActive, NotificationsOff } from "@mui/icons-material";
 // Snackbar
 import { useSnackbar } from "notistack";
+import { getNotificationInfo } from "../../resources/requests";
 import WebNotifications from "../WebNotifications/webnotifications";
 
 function NotificationBell(props: NotificationProps): JSX.Element {
@@ -31,6 +32,32 @@ function NotificationBell(props: NotificationProps): JSX.Element {
       });
     }
     setTitle(applicationName);
+
+    if (isActive) {
+      /* 
+      <WebNotifications
+        title={"Notification"}
+        options={{
+          body: "You have subscribed to notifications",
+          icon: "/favicon.ico",
+        }}
+        onClose={handleWebNotification}
+      />; */
+
+      getNotificationInfo()
+        .then((data) => console.log(data))
+        .catch((error) => console.log(error));
+    }
+    /* else {
+
+      if (Notification.permission === "granted") {
+        const notification = new Notification("Notification", {
+          body: "You have unsubscribed to notifications",
+          icon: "/favicon.ico",
+        });
+        notification.addEventListener("close", handleWebNotification);
+      } */
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isActive]);
 

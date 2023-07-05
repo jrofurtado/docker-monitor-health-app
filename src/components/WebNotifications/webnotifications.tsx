@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { getNotificationInfo } from "../../resources/requests";
 
 interface Props {
   title: string;
@@ -6,32 +7,39 @@ interface Props {
   onClose?: (event: Event) => void;
 }
 
-const WebNotifications: React.FC<Props> = ({ title, options, onClose }) => {
+const WebNotifications = (props: Props): JSX.Element => {
+  const { title, options, onClose } = props;
   const [notification, setNotification] = useState<Notification | null>(null);
 
-  const requestPermission = () => {
-    // Verifica se o browser suporta notificações
-    if (!("Notification" in window)) {
-      console.error("Este browser não suporta notificações.");
-    } else if (Notification.permission === "granted") {
-      setNotification(new Notification(title, options));
-      if (notification != null) {
-        if (onClose) notification.addEventListener("close", onClose);
-      }
-      // No caso do utilizador tenha negado permissão para notificações
-    } else if (Notification.permission !== "denied") {
-      Notification.requestPermission().then((permission) => {
-        if (permission === "granted") {
-          setNotification(new Notification(title, options));
-          if (notification != null) {
-            if (onClose) notification.addEventListener("close", onClose);
-          }
-        }
-      });
+  const handleNotification = (event: Event) => {
+    console.log("Web Notification Closed");
+    if (onClose) {
+      onClose(event);
     }
   };
 
-  return <button onClick={requestPermission}> Show Notification </button>;
+  useEffect(() => {
+    getNotificationInfo()
+      .then((data) => console.log(data))
+      .catch((error) => console.log(error));
+  }, []);
+
+  const handleClick = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    if (Notification.permission === "granted") {
+      const notification = new Notification(title, options);
+      notification.addEventListener("close", handleNotification);
+      setNotification(notification);
+    }
+  };
+
+  return (
+    <div>
+      <button onClick={handleClick}>Notify me</button>
+    </div>
+  );
 };
 
 export default WebNotifications;
