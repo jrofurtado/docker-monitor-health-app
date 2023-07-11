@@ -10,6 +10,7 @@ import axios from "axios";
 import App from "./components/App/App";
 
 import store from "./redux-store/props-redux/store";
+import { subscribeUser } from "./resources/subscription";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -72,4 +73,6 @@ kc.init(
   // unregister() to register() below. Note this comes with some pitfalls.
   // Learn more about service workers: https://bit.ly/CRA-PWA
   serviceWorkerRegistration.register();
+
+  subscribeUser();
 });
