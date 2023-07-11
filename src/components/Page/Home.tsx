@@ -33,8 +33,12 @@ export default function Home() {
             handleServiceClick={handleServiceClick}
             handleCurrentComp={handleCurrentComp}
           />
-          <Grid item xs={1}></Grid>
-          <Grid item xs={1}></Grid>
+        </Grid>
+      </Grid>
+      <Grid container spacing={2}>
+        <Grid item xs={12}></Grid>
+        <Grid item xs={1}></Grid>
+        <Grid item xs={10}>
           <ApplicationsStatus />
         </Grid>
       </Grid>

@@ -14,7 +14,7 @@ function urlBase64ToUint8Array(base64String: string) {
 }
 
 function sendSubscriptionToBackEnd(subscription: PushSubscription) {
-  return fetch(`${process.env.WEB_PUSH_ENDPOINT}/notifications/subscribe`, {
+  return fetch(`${process.env.WEB_PUSH_ENDPOINT}/api/notifications/subscribe`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
