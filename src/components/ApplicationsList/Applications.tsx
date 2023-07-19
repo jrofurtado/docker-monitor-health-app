@@ -34,11 +34,11 @@ export default function Applications(props: Props): JSX.Element {
   const applications = useSelector(
     (state: RootState) => state.application.newApplications
   );
-  console.log(applications);
+  /* console.log(applications); */
   const notificationStatus = useSelector(
     (state: RootState) => state.application.newNotificationStatus
   );
-  console.log(notificationStatus);
+  /* console.log(notificationStatus); */
   const dispatch = useDispatch();
 
   useEffect(() => {

@@ -54,9 +54,10 @@ export default function Header(props: headerProps) {
   const convertToString = (time: number) => {
     return time.toString();
   };
-  console.log(`timeStamp: ${timeStamp}`);
-  console.log(`converted: ${convertToString(timeStamp)}`);
-  const setUrl = (title: string) => {
+  /*  console.log(`timeStamp: ${timeStamp}`);
+  console.log(`converted: ${convertToString(timeStamp)}`) */ const setUrl = (
+    title: string
+  ) => {
     return title === "Service Information"
       ? `/logs/${appName}/${serviceName}?from=${timeStamp}`
       : "/";
