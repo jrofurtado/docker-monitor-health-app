@@ -75,7 +75,7 @@ export default function ServiceHistory(props: Props): JSX.Element {
       const newTime = moment(parseInt(location.search.split("=")[1]));
       from = newTime.subtract(10, "minutes").valueOf();
       to = newTime.valueOf();
-      console.log("newTime", newTime);
+      /* console.log("newTime", newTime); */
     }
     searchParams.set("from", from.toString());
     setSearchParams(searchParams);

@@ -43,12 +43,12 @@ export default function ApplicationListItem(props: Props): JSX.Element {
 
     handleApplicationClick(name);
     handleServiceClick(name, server);
-    console.log("name" + name);
+    /*  console.log("name" + name); */
     /* console.log("appliocation" + application); */
-    console.log("Chaves das Applications");
+    /* console.log("Chaves das Applications");
     console.log(Object.keys(application));
     console.log("Valores das Applications");
-    console.log(Object.values(application));
+    console.log(Object.values(application)); */
   };
   // shows the name of the application and the status of the application (healthy or not) and also makes use of the ApplicationItemRow component to be able to link to the logs page
   return (
