@@ -3,7 +3,7 @@ import { firstLetterToUpperCase } from "../../resources/scripts";
 // Components
 import NotificationBell from "../Notifications/NotificationBell";
 // Material-UI
-import { StyledGrid } from "../../JsxStyles/Styles";
+import { StyledGrid } from "../../resources/Styles";
 import { Check, PriorityHigh } from "@mui/icons-material";
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
   healthy: boolean;
   notificationEnabled?: boolean;
 }
-
+// shows the name of the application and the status of the application (healthy or not)
 export default function ApplicationItemRow(props: Props): JSX.Element {
   const { name, healthy, notificationEnabled } = props;
   return (

@@ -1,9 +1,9 @@
-import React from "react";
-import "../../styles/NoDataReceivedItemRow.css";
+import "./NoDataReceivedItemRow.css";
 import { firstLetterToUpperCase } from "../../resources/scripts";
 // Material-UI
-import { Grid, IconButton } from "@mui/material";
+import { Grid } from "@mui/material";
 import { Warning } from "@mui/icons-material";
+import { StyledGrid } from "../../resources/Styles";
 
 interface Props {
   name: string;
@@ -11,26 +11,15 @@ interface Props {
 
 export default function ApplicationItemRow(props: Props): JSX.Element {
   const { name } = props;
+
+  //populates the table with the name of the application and a warning icon
+
   return (
     <>
-      <Grid container direction="row" item xs={12} className="error-container">
-        <Grid item xs={6} className="error">
-          <h6 className="error-message">{firstLetterToUpperCase(name)}</h6>
-        </Grid>
-        <Grid
-          container
-          direction="row"
-          justifyContent="flex-end"
-          alignItems="center"
-          item
-          xs={6}
-          className="error"
-        >
-          <IconButton aria-label="health">
-            <Warning fontSize="small" className="yellow-color" />
-          </IconButton>
-        </Grid>
-      </Grid>
+      <StyledGrid container direction="row" alignItems="center">
+        <Warning style={{ color: "orange", margin: "0.5rem" }} />
+        {firstLetterToUpperCase(name)}
+      </StyledGrid>
     </>
   );
 }

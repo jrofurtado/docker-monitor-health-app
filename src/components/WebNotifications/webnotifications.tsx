@@ -1,38 +1,45 @@
-import React, {useState} from 'react';
+//makes use of the Notification API to display a notification to the user
+import React, { useState, useEffect } from "react";
 
 interface Props {
-    title:    string;
-    options:  NotificationOptions;
-    onClose?: (event: Event) => void;
+  title: string;
+  options: NotificationOptions;
+  onClose?: (event: Event) => void;
 }
 
-const WebNotifications: React.FC<Props> = ({title, options, onClose}) => {
-    const [notification, setNotification] = useState<Notification | null>(null);
+const WebNotifications = (props: Props): JSX.Element => {
+  const { title, options, onClose } = props;
+  const [notification, setNotification] = useState<Notification | null>(null);
 
-    const requestPermission = () => {
+  const handleNotification = (event: Event) => {
+    console.log("Web Notification Closed");
+    if (onClose) {
+      onClose(event);
+    }
+  };
 
-        // Verifica se o browser suporta notificações
-        if (!("Notification" in window)) {
-            console.error("Este browser não suporta notificações.");
-        } else if (Notification.permission === "granted") {
-            setNotification(new Notification(title, options));
-            if (notification != null) {
-                if (onClose) notification.addEventListener("close", onClose);
-            }
-        // No caso do utilizador tenha negado permissão para notificações 
-        } else if (Notification.permission !== "denied") {
-            Notification.requestPermission().then((permission) => {
-                if (permission === "granted") {
-                    setNotification(new Notification(title, options));
-                    if (notification != null) {
-                        if (onClose) notification.addEventListener("close", onClose);
-                    }
-                }
-            });
-        }
-    };
+  /* useEffect(() => {
+    getNotificationInfo()
+      .then((data) => console.log("subscribed: "))
+      .catch((error) => console.log(error));
+  }, []); */
 
-    return <button onClick={requestPermission}> Show Notification </button>;
+  const handleClick = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    if (Notification.permission === "granted") {
+      const notification = new Notification(title, options);
+      notification.addEventListener("close", handleNotification);
+      setNotification(notification);
+    }
+  };
+
+  return (
+    <div>
+      <button onClick={handleClick}>Notify me</button>
+    </div>
+  );
 };
 
 export default WebNotifications;

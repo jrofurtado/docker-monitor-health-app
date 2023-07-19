@@ -1,18 +1,24 @@
-import React from "react";
-import "../../styles/ApplicationListItem.css";
+import React, { useState } from "react";
+import "./ApplicationListItem.css";
 // Interfaces
 import {
   ApplicationInterface,
   ServerInterface,
 } from "../../resources/interfaces";
 // Material-UI
-import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
-import { ApplicationGrid, StyledGrid } from "../../JsxStyles/Styles";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Grid,
+} from "@mui/material";
+import { StyledGrid } from "../../resources/Styles";
 // Components
 import ApplicationItemRow from "./ApplicationItemRow";
-import { ExpandMore } from "@mui/icons-material";
+import { BorderTop, ExpandMore } from "@mui/icons-material";
 
 import ServerList from "./ServerList";
+import { Link } from "react-router-dom";
 
 interface Props {
   application: ApplicationInterface;
@@ -30,14 +36,21 @@ export default function ApplicationListItem(props: Props): JSX.Element {
     handleServiceClick,
   } = props;
 
-  const handleRowClick = (name: string): void => {
-    if (name === application.name) {
+  const handleRowClick = (name: string, server: string): void => {
+    /*  if (name === application.name) {
       handleApplicationClick(application.name);
-    } else {
-      handleServiceClick(application.name, name);
-    }
-  };
+    } */
 
+    handleApplicationClick(name);
+    handleServiceClick(name, server);
+    /*  console.log("name" + name); */
+    /* console.log("appliocation" + application); */
+    /* console.log("Chaves das Applications");
+    console.log(Object.keys(application));
+    console.log("Valores das Applications");
+    console.log(Object.values(application)); */
+  };
+  // shows the name of the application and the status of the application (healthy or not) and also makes use of the ApplicationItemRow component to be able to link to the logs page
   return (
     <div className="container">
       <Accordion style={{ margin: "0.5rem 0" }}>
@@ -52,20 +65,30 @@ export default function ApplicationListItem(props: Props): JSX.Element {
             healthy={application.healthy}
           />
         </AccordionSummary>
+
         <AccordionDetails>
           <StyledGrid container spacing={1} alignContent="center">
             {application.servers.map((server: ServerInterface) => (
-              <ApplicationGrid
+              <Grid
+                style={{
+                  width: "100%",
+                  textDecoration: "none",
+                  borderTop: "1px  black solid",
+                }}
+                component={Link}
+                to={`/logs/${application.name}/${server.name}/`}
                 alignContent="center"
                 item
                 key={`${server.name}`}
-                onClick={() => handleRowClick(server.name)}
+                onClick={() => {
+                  handleRowClick(application.name, server.name);
+                }}
               >
                 <ServerList
                   name={server.name}
                   healthy={server.status.healthy}
                 />
-              </ApplicationGrid>
+              </Grid>
             ))}
           </StyledGrid>
         </AccordionDetails>

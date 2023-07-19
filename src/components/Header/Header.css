@@ -1,0 +1,52 @@
+.header {
+  padding: 0 2rem;
+  background-color: rgb(38, 63, 90);
+}
+
+.app-name {
+  text-shadow: 1px 1px 1px rgb(12, 35, 54);
+}
+
+p {
+  font-size: 0.8rem;
+}
+
+#username {
+  margin: 1rem 0 0 0;
+}
+
+.photo {
+  border-radius: 100px;
+  cursor: pointer;
+  margin: 1rem;
+}
+
+.exit-icon {
+  padding: 0.1rem;
+  color: #f50057;
+}
+
+/* Icons */
+
+.user-menu-item button {
+  margin-left: 5px;
+}
+
+.logout-button svg {
+  color: #f50057 !important;
+}
+
+.global-button svg.active {
+  color: rgb(214, 171, 52);
+}
+
+.global-button svg {
+  color: rgb(104, 104, 104);
+}
+.back-button {
+  display: block;
+  color: white;
+}
+.back-button.hide {
+  display: none;
+}

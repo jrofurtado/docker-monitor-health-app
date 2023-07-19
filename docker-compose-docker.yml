@@ -28,6 +28,10 @@ services:
       KEYCLOAK_REALM: "docker-monitor-health-server"
       KEYCLOAK_RESOURCE: "server"
       KEYCLOAK_SSL_REQUIRED: "external"
+      WEB_PUSH_CONTACT: "mailto:admin@localhost"
+      WEB_PUSH_PUBLIC_VAPID_KEY: "BClE8PGSB-1tCRfeEzwEDxUYOLiGnTNTyENMWVHtqUWx26apiC4suVMKVsRJn-B6H7E5J1b1UTLhy_CvimdNljk"
+      WEB_PUSH_PRIVATE_VAPID_KEY: "T0vsnKfItTqYem_lFQCfHh0cG_KmN0oQfGrzuM6sR0g"
+      WEB_PUSH_ENDPOINT: "http://172.17.0.1"
   db:
     image: jrofurtado/mysql-with-healthcheck:5.7.28
     volumes:

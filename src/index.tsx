@@ -1,18 +1,21 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 // import "bootstrap/dist/css/bootstrap.min.css";
 import { Provider } from "react-redux";
-import { applyMiddleware, createStore } from "redux";
-import thunk from "redux-thunk";
+
 import "./index.css";
-import * as serviceWorker from "./serviceWorker.js";
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import * as Keycloak from "keycloak-js";
 import axios from "axios";
-import App from "./App";
-import rootReducer from "./redux-store/New-apps-redux/reducers";
+import App from "./components/App/App";
 
-const middleware = [thunk];
-const store = createStore(rootReducer, applyMiddleware(...middleware));
+import store from "./redux-store/props-redux/store";
+import { subscribeUser } from "./resources/subscription";
+import reportWebVitals from "./reportWebVitals";
+
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
 
 /*eslint-disable*/
 function getKeycloak() {
@@ -45,30 +48,33 @@ kc.init(
   { loadUserInfo: true }
 ).then((authenticated: boolean) => {
   if (authenticated) {
-    store.getState().keycloak = kc;
-    ReactDOM.render(
+    root.render(
       <Provider store={store}>
-        <App kc={kc} />
-      </Provider>,
-      document.getElementById("root")
+        <React.StrictMode>
+          <App kc={kc} />
+        </React.StrictMode>
+      </Provider>
     );
   } else {
     kc.login();
   }
+
+  /* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["axiosConfig"] }] */
+  axios.interceptors.request.use((axiosConfig) =>
+    kc
+      .updateToken(5)
+      .then(() => {
+        axiosConfig.headers.Authorization = `Bearer ${kc.token}`;
+        return Promise.resolve(axiosConfig);
+      })
+      .catch(kc.login)
+  );
+
+  // If you want your app to work offline and load faster, you can change
+  // unregister() to register() below. Note this comes with some pitfalls.
+  // Learn more about service workers: https://bit.ly/CRA-PWA
+  serviceWorkerRegistration.register();
+
+  reportWebVitals();
+  subscribeUser();
 });
-
-/* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["axiosConfig"] }] */
-axios.interceptors.request.use((axiosConfig) =>
-  kc
-    .updateToken(5)
-    .then(() => {
-      axiosConfig.headers.Authorization = `Bearer ${kc.token}`;
-      return Promise.resolve(axiosConfig);
-    })
-    .catch(kc.login)
-);
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();

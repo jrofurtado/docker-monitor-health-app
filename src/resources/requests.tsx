@@ -10,6 +10,7 @@ import {
 } from "./interfaces";
 /* develblock:start */
 import allMocks from "../mocks/mockResponses";
+
 /* develblock:end */
 
 export async function getApplicationNamesList(): Promise<Array<ApplicationInterface> | void> {
@@ -67,7 +68,7 @@ export async function getApplicationNamesList(): Promise<Array<ApplicationInterf
 export async function getServiceInfo(
   appName: string,
   serverName: string
-): Promise<ServiceInterface | void> {
+): Promise<ServiceInterface | any> {
   /* develblock:start */
   // Mock
   if (process.env.NODE_ENV !== "production") {
@@ -83,6 +84,7 @@ export async function getServiceInfo(
         appName: response.data.appName,
         created: response.data.created,
         expires: response.data.expires,
+        key: response.data.key,
         containers: response.data.containers.map(
           (container: ContainerInterface) => {
             return {
@@ -114,6 +116,9 @@ export async function getServiceHistory(
   if (process.env.NODE_ENV !== "production") {
     return allMocks.getServiceHistory(appName, serverName);
   }
+  if (!appName || !serverName) {
+    return;
+  }
   /* develblock:end */
 
   // Fetch
@@ -129,6 +134,7 @@ export async function getServiceHistory(
           appName: service.appName,
           created: service.created,
           expires: service.expires,
+          key: service.key,
           containers: service.containers.map(
             (container: ContainerInterface) => {
               return {
@@ -138,6 +144,7 @@ export async function getServiceHistory(
                 ImageID: container.ImageID,
                 createdTimestamp: container.Created,
                 healthy: container._Healthy,
+                key: container._Key,
               };
             }
           ),
@@ -147,7 +154,7 @@ export async function getServiceHistory(
       return serviceHistory;
     })
     .catch((error) => {
-      console.log("getApplicationNamesList Error: ", error);
+      console.log("getServiceHistory Error: ", error);
     });
 }
 
@@ -172,26 +179,37 @@ export async function getApplicationsStatus(
     });
 }
 
-export async function getNotificationInfo(): Promise<NotificationStatusInterface | void> {
-  /* develblock:start */
-  // Mock
+// gets the notification status
+/* export async function getNotificationInfo(): Promise<NotificationStatusInterface | void> {
+ 
   if (process.env.NODE_ENV !== "production") {
     return allMocks.getNotificationStatus();
   }
-  /* develblock:end */
-  // Fetch
-  return await axios
-    .get("/api/notifications/getStatus")
+
+  return axios
+    .post("/api/notifications/subscribe", {
+      subscription: {
+        endpoint: "https://globaleda-id.duckdns.org",
+        keys: {
+          p256h:
+            "BClE8PGSB-1tCRfeEzwEDxUYOLiGnTNTyENMWVHtqUWx26apiC4suVMKVsRJn-B6H7E5J1b1UTLhy_CvimdNljk",
+          auth: "eb ca 0f 6d 75 6b e0 2d 1b 7d e9 09 62 fa 1f 33",
+        },
+      },
+    })
     .then((response) => {
       const data = {
         global: response.data.global,
         apps: response.data.apps,
       };
+
+      console.log("getNotificationInfo: ", response);
+
       return data;
     })
     .catch((error) => {
       console.log("getNotificationInfo Error: ", error);
     });
-}
+} */
 
 export type { ApplicationsStatusInterface };

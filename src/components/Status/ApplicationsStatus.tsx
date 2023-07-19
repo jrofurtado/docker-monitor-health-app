@@ -1,29 +1,32 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import moment from "moment";
 
-import "../../styles/ApplicationsStatus.css";
+import "./ApplicationsStatus.css";
 
 import { ApplicationsStatusInterface } from "../../resources/requests";
 import { getApplicationsStatus } from "../../resources/requests";
-import DatePick from "../Search/DatePicker";
-import "../../styles/ApplicationsStatus.css";
+import DatePick from "../DatePickers/DatePicker";
+import "./ApplicationsStatus.css";
 import { Grid, Button } from "@mui/material";
 import AppsStatusItem from "./AppsStatusItem";
-import { StyledGrid } from "../../JsxStyles/Styles";
 
 export default function ApplicationsStatus() {
-  const rowsPerPage = 5;
+  const rowsPerPage = 10;
   const [applicationsStatus, setApplicationsStatus] = useState<
     ApplicationsStatusInterface[]
   >([]);
-  const [applicationsStatusBlock, setApplicationsStatusBlock] = useState<
+  const [applicationsStatusBlock, setApplicationsStatusBlock] = React.useState<
     ApplicationsStatusInterface[]
   >([]);
-  const [from, setFrom] = useState<number>(moment().valueOf());
+  const [from, setFrom] = React.useState<number>(moment().valueOf());
   // set state for updatedFrom
   const [updatedFrom, setUpdatedFrom] = useState<number>(moment().valueOf());
-  const [selectedDate, setSelectedDate] = useState<any | null>(null);
-  const [selectedHour, setSelectedHour] = useState<any | null>(null);
+  const [selectedDate, setSelectedDate] = useState<any | null>(
+    moment().format("YYYY-MM-DD")
+  );
+  const [selectedHour, setSelectedHour] = useState<any | null>(
+    moment().format("HH:mm")
+  );
 
   //Sets the date to the one selected by the user.
   const handleDateChange = (date: any) => {
@@ -40,7 +43,7 @@ export default function ApplicationsStatus() {
     setApplicationsStatus([]);
     combineDateAndHour(selectedDate, hour24);
   };
-
+  //Combines the date and hour selected by the user.
   const combineDateAndHour = (date: any, hour: any) => {
     const from = moment(`${date} ${hour}`).valueOf();
     setFrom(from);
@@ -62,7 +65,7 @@ export default function ApplicationsStatus() {
     }
     return `${hours}:${minutes}`;
   };
-
+  //Loads more applications status.
   const loadMore = () => {
     let newFrom = updatedFrom;
     if (applicationsStatusBlock.length === rowsPerPage) {
@@ -89,8 +92,7 @@ export default function ApplicationsStatus() {
       }
     });
     setUpdatedFrom(from);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [from]);
 
   useEffect(() => {
     // Scroll to the bottom of the page
@@ -103,7 +105,13 @@ export default function ApplicationsStatus() {
   return (
     <>
       {/* SEARCH BAR */}
-
+      <Grid item xs={1}></Grid>
+      <Grid item xs={1}></Grid>
+      <DatePick
+        onDateChange={handleDateChange}
+        onHourChange={handleHourChange}
+        from={from}
+      />
       {/* RESULTS ROWS */}
       {applicationsStatus.map((appStatus, index) => {
         if (index === applicationsStatus.length - 1) {

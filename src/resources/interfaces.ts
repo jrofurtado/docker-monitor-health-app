@@ -20,6 +20,7 @@ export interface ServiceInterface {
   created: string;
   expires: string;
   containers: Array<ContainerInterface>;
+  key: string;
 }
 
 export interface ContainerInterface {
@@ -70,10 +71,23 @@ export interface ServiceHistoryProps {
   handleCurrentComp: (currentComp: string) => void;
 }
 
-export interface ServiceInformationProps {
-  appName: string;
-  serviceName: string;
+/* export interface ServiceInformationProps {
+  application: string;
+  server: string;
+  timeStamp: string;
   service: ServiceInterface;
-  handleHeaderTitle: (...args: string[]) => void;
-  handleCurrentComp: (currentComp: string) => void;
+} */
+export interface ServInterface {
+  serviceName: string;
+  appName: string;
+}
+
+export interface KcProps {
+  kc: any;
+}
+export interface headerProps {
+  kc: any;
+
+  appName?: string;
+  serviceName?: string;
 }
