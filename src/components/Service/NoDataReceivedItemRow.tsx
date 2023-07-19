@@ -12,6 +12,8 @@ interface Props {
 export default function ApplicationItemRow(props: Props): JSX.Element {
   const { name } = props;
 
+  //populates the table with the name of the application and a warning icon
+
   return (
     <>
       <StyledGrid container direction="row" alignItems="center">

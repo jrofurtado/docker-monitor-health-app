@@ -46,7 +46,7 @@ function TabPanel(props: TabPanelsProps) {
     </div>
   );
 }
-
+// get the props from the application status and the previous application status
 function a11yProps(index: string) {
   return {
     id: `vertical-tab-${index}`,
@@ -67,6 +67,7 @@ export default function AppsStatusItem(props: Props): JSX.Element {
     return moment(timestamp).format("YYYY-MM-DD HH:mm");
   };
 
+  // get the keys of the applications
   const getAppsKeys = (apps: any) => {
     let keys = [];
     for (let key in apps) {
@@ -74,7 +75,7 @@ export default function AppsStatusItem(props: Props): JSX.Element {
     }
     return keys;
   };
-
+  // get the servers of the applications
   const getAppServers = (app: any) => {
     let servers = [];
     for (let key in app) {
@@ -82,11 +83,11 @@ export default function AppsStatusItem(props: Props): JSX.Element {
     }
     return servers;
   };
-
+  // get the number of applications
   const getAppsCount = (apps: any) => {
     return getAppsKeys(apps).length;
   };
-
+  // get the number of servers
   const getServersCount = (appsObject: any) => {
     let serversCount = 0;
     const apps = Object.values(appsObject);
@@ -95,7 +96,7 @@ export default function AppsStatusItem(props: Props): JSX.Element {
     });
     return serversCount;
   };
-
+  // get the number of containers
   const getContainersCount = (appsObject: any) => {
     let contCount = 0;
     const apps = Object.values(appsObject);

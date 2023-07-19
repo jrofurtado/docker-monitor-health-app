@@ -9,6 +9,7 @@ import { setHeaderTitle } from "../../redux-store/props-redux/reducers/propsRedu
 export default function Information() {
   const dispatch = useDispatch();
 
+  // sets the header title
   useEffect(() => {
     dispatch(setHeaderTitle("Service Information"));
   }, []);

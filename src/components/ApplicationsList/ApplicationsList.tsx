@@ -33,7 +33,7 @@ export default function ApplicationsList(props: Props): JSX.Element {
     );
     return app ? app.isSubscribed : false;
   };
-
+  //makes a list of all the applications and their status and maps it to esch application
   return (
     <>
       {applications.map((application: ApplicationInterface, index: number) => {

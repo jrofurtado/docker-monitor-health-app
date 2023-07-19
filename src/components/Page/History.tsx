@@ -14,11 +14,12 @@ export default function History() {
   const [view, setView] = useState(false);
 
   const dispatch = useDispatch();
-
+  // sets the header title
   useEffect(() => {
     dispatch(setHeaderTitle("Service History"));
   }, []);
 
+  //handles the message click
   const handleMessageClick = (service: ServiceInterface): void => {
     setService(service);
     setView(true);

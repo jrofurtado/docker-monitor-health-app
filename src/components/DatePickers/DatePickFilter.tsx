@@ -26,6 +26,7 @@ interface Props {
   onHourChange: (event: any) => void;
 }
 
+// makes a list of all the status and maps it to each status
 const status = [
   {
     value: "all",
@@ -47,17 +48,19 @@ export default function DateAndTimePickers(props: Props): JSX.Element {
   const [selectedDate, setSelectedDate] = useState<any | null>();
   const [selectedHour, setSelectedHour] = useState<any | null>();
 
+  // changes the date
   const handleDateChange = (date: any | null) => {
     setSelectedDate(date);
 
     onDateChange(date ? moment(date).format("YYYY-MM-DD") : null);
   };
 
+  //changes the hour
   const handleHourChange = (hour: any | null) => {
     setSelectedHour(hour);
     onHourChange(hour ? moment(hour).format("HH:mm:ss") : null);
   };
-
+  // resets the date and hour
   const handleReset = () => {
     setSelectedDate(new Date());
     setSelectedHour(new Date().getTime());

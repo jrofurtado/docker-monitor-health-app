@@ -31,17 +31,17 @@ export default function Header(props: headerProps) {
   const [anchorEl, setAnchorEl] = useState<(EventTarget & Element) | null>(
     null
   );
-
+  //opens the menu
   const handleClick = (event: MouseEvent) => {
     setAnchorEl(event.currentTarget);
   };
-
+  //closes the menu
   const handleClose = () => {
     setAnchorEl(null);
   };
 
   const dispatch = useDispatch();
-
+  //sets the application name, service name and timestamp
   if (appName === "") {
     const path = location.pathname;
     const appLocation = path.split("/")[2];
@@ -50,7 +50,7 @@ export default function Header(props: headerProps) {
     dispatch(setServiceName(serviceLocation));
     dispatch(setSearchTimeStamp(timeStamp));
   }
-
+  //converts the timestamp to string
   const convertToString = (time: number) => {
     return time.toString();
   };
@@ -62,10 +62,9 @@ export default function Header(props: headerProps) {
       : "/";
   };
 
-  console.log("location");
-  console.log(location);
+  //sets header title
   const url = setUrl(headerTitle);
-  console.log(headerTitle);
+
   return (
     <Grid
       container

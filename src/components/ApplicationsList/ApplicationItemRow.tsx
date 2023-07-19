@@ -11,7 +11,7 @@ interface Props {
   healthy: boolean;
   notificationEnabled?: boolean;
 }
-
+// shows the name of the application and the status of the application (healthy or not)
 export default function ApplicationItemRow(props: Props): JSX.Element {
   const { name, healthy, notificationEnabled } = props;
   return (

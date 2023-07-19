@@ -43,7 +43,7 @@ export default function ApplicationsStatus() {
     setApplicationsStatus([]);
     combineDateAndHour(selectedDate, hour24);
   };
-
+  //Combines the date and hour selected by the user.
   const combineDateAndHour = (date: any, hour: any) => {
     const from = moment(`${date} ${hour}`).valueOf();
     setFrom(from);
@@ -65,7 +65,7 @@ export default function ApplicationsStatus() {
     }
     return `${hours}:${minutes}`;
   };
-
+  //Loads more applications status.
   const loadMore = () => {
     let newFrom = updatedFrom;
     if (applicationsStatusBlock.length === rowsPerPage) {

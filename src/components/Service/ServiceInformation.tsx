@@ -52,8 +52,8 @@ export default function ServiceInformation(): JSX.Element {
     /*   setApp(appParam);
     setServ(servParam);
     setTime(timeStampParam); */
-    console.log(`path ${path}`);
 
+    //sets the service information
     getServiceInfo(appParam, servParam)
       .then((res) => {
         const { created, expires, key, containers } = JSON.parse(
@@ -68,7 +68,7 @@ export default function ServiceInformation(): JSX.Element {
           key,
           containers: containers.length,
         };
-
+        //gets the containers information
         const containersInfo: Array<ContainerInterface> = containers.map(
           (container: {
             id: any;
@@ -93,9 +93,6 @@ export default function ServiceInformation(): JSX.Element {
         console.error("Error occurred while fetching service info:", error);
       });
   }, [app, appParam, location.pathname, path, serv, servParam, timeStampParam]);
-  console.log("info");
-  console.log(info);
-  // Container State
 
   return (
     <>

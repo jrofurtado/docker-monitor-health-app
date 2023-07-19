@@ -50,7 +50,7 @@ export default function ApplicationListItem(props: Props): JSX.Element {
     console.log("Valores das Applications");
     console.log(Object.values(application));
   };
-
+  // shows the name of the application and the status of the application (healthy or not) and also makes use of the ApplicationItemRow component to be able to link to the logs page
   return (
     <div className="container">
       <Accordion style={{ margin: "0.5rem 0" }}>
@@ -65,6 +65,7 @@ export default function ApplicationListItem(props: Props): JSX.Element {
             healthy={application.healthy}
           />
         </AccordionSummary>
+
         <AccordionDetails>
           <StyledGrid container spacing={1} alignContent="center">
             {application.servers.map((server: ServerInterface) => (

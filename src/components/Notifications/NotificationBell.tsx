@@ -5,8 +5,9 @@ import "./NotificationBell.css";
 import { NotificationsActive, NotificationsOff } from "@mui/icons-material";
 // Snackbar
 import { useSnackbar } from "notistack";
-import { getNotificationInfo } from "../../resources/requests";
+
 import WebNotifications from "../WebNotifications/webnotifications";
+import { subscribeUser } from "../../resources/subscription";
 
 function NotificationBell(props: NotificationProps): JSX.Element {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -15,7 +16,7 @@ function NotificationBell(props: NotificationProps): JSX.Element {
   const [isActive, setISActive] = useState(false);
   const [isFirstRender, setIsFirstRender] = useState(true);
   const [title, setTitle] = useState<string>("");
-
+  // useEffect that changes the symbol of the bell and starts the bar with the message
   useEffect(() => {
     let message = isActive
       ? `You have subscribed from ${applicationName} notifications`
@@ -44,11 +45,8 @@ function NotificationBell(props: NotificationProps): JSX.Element {
         onClose={handleWebNotification}
       />; */
 
-      getNotificationInfo()
-        .then((data) => console.log(data))
-        .catch((error) => console.log(error));
-    }
-    /* else {
+      subscribeUser();
+      /* else {
 
       if (Notification.permission === "granted") {
         const notification = new Notification("Notification", {
@@ -58,7 +56,8 @@ function NotificationBell(props: NotificationProps): JSX.Element {
         notification.addEventListener("close", handleWebNotification);
       } */
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }
   }, [isActive]);
 
   const handleWebNotification = (event: Event) => {
@@ -67,6 +66,7 @@ function NotificationBell(props: NotificationProps): JSX.Element {
   };
 
   return (
+    // ternary operator that changes the symbol of the bell icon
     <div className="notification-bell">
       {isActive ? (
         <NotificationsActive

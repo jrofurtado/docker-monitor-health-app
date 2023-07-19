@@ -10,8 +10,6 @@ import {
 } from "./interfaces";
 /* develblock:start */
 import allMocks from "../mocks/mockResponses";
-import { sub } from "date-fns";
-import * as Keycloak from "keycloak-js";
 
 /* develblock:end */
 
@@ -181,18 +179,17 @@ export async function getApplicationsStatus(
     });
 }
 
-export async function getNotificationInfo(): Promise<NotificationStatusInterface | void> {
-  /* develblock:start */
-  // Mock
+// gets the notification status
+/* export async function getNotificationInfo(): Promise<NotificationStatusInterface | void> {
+ 
   if (process.env.NODE_ENV !== "production") {
     return allMocks.getNotificationStatus();
   }
-  /* develblock:end */
-  // Fetch
+
   return axios
     .post("/api/notifications/subscribe", {
       subscription: {
-        endpoint: "http://172.17.0.1/",
+        endpoint: "https://globaleda-id.duckdns.org",
         keys: {
           p256h:
             "BClE8PGSB-1tCRfeEzwEDxUYOLiGnTNTyENMWVHtqUWx26apiC4suVMKVsRJn-B6H7E5J1b1UTLhy_CvimdNljk",
@@ -213,6 +210,6 @@ export async function getNotificationInfo(): Promise<NotificationStatusInterface
     .catch((error) => {
       console.log("getNotificationInfo Error: ", error);
     });
-}
+} */
 
 export type { ApplicationsStatusInterface };

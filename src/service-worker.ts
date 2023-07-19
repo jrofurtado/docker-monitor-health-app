@@ -79,6 +79,10 @@ self.addEventListener("message", (event) => {
 });
 
 // Any other custom service worker logic can go here.
+self.addEventListener("fetch", (e) => {
+  console.log("start service worker fetch");
+});
+
 self.addEventListener("push", (e) => {
   const data = e?.data?.json();
   console.log("Push Recieved...");

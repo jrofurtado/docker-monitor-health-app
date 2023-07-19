@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux"; // Import useSelector and useDispatch
 
 export default function Home() {
   const dispatch = useDispatch();
-
+  //links the application name and service name to the service
   const handleServiceClick = (app: string = "", serviceName: string = "") => {
     dispatch({
       type: "application/setService",
@@ -13,11 +13,10 @@ export default function Home() {
     });
     dispatch({ type: "application/setView", payload: true });
 
-    console.log("app" + app);
-    console.log("serviceName" + serviceName);
     // Redirect to Service
   };
 
+  // sets the current component
   const handleCurrentComp = (currentComp: string) => {
     dispatch({ type: "application/setCurrentComp", payload: currentComp });
     console.log("now" + currentComp);

@@ -31,9 +31,9 @@ export default function DatePick(props: DateProps): JSX.Element {
   });
 
   const date = searchParams.get("date");
-  const hour = searchParams.get("hour") */ const handleDateChange = (
-    date: any | null
-  ) => {
+  const hour = searchParams.get("hour") */
+  //changes the date
+  const handleDateChange = (date: any | null) => {
     setSelectedDate(date);
 
     const params = {
@@ -44,7 +44,7 @@ export default function DatePick(props: DateProps): JSX.Element {
 
     onDateChange(date ? date.format() : null);
   };
-
+  //changes the hour
   const handleHourChange = (hour: any | null) => {
     setSelectedHour(hour);
 
@@ -56,7 +56,7 @@ export default function DatePick(props: DateProps): JSX.Element {
      */
     onHourChange(hour ? hour.format("HH:mm:ss") : null);
   };
-
+  //clears the filter
   const handleClearFilter = () => {
     setSelectedDate(new Date());
     setSelectedHour(new Date().getTime());

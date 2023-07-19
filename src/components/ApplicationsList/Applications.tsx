@@ -1,10 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 // Requests
-import {
-  getApplicationNamesList,
-  getNotificationInfo,
-} from "../../resources/requests";
+import { getApplicationNamesList } from "../../resources/requests";
 // Components
 import ApplicationsList from "./ApplicationsList";
 

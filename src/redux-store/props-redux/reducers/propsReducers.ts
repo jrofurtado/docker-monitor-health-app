@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+// Define a type for the slice state
 export const propSlice = createSlice({
   name: "prop",
   initialState: {

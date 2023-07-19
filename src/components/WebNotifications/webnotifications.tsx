@@ -1,5 +1,5 @@
+//makes use of the Notification API to display a notification to the user
 import React, { useState, useEffect } from "react";
-import { getNotificationInfo } from "../../resources/requests";
 
 interface Props {
   title: string;
@@ -18,11 +18,11 @@ const WebNotifications = (props: Props): JSX.Element => {
     }
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     getNotificationInfo()
-      .then((data) => console.log(data))
+      .then((data) => console.log("subscribed: "))
       .catch((error) => console.log(error));
-  }, []);
+  }, []); */
 
   const handleClick = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>

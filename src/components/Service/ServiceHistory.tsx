@@ -48,11 +48,8 @@ export default function ServiceHistory(props: Props): JSX.Element {
   let [searchParams, setSearchParams] = useSearchParams({});
 
   const dispatch = useDispatch();
-  console.log("location");
-  console.log(location.search.split("=")[1]);
-  console.log('location.search.split("=")[2]');
-  console.log(location.search.split("=")[2]);
 
+  //sets the application name and server name
   useEffect(() => {
     setApplication(appParam);
     setServer(servParam);
@@ -82,7 +79,7 @@ export default function ServiceHistory(props: Props): JSX.Element {
     }
     searchParams.set("from", from.toString());
     setSearchParams(searchParams);
-
+    //gets the service history
     getServiceHistory(appParam, servParam, from, to).then((res) => {
       if (res) {
         for (let key in res) {
@@ -126,8 +123,10 @@ export default function ServiceHistory(props: Props): JSX.Element {
     });
   }, [selectedDate, selectedHour, appParam, servParam, , currentPage]);
 
+  //takes the json response and converts it to a string
   const response = JSON.stringify(service, undefined, 2);
 
+  //Parses the string to JSON.
   let messages = JSON.parse(response);
 
   //Sets the status to the one chosen by the user.
@@ -185,7 +184,7 @@ export default function ServiceHistory(props: Props): JSX.Element {
       return message;
     }
   });
-
+  //checks the service status
   const checkServiceStatus = (containers: Array<ContainerInterface>) => {
     for (let i = 0; i < containers.length; i++) {
       if (!JSON.parse(JSON.stringify(containers[i])).healthy) {
@@ -194,10 +193,11 @@ export default function ServiceHistory(props: Props): JSX.Element {
     }
     return true;
   };
+  //loads more messages
   const loadMore = () => {
     setCurrentPage(currentPage + 1);
   };
-
+  //links to the logs info page
   const handleMessages = (message: ServiceInterface) => {
     handleMessageClick(service);
   };

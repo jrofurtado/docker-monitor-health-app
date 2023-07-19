@@ -11,6 +11,7 @@ import App from "./components/App/App";
 
 import store from "./redux-store/props-redux/store";
 import { subscribeUser } from "./resources/subscription";
+import reportWebVitals from "./reportWebVitals";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -74,5 +75,6 @@ kc.init(
   // Learn more about service workers: https://bit.ly/CRA-PWA
   serviceWorkerRegistration.register();
 
+  reportWebVitals();
   subscribeUser();
 });
